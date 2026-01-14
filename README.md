@@ -322,6 +322,238 @@ folder in your project, paste the content inside the root folder of your
 project). Finally, just write `#include "data-file-library.h"` at the very
 beginning of your code and you shall be ready to use the functions.
 
+<details>
+  <summary>
+    <b>Example of usage for CSV files in C/C++</b>
+  </summary>
+
+**CSV file with complex numbers and previously known sizes**
+
+```c
+#include <complex.h> /* C++ users must include <complex> instead */
+#include "data-file-library.h" /* The library */
+
+int main() {
+
+    /* Size of each dimension */
+    int ROWS = 15; /* Number of rows */
+    int COLS = 15; /* Number of columns */
+
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex data_array[ROWS*COLS];
+
+    /* Import the data (complex numbers) */
+    csvdat_import_cplx("myfile.csv", data_array);
+
+    /*
+        The data at positions r and c, may be acessed through
+        data_array[r + ROWS*c]
+    */
+    
+    /* Export the data (complex numbers) */
+    csvdat_export_cplx("myfile2.csv", data_array, ROWS, COLS);
+
+    return 0;
+}
+```
+
+**CSV file with complex numbers and unknown sizes**
+
+```c
+#include <stdlib.h> /* For malloc() and free() */
+#include <complex.h> /* C++ users must include <complex> instead */
+#include "data-file-library.h" /* The library */
+
+int main() {
+
+    /* Unknown size of each dimension */
+    int ROWS; /* Number of rows */
+    int COLS; /* Number of columns */
+
+    /* Get the sizes */
+    csvdat_get_sizes("myfile.csv" ROWS, COLS);
+
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex *data_array = (int *)malloc(ROWS*COLS * sizeof(int));
+
+    /* Import the data (complex numbers) */
+    csvdat_import_cplx("myfile.csv", data_array);
+
+    /*
+        The data at positions r and c, may be acessed through
+        data_array[r + ROWS*c]
+    */
+    
+    /* Export the data (complex numbers) */
+    csvdat_export_cplx("myfile2.csv", data_array, ROWS, COLS);
+
+    /* Free allocated memory */
+    free(data_array);
+
+    return 0;
+}
+```
+</details>
+
+<details>
+  <summary>
+    <b>Example of usage for TSV files in C/C++</b>
+  </summary>
+
+**TSV file with complex numbers and previously known sizes**
+
+```c
+#include <complex.h> /* C++ users must include <complex> instead */
+#include "data-file-library.h" /* The library */
+
+int main() {
+
+    /* Size of each dimension */
+    int ROWS = 15; /* Number of rows */
+    int COLS = 15; /* Number of columns */
+
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex data_array[ROWS*COLS];
+
+    /* Import the data (complex numbers) */
+    tsvdat_import_cplx("myfile.tsv", data_array);
+
+    /*
+        The data at positions r and c, may be acessed through
+        data_array[r + ROWS*c]
+    */
+    
+    /* Export the data (complex numbers) */
+    tsvdat_export_cplx("myfile2.tsv", data_array, ROWS, COLS);
+
+    return 0;
+}
+```
+
+**TSV file with complex numbers and unknown sizes**
+
+```c
+#include <stdlib.h> /* For malloc() and free() */
+#include <complex.h> /* C++ users must include <complex> instead */
+#include "data-file-library.h" /* The library */
+
+int main() {
+
+    /* Unknown size of each dimension */
+    int ROWS; /* Number of rows */
+    int COLS; /* Number of columns */
+
+    /* Get the sizes */
+    tsvdat_get_sizes("myfile.tsv" ROWS, COLS);
+
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex *data_array = (int *)malloc(ROWS*COLS * sizeof(int));
+
+    /* Import the data (complex numbers) */
+    tsvdat_import_cplx("myfile.tsv", data_array);
+
+    /*
+        The data at positions r and c, may be acessed through
+        data_array[r + ROWS*c]
+    */
+    
+    /* Export the data (complex numbers) */
+    tsvdat_export_cplx("myfile2.tsv", data_array, ROWS, COLS);
+
+    /* Free allocated memory */
+    free(data_array);
+
+    return 0;
+}
+```
+</details>
+
+<details>
+  <summary>
+    <b>Example of usage for WL files in C/C++</b>
+  </summary>
+
+**WL file with complex numbers and previously known dimensions and sizes**
+
+```c
+#include <complex.h> /* C++ users must include <complex> instead */
+#include "data-file-library.h" /* The library */
+
+int main() {
+
+    /* Number of dimensions */
+    int DIM = 3; /* Dimensions i, j, and k */
+
+    /* Size of each dimension */
+    int IMAX = 15; /* Size of the dimension i */
+    int JMAX = 15; /* Size of the dimension j */
+    int KMAX = 15; /* Size of the dimension k */
+
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex data_array[IMAX*JMAX*KMAX];
+
+    /* Import the data (complex numbers) */
+    wldat_import_cplx("myfile.wl", data_array);
+
+    /*
+        The data at positions i, j, and k, may be acessed through
+        data_array[i + IMAX*j + IMAX*JMAX*k]
+    */
+    
+    /* Export the data (complex numbers) */
+    int sizes[DIM] = {IMAX, JMAX, KMAX};
+    wldat_export_cplx("myfile2.wl", data_array, DIM, sizes, "");
+
+    return 0;
+}
+```
+
+**WL file with complex numbers and unknown dimensions and sizes**
+
+```c
+#include <stdlib.h> /* For malloc() and free() */
+#include <complex.h> /* C++ users must include <complex> instead */
+#include "data-file-library.h" /* The library */
+
+int main() {
+
+    /* Get the number of dimensions of the WL file */
+    int DIM = wldat_get_dimensions("myfile.wl");
+
+    /* Get the size of each dimension of the WL file */
+    int *sizes = (int *)malloc(DIM * sizeof(int));
+    wldat_get_sizes("myfile.wl", sizes);
+
+    /* Get the total size (sizes[0] * sizes[1] * ... * sizes[DIM-1]) */
+    int totalsize = 1;
+    for (int i = 0; i<DIM; i++) {
+        totalsize *= sizes[i];
+    }
+
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex *data_array = (int *)malloc(totalsize * sizeof(int));
+
+    /* Import the data (complex numbers) */
+    wldat_import_cplx("myfile.wl", data_array);
+    
+    /* Export the data (complex numbers) */
+    wldat_export_cplx("myfile2.wl", data_array, DIM, sizes, "");
+
+    /* Free allocated memories */
+    free(sizes);
+    free(data_array);
+
+    return 0;
+}
+```
+</details>
+
 ## Some C details
 
 In this library, the implementation is carried out in terms of the C99
@@ -379,6 +611,49 @@ The following are examples of how to compile this library.
   Compiling this library with MSVC is not recommended because MSVC does not
   support the `double complex` type of the C `<complex.h>` library.
 </details>
+
+## Other programming languages
+
+Once compiled, it is also possible to use this library together with other
+programming languages.
+
+The following is an example on how to load the compiled library in Python
+using `numpy` and `cffi`.
+
+<details>
+  <summary>
+    <b>Example of usage in Python</b>
+  </summary>
+
+```python
+import numpy as np
+from cffi import FFI
+
+# Declare the C function signature
+ffi = FFI()
+ffi.cdef("""
+    void wldat_import_cplx(const char *wldat_path, double complex *data_array);
+""")
+
+# Load your shared library
+lib = ffi.dlopen("./data-file-library.so") # for Linux/macOS
+# lib = ffi.dlopen("./data-file-library.dll") # for Windows
+
+# Prepare a NumPy array of complex128 (matches C double complex)
+n = 100  # total size of the one dimensional array you expect
+arr = np.empty(n, dtype=np.complex128)
+
+# Get a pointer to the array’s data
+c_arr = ffi.cast("double complex *", arr.ctypes.data)
+
+# Call the function
+lib.wldat_import_cplx(b"myfile.wl", c_arr)
+
+# Now arr is filled by the C function
+print(arr)
+```
+</details>
+
 
 ## Change log
 
