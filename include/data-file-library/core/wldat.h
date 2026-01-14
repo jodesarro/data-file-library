@@ -15,6 +15,10 @@
 #ifndef DATA_FILE_LIBRARY_WLDAT_H
 #define DATA_FILE_LIBRARY_WLDAT_H
 
+#ifndef DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ static inline
+#endif
+
 #ifdef __cplusplus
 
 /* Includes, typedefs and/or macros for C++98 compatibility */
@@ -44,7 +48,8 @@ typedef double complex tpdcomplex_impl_;
     Parameters:
     - wldat_path, path to the file.
 */
-static inline int wldat_get_comment_size(const char *wldat_path) {
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+int wldat_get_comment_size(const char *wldat_path) {
     return wldat_get_comment_size_impl_(wldat_path);
 }
 
@@ -57,7 +62,8 @@ static inline int wldat_get_comment_size(const char *wldat_path) {
     - comment, array of size wldat_get_comment_size(wldat_path) to store
     the text.
 */
-static inline void wldat_get_comment(const char *wldat_path, char *comment) {
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void wldat_get_comment(const char *wldat_path, char *comment) {
     wldat_get_comment_impl_(wldat_path, comment);
 }
 
@@ -68,7 +74,8 @@ static inline void wldat_get_comment(const char *wldat_path, char *comment) {
     Parameters:
     - wldat_path, path to the file.
 */
-static inline int wldat_get_dimensions(const char *wldat_path) {
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+int wldat_get_dimensions(const char *wldat_path) {
     wldat_get_dimensions_impl_(wldat_path);
 }
 
@@ -81,7 +88,8 @@ static inline int wldat_get_dimensions(const char *wldat_path) {
     sequentially store the size of each dimension. The size of this array must
     not exceed 128.
 */
-static inline void wldat_get_sizes(const char *wldat_path, int *sizes) {
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void wldat_get_sizes(const char *wldat_path, int *sizes) {
     wldat_get_sizes_impl_(wldat_path, sizes);
 }
 
@@ -96,7 +104,8 @@ static inline void wldat_get_sizes(const char *wldat_path, int *sizes) {
     wldat_get_dimensions(wldat_path) and Sn through
     wldat_get_sizes(wldat_path).
 */
-static inline void wldat_import(const char *wldat_path, double *data_array) {
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void wldat_import(const char *wldat_path, double *data_array) {
     wldat_import_impl_(wldat_path, data_array);
 }
 
@@ -111,7 +120,8 @@ static inline void wldat_import(const char *wldat_path, double *data_array) {
     wldat_get_dimensions(wldat_path) and Sn through
     wldat_get_sizes(wldat_path).
 */
-static inline void wldat_import_cplx(const char *wldat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void wldat_import_cplx(const char *wldat_path,
     tpdcomplex_impl_ *data_array) {
 
     wldat_import_cplx_impl_(wldat_path, data_array); 
@@ -129,7 +139,8 @@ static inline void wldat_import_cplx(const char *wldat_path,
     - sizes, array with the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
-static inline void wldat_export(const char *wldat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void wldat_export(const char *wldat_path,
     double *data_array, int dimensions, int *sizes, char *comment) {
 
     wldat_export_impl_(wldat_path, data_array, dimensions, sizes, comment);
@@ -147,7 +158,8 @@ static inline void wldat_export(const char *wldat_path,
     - sizes, array with the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
-static inline void wldat_export_cplx(const char *wldat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void wldat_export_cplx(const char *wldat_path,
     tpdcomplex_impl_ *data_array, int dimensions, int *sizes, char *comment) {
 
     wldat_export_cplx_impl_(wldat_path, data_array, dimensions, sizes,

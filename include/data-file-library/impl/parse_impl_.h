@@ -46,7 +46,7 @@ typedef double complex tpdcomplex_impl_;
     Parameters:
     - str, the input string.
 */
-void remove_spaces_impl_(char *str) {
+static inline void remove_spaces_impl_(char *str) {
     int i = 0, j = 0;
     while (str[i] != '\0') {
         if (str[i] != ' ') {
@@ -63,7 +63,7 @@ void remove_spaces_impl_(char *str) {
     Parameters:
     - str, the input string.
 */
-void remove_quotes_impl_(char *str) {
+static inline void remove_quotes_impl_(char *str) {
     int i = 0, j = 0;
     while (str[i] != '\0') {
         if (str[i] != '\"') {
@@ -80,7 +80,7 @@ void remove_quotes_impl_(char *str) {
     Parameters:
     - str, the input string.
 */
-void capital_i_to_i_impl_(char *str) { 
+static inline void capital_i_to_i_impl_(char *str) { 
     char *pos;
     while ((pos = strstr(str, "I")) != NULL) {
         /* Overwrite 'I' with 'i' */
@@ -94,7 +94,7 @@ void capital_i_to_i_impl_(char *str) {
     Parameters:
     - str, the input string.
 */
-void j_to_i_impl_(char *str) { 
+static inline void j_to_i_impl_(char *str) { 
     char *pos;
     while ((pos = strstr(str, "j")) != NULL) {
         /* Overwrite 'j' with 'i' */
@@ -108,7 +108,7 @@ void j_to_i_impl_(char *str) {
     Parameters:
     - str, the input string.
 */
-void star_i_to_i_impl_(char *str) { 
+static inline void star_i_to_i_impl_(char *str) { 
     char *pos;
     while ((pos = strstr(str, "*i")) != NULL) {
         /* Overwrite '*' with 'i' */
@@ -124,7 +124,7 @@ void star_i_to_i_impl_(char *str) {
     Parameters:
     - str, the input string.
 */
-void star_caret_to_e_impl_(char *str) { 
+static inline void star_caret_to_e_impl_(char *str) { 
     char *pos;
     while ((pos = strstr(str, "*^")) != NULL) {
         /* Overwrite '*' with 'e' */
@@ -169,7 +169,7 @@ static inline void e_to_star_caret_impl_(char *output, size_t output_size,
     Parameters:
     - str, the input string.
 */
-void complexinfinity_to_infinity_impl_(char *str) { 
+static inline void complexinfinity_to_infinity_impl_(char *str) { 
     if (strcmp(str, "ComplexInfinity") == 0) {
         strcpy(str, "INFINITY");
     }

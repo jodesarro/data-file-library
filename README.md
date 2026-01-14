@@ -654,7 +654,6 @@ print(arr)
 ```
 </details>
 
-
 ## Change log
 
 Refer to the [CHANGELOG.md](CHANGELOG.md) file for the latest updates.

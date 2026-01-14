@@ -15,9 +15,9 @@
 #ifndef DATA_FILE_LIBRARY_H
 #define DATA_FILE_LIBRARY_H
 
+#include "data-file-library/version.h"
 #include "data-file-library/core/tsvdat.h"
 #include "data-file-library/core/csvdat.h"
 #include "data-file-library/core/wldat.h"
-
 
 #endif /* DATA_FILE_LIBRARY_H */

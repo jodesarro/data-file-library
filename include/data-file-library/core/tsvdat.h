@@ -15,6 +15,10 @@
 #ifndef DATA_FILE_LIBRARY_TSVDAT_H
 #define DATA_FILE_LIBRARY_TSVDAT_H
 
+#ifndef DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ static inline
+#endif
+
 #ifdef __cplusplus
 
 /* Includes, typedefs and/or macros for C++98 compatibility */
@@ -42,7 +46,8 @@ typedef double complex tpdcomplex_impl_;
     - &rows, for storing the number of rows.
     - &columns, for storing the number of columns.
 */
-static inline void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
     int *columns) {
     
     sepdat_get_sizes_impl_(tsvdat_path, rows, columns, ',');
@@ -61,7 +66,8 @@ static inline void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
     accessed through data_array[i + rows*j], where i is any row and j is any
     column.
 */
-static inline void tsvdat_import(const char *tsvdat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void tsvdat_import(const char *tsvdat_path,
     double * data_array) {
     
     sepdat_import_impl_(tsvdat_path, data_array, ',');
@@ -82,7 +88,8 @@ static inline void tsvdat_import(const char *tsvdat_path,
     accessed through data_array[i + rows*j], where i is any row and j is any
     column.
 */
-static inline void tsvdat_import_cplx(const char *tsvdat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void tsvdat_import_cplx(const char *tsvdat_path,
     tpdcomplex_impl_ *data_array) {
     
     sepdat_import_cplx_impl_(tsvdat_path, data_array, ',');
@@ -100,7 +107,8 @@ static inline void tsvdat_import_cplx(const char *tsvdat_path,
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
-static inline void tsvdat_export(const char *tsvdat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void tsvdat_export(const char *tsvdat_path,
     const double *data_array, int rows, int columns) {
 
     sepdat_export_impl_(tsvdat_path, data_array, rows, columns, ',');
@@ -118,7 +126,8 @@ static inline void tsvdat_export(const char *tsvdat_path,
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
-static inline void tsvdat_export_cplx(const char *tsvdat_path,
+DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+void tsvdat_export_cplx(const char *tsvdat_path,
     const tpdcomplex_impl_ *data_array, int rows, int columns) {
 
     sepdat_export_cplx_impl_(tsvdat_path, data_array, rows, columns, ',');
