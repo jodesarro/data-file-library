@@ -11,5 +11,11 @@
         Wrapper for compiling the include/data-file-library.h library.
 */
 
-#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ /* Overwrites 'static inline' */
+/* Overwrite 'static inline' */
+#if defined(_WIN32) || defined(_WIN64)
+#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ __declspec(dllexport)
+#else
+#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+#endif
+
 #include "../include/data-file-library.h"
