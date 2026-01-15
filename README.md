@@ -14,15 +14,15 @@ separated by a comma.
 
 <details>
   <summary>
-    <code><b>csvdat_get_sizes(csvdat_path, rows, columns)</b></code>
+    <code><b>csvdat_get_sizes(csvdat_path, &rows, &columns)</b></code>
   </summary>
 
   - **Description:** Gets the size in each dimension (number of rows and
   columns) of a Comma-Separated Values data file.
   - **Parameters:**
     - `csvdat_path`, path to the file.
-    - `&rows`, for storing the number of rows.
-    - `&columns`, for storing the number of columns.
+    - `rows`, for storing the number of rows.
+    - `columns`, for storing the number of columns.
 </details>
 
 <details>
@@ -104,15 +104,15 @@ separated by a tabular spacing.
 
 <details>
   <summary>
-    <code><b>tsvdat_get_sizes(tsvdat_path, rows, columns)</b></code>
+    <code><b>tsvdat_get_sizes(tsvdat_path, &rows, &columns)</b></code>
   </summary>
 
   - **Description:** Gets the size in each dimension (number of rows and
   columns) of a Tab-Separated data file.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
-    - `&rows`, for storing the number of rows.
-    - `&columns`, for storing the number of columns.
+    - `rows`, for storing the number of rows.
+    - `columns`, for storing the number of columns.
 </details>
 
 <details>
