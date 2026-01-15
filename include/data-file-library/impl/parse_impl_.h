@@ -25,7 +25,7 @@
 
 #include <complex> /* for complex numbers */
 typedef std::complex<double> tpdcomplex_impl_;
-#define I_impl_ std::complex<double>(0.0, 1.0)
+#define I_IMPL_ std::complex<double>(0.0, 1.0)
 
 extern "C" {
 
@@ -33,7 +33,7 @@ extern "C" {
 
 #include <complex.h> /* for complex numbers */
 typedef double complex tpdcomplex_impl_;
-#define I_impl_ I
+#define I_IMPL_ I
 
 #endif /* __cplusplus */
 
@@ -227,31 +227,31 @@ static inline tpdcomplex_impl_ parse_complex_impl_(char *str) {
         /* Complex number */
         if (sscanf(str, "%lf+%lfi", &real, &imag) == 2) {
             /* Complex of the type a+bi */
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
         else if (sscanf(str, "%lf-%lfi", &real, &imag) == 2) {
             /* Complex of the type a-bi */
-            return real - I_impl_ * imag;
+            return real - I_IMPL_ * imag;
         }
         else if (sscanf(str, "%lfi", &imag) == 1) {
             /* Complex of the type bi */
             real = 0.0;
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
         else if (strcmp(str, "i") == 0 || strcmp(str, "+i") == 0) {
             /* Complex of the type i */
             real = 0.0; imag = 1.0;
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
         else if (strcmp(str, "-i") == 0) {
             /* Complex of the type -i */
             real = 0.0; imag = -1.0;
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
         else {
             /* Invalid complex number type */
             real = NAN; imag = NAN;
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
     }
     else {
@@ -259,12 +259,12 @@ static inline tpdcomplex_impl_ parse_complex_impl_(char *str) {
         imag = 0.0;
         if (sscanf(str, "%lf", &real) == 1) {
             /* Real number of the type +a */
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
         else {
             /* Invalid real number type */
             real = NAN;
-            return real + I_impl_ * imag;
+            return real + I_IMPL_ * imag;
         }
     }
 }
