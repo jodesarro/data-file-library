@@ -45,7 +45,7 @@ typedef double complex tpdcomplex_impl_;
     Language file format, i.e., the number of characters of the first line of
     the file plus a '\0' char.
 
-    Parameters:
+    Parameter:
     - wldat_path, path to the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
@@ -59,7 +59,7 @@ int wldat_get_comment_size(const char *wldat_path) {
 
     Parameters:
     - wldat_path, path to the file.
-    - comment, array of size wldat_get_comment_size(wldat_path) to store
+    - comment, array of size wldat_get_comment_size(wldat_path) to output
     the text.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
@@ -71,7 +71,7 @@ void wldat_get_comment(const char *wldat_path, char *comment) {
     Returns the number of dimensions of a Wolfram
     Language file format. The number of dimensions must not exceed 128.
 
-    Parameters:
+    Parameter:
     - wldat_path, path to the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_

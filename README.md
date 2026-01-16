@@ -214,7 +214,7 @@ tensors, matrices, tables, numeric datasets and so on.
 i.e., the text of the whole first line plus a `'\0'` char.
   - **Parameters:**
     - `wldat_path`, path to the file.
-    - `comment`, array of size `wldat_get_comment_size(wldat_path)` to store
+    - `comment`, array of size `wldat_get_comment_size(wldat_path)` to output
     the text.
 </details>
 
@@ -225,7 +225,7 @@ i.e., the text of the whole first line plus a `'\0'` char.
 
   - **Description:** Returns the number of dimensions of a Wolfram
   Language file format. The number of dimensions must not exceed 128.
-  - **Parameters:**
+  - **Parameter:**
     - `wldat_path`, path to the file.
 </details>
 
