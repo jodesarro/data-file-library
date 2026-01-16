@@ -1,7 +1,7 @@
 # Data File Library: A set of C functions for handling numeric data files
 
-This project provides a C library fully
-([compatible with C++](#compatibility-with-c)) designed for importing
+This project provides a C library (fully
+[compatible with C++](#compatibility-with-c)) designed for importing
 and exporting data files with real or complex numbers.
 
 ## Available features
@@ -316,7 +316,7 @@ This library is in a header-only style, i.e., there is nothing to build
 (see the section [Compiling the library](#compiling-the-library) if you still
 want to compile it).
 Therefore, you only need to paste all the content of the
-[include folder](include/)
+[include](include/) folder
 inside the include folder of your project (if you do not have an include
 folder in your project, paste the content inside the root folder of your
 project). Finally, just write `#include "data-file-library.h"` at the very
