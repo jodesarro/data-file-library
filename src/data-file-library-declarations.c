@@ -1,0 +1,18 @@
+void csvdat_get_sizes(const char *csvdat_path, int *rows, int *columns);
+void csvdat_import(const char *csvdat_path, double * data_array);
+void csvdat_import_cplx(const char *csvdat_path, double complex *data_array);
+void csvdat_export(const char *csvdat_path, const double *data_array, int rows, int columns);
+void csvdat_export_cplx(const char *csvdat_path, const double complex *data_array, int rows, int columns);
+void tsvdat_get_sizes(const char *tsvdat_path, int *rows, int *columns);
+void tsvdat_import(const char *tsvdat_path, double * data_array);
+void tsvdat_import_cplx(const char *tsvdat_path, double complex *data_array);
+void tsvdat_export(const char *tsvdat_path, const double *data_array, int rows, int columns);
+void tsvdat_export_cplx(const char *tsvdat_path, const double complex *data_array, int rows, int columns);
+int wldat_get_comment_size(const char *wldat_path);
+void wldat_get_comment(const char *wldat_path, char *comment);
+int wldat_get_dimensions(const char *wldat_path);
+void wldat_get_sizes(const char *wldat_path, int *sizes);
+void wldat_import(const char *wldat_path, double *data_array);
+void wldat_import_cplx(const char *wldat_path, double complex *data_array);
+void wldat_export(const char *wldat_path, double *data_array, int dimensions, int *sizes, char *comment);
+void wldat_export_cplx(const char *wldat_path, double complex *data_array, int dimensions, int *sizes, char *comment);

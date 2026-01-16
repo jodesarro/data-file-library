@@ -1,7 +1,7 @@
 # Data File Library: A set of C functions for handling numeric data files
 
-This project provides a C library
-([fully compatible with C++](#compatibility-with-c)) designed for importing
+This project provides a C library fully
+([compatible with C++](#compatibility-with-c)) designed for importing
 and exporting data files with real or complex numbers.
 
 ## Available features
@@ -578,8 +578,11 @@ Moreover, all the complex variables are handled using the
 ## Compiling the library
 
 As aforementioned, usually it is not necessary to compile the library.
-However, in any case, the file [data-file-library.c](src/data-file-library.c)
-inside the [src](src/) folder is a C wrapper that may be used for compilation.
+However, in any case, the [src](src/) folder contains the file
+[data-file-library-declarations.c](src/bessel-data-file-declarations.c) with
+the declarations of all functions, and the file
+[data-file-library.c](src/data-file-library.c), which is a C wrapper that may
+be used for compilation.
 
 The following are examples of how to compile this library using C compilers.
 
@@ -636,13 +639,13 @@ using `numpy` and `cffi`.
 import numpy as np
 from cffi import FFI
 
-# Declare the C function signature
 ffi = FFI()
-ffi.cdef("""
-    void wldat_import_cplx(const char *wldat_path, double complex *data_array);
-""")
 
-# Load your shared library
+# Read the C functions declarations
+with open("data-file-library-declarations.c", "r") as f:
+    ffi.cdef(f.read())
+
+# Import the compiled file
 lib = ffi.dlopen("./data-file-library.so") # for Linux/macOS
 # lib = ffi.dlopen("./data-file-library.dll") # for Windows
 
@@ -656,7 +659,7 @@ c_arr = ffi.cast("double complex *", arr.ctypes.data)
 # Call the function
 lib.wldat_import_cplx(b"myfile.wl", c_arr)
 
-# Now arr is filled by the C function
+# Now arr is filled by the C function. Print the array.
 print(arr)
 ```
 </details>
