@@ -202,8 +202,8 @@ separated by a tabular spacing.
 
 A [Wolfram Language package source format (WL)](https://reference.wolfram.com/language/ref/format/WL.html)
 represents data of an arbitrary dimensional matrix in a structure where
-data are separated by commas and arrays are grouped by braces, i.e., nested
-braces structures usually called
+the values are separated by commas and arrays are grouped by braces, i.e.,
+nested braces structures usually called
 [lists](https://reference.wolfram.com/language/tutorial/Lists.html).
 Such format is very useful for importing and exporting
 tensors, matrices, tables, numeric datasets and so on.
