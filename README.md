@@ -579,7 +579,7 @@ Moreover, all the complex variables are handled using the
 
 As aforementioned, usually it is not necessary to compile the library.
 However, in any case, the [src](src/) folder contains the file
-[data-file-library-declarations.c](src/bessel-data-file-declarations.c) with
+[data-file-library-declarations.c](src/data-file-library-declarations.c) with
 the declarations of all functions, and the file
 [data-file-library.c](src/data-file-library.c), which is a C wrapper that may
 be used for compilation.
