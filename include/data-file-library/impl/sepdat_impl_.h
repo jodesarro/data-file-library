@@ -44,8 +44,8 @@ typedef double complex tpdcomplex_impl_;
 
     Parameters:
     - sepdat_path, path to the data file.
-    - &rows, for storing the number of rows.
-    - &columns, for storing the number of columns.
+    - &rows, to output the number of rows.
+    - &columns, to output the number of columns.
     - sep, column separator.
 */
 static inline void sepdat_get_sizes_impl_(const char *sepdat_path, int *rows,
@@ -162,7 +162,7 @@ static inline void sepdat_import_impl_(const char *sepdat_path,
     Parameters:
     - sepdat_path, path to the file.
     - data_array, one-dimensional complex-type array of the size rows*columns
-    for storing the data. The array must have rows*columns size, where rows
+    to output the data. The array must have rows*columns size, where rows
     and columns may be obtained through sepdat_get_sizes(). Its data may be
     accessed through data_array[i + rows*j], where i is any row and j is any
     column.

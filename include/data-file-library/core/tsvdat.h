@@ -43,8 +43,8 @@ typedef double complex tpdcomplex_impl_;
 
     Parameters:
     - tsvdat_path, path to the file.
-    - &rows, for storing the number of rows.
-    - &columns, for storing the number of columns.
+    - &rows, to output the number of rows.
+    - &columns, to output the number of columns.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
@@ -61,7 +61,7 @@ void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
     Parameters:
     - tsvdat_path, path to the file.
     - data_array, one-dimensional double-type array of the size rows*columns
-    for storing the data. The array must have rows*columns size, where rows
+    to output the data. The array must have rows*columns size, where rows
     and columns may be obtained through tsvdat_get_sizes(). Its data may be
     accessed through data_array[i + rows*j], where i is any row and j is any
     column.
@@ -83,7 +83,7 @@ void tsvdat_import(const char *tsvdat_path,
     Parameters:
     - tsvdat_path, path to the file.
     - data_array, one-dimensional complex-type array of the size rows*columns
-    for storing the data. The array must have rows*columns size, where rows
+    to output the data. The array must have rows*columns size, where rows
     and columns may be obtained through tsvdat_get_sizes(). Its data may be
     accessed through data_array[i + rows*j], where i is any row and j is any
     column.

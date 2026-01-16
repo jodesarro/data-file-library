@@ -2,7 +2,7 @@
 
 This project provides a C library (fully
 [compatible with C++](#compatibility-with-c)) designed for importing
-and exporting data files with real or complex numbers.
+and exporting data files containing real or complex numbers.
 
 ## Available features
 
@@ -21,8 +21,8 @@ separated by a comma.
   columns) of a Comma-Separated Values data file.
   - **Parameters:**
     - `csvdat_path`, path to the file.
-    - `rows`, for storing the number of rows.
-    - `columns`, for storing the number of columns.
+    - `rows`, to output the number of rows.
+    - `columns`, to output the number of columns.
 </details>
 
 <details>
@@ -37,7 +37,7 @@ separated by a comma.
   - **Parameters:**
     - `csvdat_path`, path to the file.
     - `data_array`, one-dimensional double-type array of the size
-    `rows*columns` for storing the data. The array must have `rows*columns`
+    `rows*columns` to output the data. The array must have `rows*columns`
     size, where rows and columns may be obtained through `csvdat_get_sizes()`.
     Its data may be accessed through `data_array[i + rows*j]`, where `i` is
     any row and `j` is any column.
@@ -57,7 +57,7 @@ separated by a comma.
   - **Parameters:**
     - `csvdat_path`, path to the file.
     - `data_array`, one-dimensional complex-type array of the size
-    `rows*columns` for storing the data. The array must have `rows*columns`
+    `rows*columns` to output the data. The array must have `rows*columns`
     size, where `rows` and `columns` may be obtained through
     `csvdat_get_sizes()`. Its data may be accessed through
     `data_array[i + rows*j]`, where `i` is any row and `j` is any column.
@@ -111,8 +111,8 @@ separated by a tabular spacing.
   columns) of a Tab-Separated data file.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
-    - `rows`, for storing the number of rows.
-    - `columns`, for storing the number of columns.
+    - `rows`, to output the number of rows.
+    - `columns`, to output the number of columns.
 </details>
 
 <details>
@@ -127,7 +127,7 @@ separated by a tabular spacing.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
     - `data_array`, one-dimensional double-type array of the size
-    `rows*columns` for storing the data. The array must have `rows*columns`
+    `rows*columns` to output the data. The array must have `rows*columns`
     size, where `rows` and columns may be obtained through
     `tsvdat_get_sizes()`. Its data may be accessed through
     `data_array[i + rows*j]`, where `i` is any row and `j` is any column.
@@ -146,7 +146,7 @@ separated by a tabular spacing.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
     - `data_array`, one-dimensional complex-type array of the size
-    `rows*columns` for storing the data. The array must have `rows*columns`
+    `rows*columns` to output the data. The array must have `rows*columns`
     size, where `rows` and `columns` may be obtained through
     `tsvdat_get_sizes()`. Its data may be accessed through
     `data_array[i + rows*j]`, where `i` is any row and `j` is any column.
@@ -200,9 +200,9 @@ tensors, matrices, tables, numeric datasets and so on.
 
   - **Description:** Returns the size of the comment of a Wolfram
   Language file format, i.e., the number of characters of the first line of
-  the file plus a '\0' char.
-  - **Parameters:**
-    `- wldat_path`, path to the file.
+  the file plus a `'\0'` char.
+  - **Parameter:**
+    - `wldat_path`, path to the file.
 </details>
 
 <details>
@@ -211,7 +211,7 @@ tensors, matrices, tables, numeric datasets and so on.
   </summary>
 
   - **Description:** Gets the comment of a Wolfram Language file format,
-  i.e., the text of the whole first line plus a '\0' char.
+i.e., the text of the whole first line plus a `'\0'` char.
   - **Parameters:**
     - `wldat_path`, path to the file.
     - `comment`, array of size `wldat_get_comment_size(wldat_path)` to store
@@ -266,7 +266,6 @@ tensors, matrices, tables, numeric datasets and so on.
 
   - **Description:** Imports data of complex numbers of a Wolfram Language
   file format.
-
   - **Parameters:**
     - `wldat_path`, path to the data file.
     - `data_array`, array of size $S_1 \times S_2 \times ...\times S_N$ to
@@ -325,7 +324,7 @@ beginning of your code and you shall be ready to use the functions.
 <details>
   <summary>
     <b>Example of usage for CSV files in C/C++</b>
-  </summary>
+  </summary><br/>
 
 **CSV file with complex numbers and previously known sizes**
 
@@ -372,7 +371,7 @@ int main() {
     int COLS; /* Number of columns */
 
     /* Get the sizes */
-    csvdat_get_sizes("myfile.csv" ROWS, COLS);
+    csvdat_get_sizes("myfile.csv", &ROWS, &COLS);
 
     /* Array to store the data (complex numbers) */
     /* C++ users must replace 'double complex' type by std::complex<double> */
@@ -400,7 +399,7 @@ int main() {
 <details>
   <summary>
     <b>Example of usage for TSV files in C/C++</b>
-  </summary>
+  </summary><br/>
 
 **TSV file with complex numbers and previously known sizes**
 
@@ -447,7 +446,7 @@ int main() {
     int COLS; /* Number of columns */
 
     /* Get the sizes */
-    tsvdat_get_sizes("myfile.tsv" ROWS, COLS);
+    tsvdat_get_sizes("myfile.tsv", &ROWS, &COLS);
 
     /* Array to store the data (complex numbers) */
     /* C++ users must replace 'double complex' type by std::complex<double> */
@@ -475,7 +474,7 @@ int main() {
 <details>
   <summary>
     <b>Example of usage for WL files in C/C++</b>
-  </summary>
+  </summary><br/>
 
 **WL file with complex numbers and previously known dimensions and sizes**
 
@@ -486,7 +485,7 @@ int main() {
 int main() {
 
     /* Number of dimensions */
-    int DIM = 3; /* Dimensions i, j, and k */
+    int DIM = 3; /* Assuming a 3D matrix, dimensions in i, j, and k */
 
     /* Size of each dimension */
     int IMAX = 15; /* Size of the dimension i */
@@ -541,6 +540,14 @@ int main() {
 
     /* Import the data (complex numbers) */
     wldat_import_cplx("myfile.wl", data_array);
+
+    /*
+        As an example, for a 3D matrix, DIM = 3,
+        the data at positions i, j, and k may be acessed through
+        data_array[i + IMAX*j + IMAX*JMAX*k]
+        where IMAX = sizes[0], JMAX = sizes[1], and KMAX = sizes[2],
+        and so 0 <= i < IMAX, 0 <= j < JMAX and 0 <= k < KMAX.
+    */
     
     /* Export the data (complex numbers) */
     wldat_export_cplx("myfile2.wl", data_array, DIM, sizes, "");
@@ -642,12 +649,12 @@ from cffi import FFI
 ffi = FFI()
 
 # Read the C functions declarations
-with open("data-file-library-declarations.c", "r") as f:
+with open("src/data-file-library-declarations.c", "r") as f:
     ffi.cdef(f.read())
 
 # Import the compiled file
-lib = ffi.dlopen("./data-file-library.so") # for Linux/macOS
-# lib = ffi.dlopen("./data-file-library.dll") # for Windows
+lib = ffi.dlopen("src/data-file-library.so") # for Linux/macOS
+# lib = ffi.dlopen("src/data-file-library.dll") # for Windows
 
 # Prepare a NumPy array of complex128 (matches C double complex)
 n = 100  # total size of the one dimensional array you expect
