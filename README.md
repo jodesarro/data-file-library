@@ -18,7 +18,7 @@ separated by a comma.
   </summary>
 
   - **Description:** Gets the size in each dimension (number of rows and
-  columns) of a Comma-Separated Values data file.
+  columns) from a Comma-Separated Values data file.
   - **Parameters:**
     - `csvdat_path`, path to the file.
     - `rows`, to output the number of rows.
@@ -30,17 +30,17 @@ separated by a comma.
     <code><b>csvdat_import(csvdat_path, data_array)</b></code>
   </summary>
 
-  - **Description:** Imports double-type data from a Comma-Separated Values
-  data file and store the values in an one-dimensional double-type array. The
-  values may also be in the base 10 exponential form `eN` or `*^N`, where `N`
-  is an integer.
+  - **Description:** Imports `double`-type data from a Comma-Separated Values
+  data file and stores in an one-dimensional `double`-type array following the
+  row-major order. The values may also be in the base 10 exponential form `eN`
+  or `*^N`, where `N` is an integer.
   - **Parameters:**
     - `csvdat_path`, path to the file.
-    - `data_array`, one-dimensional double-type array of the size
-    `rows*columns` to output the data. The array must have `rows*columns`
-    size, where rows and columns may be obtained through `csvdat_get_sizes()`.
-    Its data may be accessed through `data_array[i + rows*j]`, where `i` is
-    any row and `j` is any column.
+    - `data_array`, one-dimensional `double`-type array of the size
+    `rows*columns` to output the data following the row-major order, where
+    `rows` and `columns` may be obtained through `csvdat_get_sizes()`. The
+    outputted data may be accessed through `data_array[j + columns*i]`, where
+    `i` is any row and `j` is any column.
 </details>
 
 <details>
@@ -48,19 +48,20 @@ separated by a comma.
     <code><b>csvdat_import_cplx(csvdat_path, data_array)</b></code>
   </summary>
 
-  - **Description:** Imports complex-type data from a Comma-Separated Values
-    data file and store the values in an one-dimensional complex-type array.
-    The complex values may be of the type `a`, `a+bi`, `bi`, `i`, and `-i`,
-    where `i` may also be `j`, `*i`, `*j`, or `*I`, and where `a` and `b` may
-    also be in the base 10 exponential form `eN` or `*^N`, where `N` is an
-    integer.
+  - **Description:** Imports `double complex`-type data from a
+  Comma-Separated Values data file
+  and stores the values in an one-dimensional `double complex`-type array
+  following the row-major order. The complex values may be of the type `a`,
+  `a+bi`, `bi`, and `i`, where `i` may also be `j`, `*i`, `*j`, or `*I`, and
+  where `a` and `b` may also be in the base 10 exponential form `eN` or `*^N`,
+  where `N` is an integer.
   - **Parameters:**
     - `csvdat_path`, path to the file.
-    - `data_array`, one-dimensional complex-type array of the size
-    `rows*columns` to output the data. The array must have `rows*columns`
-    size, where `rows` and `columns` may be obtained through
-    `csvdat_get_sizes()`. Its data may be accessed through
-    `data_array[i + rows*j]`, where `i` is any row and `j` is any column.
+    - `data_array`, one-dimensional `double complex`-type array of the size
+    `rows*columns` to output the data following the row-major order, where
+    `rows` and `columns` may be obtained through `csvdat_get_sizes()`.
+    The outputted data may be accessed through `data_array[j + columns*i]`,
+    where `i` is any row and `j` is any column.
 </details>
 
 <details>
@@ -68,13 +69,15 @@ separated by a comma.
     <code><b>csvdat_export(csvdat_path, data_array, rows, columns) </b></code>
   </summary>
 
-  - **Description:** Exports double-type data of an one-dimensional
-  double-type array to a Comma-Separated Values data file.
+  - **Description:** Exports `double`-type data of an one-dimensional
+    `double`-type array, following the row-major order, to a Comma-Separated
+    Values data file.
   - **Parameters:**
     - `csvdat_path`, path to the file.
-    - `data_array`, one-dimensional double-type array of the size
-    `rows*columns` containing the data. The data is accessed through
-    `data_array[i + rows*j]`, where `i` is a row and `j` is a column.
+    - `data_array`, one-dimensional `double`-type array of the size
+    `rows*columns` containing the data. The data is accessed following the
+    row-major order, i.e., through `data_array[j + columns*i]`, where `i` is
+    any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
 </details>
@@ -84,14 +87,17 @@ separated by a comma.
     <code><b>csvdat_export_cplx(csvdat_path, data_array, rows, columns)</b></code>
   </summary>
 
-  - **Description:** Exports complex-type data of an one-dimensional
-  complex-type array to a Comma-Separated Values data file. The exported
-  complex values are of the type `a+bi`.
+  - **Description:** Exports `double complex`-type data of an
+    one-dimensional `double complex`-type array,
+    following the row-major
+    order, to a Comma-Separated Values data file.
+    The exported complex values are of the type `a+bi`.
   - **Parameters:**
     - `csvdat_path`, path to the file.
-    - `data_array`, one-dimensional complex-type array of the size
-    `rows*columns` containing the data. The data is accessed through
-    `data_array[i + rows*j]`, where `i` is a row and `j` is a column.
+    - `data_array`, one-dimensional `double complex`-type array of the size
+    `rows*columns` containing the data. The data is accessed following the
+    row-major order, i.e., through `data_array[j + columns*i]`, where `i` is
+    any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
 </details>
@@ -108,7 +114,7 @@ separated by a tabular spacing.
   </summary>
 
   - **Description:** Gets the size in each dimension (number of rows and
-  columns) of a Tab-Separated data file.
+  columns) from a Tab-Separated data file.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
     - `rows`, to output the number of rows.
@@ -120,17 +126,17 @@ separated by a tabular spacing.
     <code><b>tsvdat_import(tsvdat_path, data_array)</b></code>
   </summary>
 
-  - **Description:** Imports double-type data from a Tab-Separated data file
-  and store the values in an one-dimensional double-type array. The values may
-  also be in the base 10 exponential form `eN` or `*^N`, where `N` is an
-  integer.
+  - **Description:** Imports `double`-type data from a Tab-Separated Values
+  data file and stores in an one-dimensional `double`-type array following the
+  row-major order. The values may also be in the base 10 exponential form `eN`
+  or `*^N`, where `N` is an integer.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
-    - `data_array`, one-dimensional double-type array of the size
-    `rows*columns` to output the data. The array must have `rows*columns`
-    size, where `rows` and columns may be obtained through
-    `tsvdat_get_sizes()`. Its data may be accessed through
-    `data_array[i + rows*j]`, where `i` is any row and `j` is any column.
+    - `data_array`, one-dimensional `double`-type array of the size
+    `rows*columns` to output the data following the row-major order, where
+    `rows` and `columns` may be obtained through `tsvdat_get_sizes()`. The
+    outputted data may be accessed through `data_array[j + columns*i]`, where
+    `i` is any row and `j` is any column.
 </details>
 
 <details>
@@ -138,18 +144,20 @@ separated by a tabular spacing.
     <code><b>tsvdat_import_cplx(tsvdat_path, data_array)</b></code>
   </summary>
 
-  - **Description:** Imports complex-type data from a Tab-Separated data file
-  and store the values in an one-dimensional complex-type array. The complex
-  values may be of the type `a`, `a+bi`, `bi`, `i`, and `-i`, where `i` may
-  also be `j`, `*i`, `*j`, or `*I`, and where `a` and `b` may also be in the
-  base 10 exponential form `eN` or `*^N`, where `N` is an integer.
+  - **Description:** Imports `double complex`-type data from a
+  Tab-Separated Values data file
+  and stores the values in an one-dimensional `double complex`-type array
+  following the row-major order. The complex values may be of the type `a`,
+  `a+bi`, `bi`, and `i`, where `i` may also be `j`, `*i`, `*j`, or `*I`, and
+  where `a` and `b` may also be in the base 10 exponential form `eN` or `*^N`,
+  where `N` is an integer.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
-    - `data_array`, one-dimensional complex-type array of the size
-    `rows*columns` to output the data. The array must have `rows*columns`
-    size, where `rows` and `columns` may be obtained through
-    `tsvdat_get_sizes()`. Its data may be accessed through
-    `data_array[i + rows*j]`, where `i` is any row and `j` is any column.
+    - `data_array`, one-dimensional `double complex`-type array of the size
+    `rows*columns` to output the data following the row-major order, where
+    `rows` and `columns` may be obtained through `tsvdat_get_sizes()`.
+    The outputted data may be accessed through `data_array[j + columns*i]`,
+    where `i` is any row and `j` is any column.
 </details>
 
 <details>
@@ -157,13 +165,15 @@ separated by a tabular spacing.
     <code><b>tsvdat_export(tsvdat_path, data_array, rows, columns)</b></code>
   </summary>
 
-  - **Description:** Exports double-type data of an one-dimensional
-  double-type array to a Tab-Separated data file.
+  - **Description:** Exports `double`-type data of an one-dimensional
+    `double`-type array, following the row-major order, to a Tab-Separated
+    Values data file.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
-    - `data_array`, one-dimensional double-type array of the size
-    `rows*columns` containing the data. The data is accessed through
-    `data_array[i + rows*j]`, where `i` is a row and `j` is a column.
+    - `data_array`, one-dimensional `double`-type array of the size
+    `rows*columns` containing the data. The data is accessed following the
+    row-major order, i.e., through `data_array[j + columns*i]`, where `i` is
+    any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
 </details>
@@ -173,14 +183,17 @@ separated by a tabular spacing.
     <code><b>tsvdat_export_cplx(tsvdat_path, data_array, rows, columns)</b></code>
   </summary>
 
-  - **Description:** Exports complex-type data of an one-dimensional
-  complex-type array to a Tab-Separated data file. The exported complex values
-  are of the type `a+bi`.
+  - **Description:** Exports `double complex`-type data of an
+    one-dimensional `double complex`-type array,
+    following the row-major
+    order, to a Tab-Separated Values data file.
+    The exported complex values are of the type `a+bi`.
   - **Parameters:**
     - `tsvdat_path`, path to the file.
-    - `data_array`, one-dimensional complex-type array of the size
-    `rows*columns` containing the data. The data is accessed through
-    `data_array[i + rows*j]`, where `i` is a row and `j` is a column.
+    - `data_array`, one-dimensional `double complex`-type array of the size
+    `rows*columns` containing the data. The data is accessed following the
+    row-major order, i.e., through `data_array[j + columns*i]`, where `i` is
+    any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
 </details>
@@ -198,9 +211,9 @@ tensors, matrices, tables, numeric datasets and so on.
     <code><b>wldat_get_comment_size(wldat_path)</b></code>
   </summary>
 
-  - **Description:** Returns the size of the comment of a Wolfram
-  Language file format, i.e., the number of characters of the first line of
-  the file plus a `'\0'` char.
+  - **Description:** Returns the size of the comment from a Wolfram
+  Language package source format, i.e., the number of characters of the
+  first line of the file plus a `'\0'` char.
   - **Parameter:**
     - `wldat_path`, path to the file.
 </details>
@@ -210,12 +223,13 @@ tensors, matrices, tables, numeric datasets and so on.
     <code><b>wldat_get_comment(wldat_path, comment)</b></code>
   </summary>
 
-  - **Description:** Gets the comment of a Wolfram Language file format,
-i.e., the text of the whole first line plus a `'\0'` char.
+  - **Description:** Gets the comment from a Wolfram Language package
+  source format, i.e., the text of the whole first line of the file plus
+  a `'\0'` char.
   - **Parameters:**
     - `wldat_path`, path to the file.
-    - `comment`, array of size `wldat_get_comment_size(wldat_path)` to output
-    the text.
+    - `comment`, array of size given by `wldat_get_comment_size()`, to
+    output the text.
 </details>
 
 <details>
@@ -223,8 +237,9 @@ i.e., the text of the whole first line plus a `'\0'` char.
     <code><b>wldat_get_dimensions(wldat_path)</b></code>
   </summary>
 
-  - **Description:** Returns the number of dimensions of a Wolfram
-  Language file format. The number of dimensions must not exceed 128.
+  - **Description:** Returns the number of dimensions from a Wolfram
+  Language package source format.
+  The number of dimensions is limited to `128`.
   - **Parameter:**
     - `wldat_path`, path to the file.
 </details>
@@ -234,13 +249,13 @@ i.e., the text of the whole first line plus a `'\0'` char.
     <code><b>wldat_get_sizes(wldat_path, sizes)</b></code>
   </summary>
 
-  - **Description:** Gets the size of each dimension of a Wolfram Language
-  file format.
+  - **Description:** Gets the size of each dimension from a Wolfram
+  Language package source format.
   - **Parameters:**
     - `wldat_path`, path to the file.
-    - `sizes`, array of size `wldat_get_dimensions(wldat_path)` to
-    sequentially store the size of each dimension. The size of this array must
-    not exceed 128.
+    - `sizes`, array of size given by `wldat_get_dimensions()`, to
+    sequentially output the size of each dimension. The size of this array
+    is limited to `128`.
 </details>
 
 <details>
@@ -248,15 +263,16 @@ i.e., the text of the whole first line plus a `'\0'` char.
     <code><b>wldat_import(wldat_path, data_array)</b></code>
   </summary>
 
-  - **Description:** Imports data of real numbers of a Wolfram Language file
-  format.
+  - **Description:** Imports data of real numbers from a Wolfram Language
+  package source format, and stores in an one-dimensional
+  `double`-type array following the row-major order.
   - **Parameters:**
     - `wldat_path`, path to the data file.
-    - `data_array`, array of size $S_1 \times S_2 \times ...\times S_N$ to
-    store the results, where $N$ is the number of dimensions, and for each
-    dimension $n$, where $n = 1, 2, ..., N$, $S_n$ is its size. Notice
-    that $N$ may be obtained through `wldat_get_dimensions(wldat_path)` and
-    $S_n$ through `wldat_get_sizes(wldat_path)`.
+    - `data_array`, array of double-type of size `S1*S2*...*SN` to
+    output the values following the row-major order, where `N` is the number
+    of dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
+    respective size. Notice that `N<=128` and may be obtained through
+    `wldat_get_dimensions()`, and `Sn` through `wldat_get_sizes()`.
 </details>
 
 <details>
@@ -264,15 +280,16 @@ i.e., the text of the whole first line plus a `'\0'` char.
     <code><b>wldat_import_cplx(wldat_path, data_array)</b></code>
   </summary>
 
-  - **Description:** Imports data of complex numbers of a Wolfram Language
-  file format.
+  - **Description:** Imports data of complex numbers from a Wolfram
+  Language package source format, and stores in an one-dimensional
+  `double complex`-type array following the row-major order.
   - **Parameters:**
     - `wldat_path`, path to the data file.
-    - `data_array`, array of size $S_1 \times S_2 \times ...\times S_N$ to
-    store the results, where $N$ is the number of dimensions, and for each
-    dimension $n$, where $n = 1, 2, ..., N$, $S_n$ is its size. Notice
-    that $N$ may be obtained through `wldat_get_dimensions(wldat_path)` and
-    $S_n$ through `wldat_get_sizes(wldat_path)`.
+    - `data_array`, array of `double complex`-type of size `S1*S2*...*SN` to
+    output the values following the row-major order, where `N` is the number
+    of dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
+    respective size. Notice that `N<=128` and may be obtained through
+    `wldat_get_dimensions()`, and `Sn` through `wldat_get_sizes()`.
 </details>
 
 <details>
@@ -280,15 +297,18 @@ i.e., the text of the whole first line plus a `'\0'` char.
     <code><b>wldat_export(wldat_path, data_array, dimensions,sizes, comment)</b></code>
   </summary>
 
-  - **Description:** Exports data of real numbers to a Wolfram Language file
-  format.
+  - **Description:** Exports `double`-type data of an one-dimensional
+    `double`-type array, following the row-major order, to Wolfram Language
+    package source format of arbitrary dimension.
+
   - **Parameters:**
     - `wldat_path`, path to the data file.
-    - `data_array`, array of size $S_1 \times S_2 \times ...\times S_N$ to
-    store the results, where $N$ is the number of dimensions, and for each
-    dimension $n$, where $n = 1, 2, ..., N$, $S_n$ is its size.
-    - `dimensions`, number of the dimensions of the data.
-    - `sizes`, array with the size of each dimension.
+    - `data_array`, array of double-type of size `S1*S2*...*SN`, containing
+    data following the row-major order, where `N` is the number of dimensions,
+    and for each dimension `n`, being `1<=n<=N`, `Sn` is its respective size.
+    - `dimensions`, number `N` of the dimensions of the data, limited to
+    `128`.
+    - `sizes`, array of size `N` containing the size of each dimension.
     - `comment`, text to be stored at the very first line of the file.
 </details>
 
@@ -297,15 +317,19 @@ i.e., the text of the whole first line plus a `'\0'` char.
     <code><b>wldat_export_cplx(wldat_path, data_array, dimensions,sizes, comment)</b></code>
   </summary>
 
-  - **Description:** Exports data of complex numbers to a Wolfram Language
-  file format.
+  - **Description:** Exports `double complex`-type data of an
+    one-dimensional `double complex`-type array, following the row-major
+    order, to Wolfram Language package source format of arbitrary dimension.
+
   - **Parameters:**
     - `wldat_path`, path to the data file.
-    - `data_array`, array of size $S_1 \times S_2 \times ...\times S_N$ to
-    store the results, where $N$ is the number of dimensions, and for each
-    dimension $n$, where $n = 1, 2, ..., N$, $S_n$ is its size.
-    - `dimensions`, number of the dimensions of the data.
-    - `sizes`, array with the size of each dimension.
+    - `data_array`, array of `double complex`-type of size `S1*S2*...*SN`,
+    containing data following the row-major order, where `N` is the number of
+    dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
+    respective size.
+    - `dimensions`, number `N` of the dimensions of the data, limited to
+    `128`.
+    - `sizes`, array of size `N` containing the size of each dimension.
     - `comment`, text to be stored at the very first line of the file.
 </details>
 
@@ -347,7 +371,7 @@ int main() {
 
     /*
         The data at positions r and c, may be acessed through
-        data_array[r + ROWS*c]
+        data_array[c + COLS*r]
     */
     
     /* Export the data (complex numbers) */
@@ -382,7 +406,7 @@ int main() {
 
     /*
         The data at positions r and c, may be acessed through
-        data_array[r + ROWS*c]
+        data_array[c + COLS*r]
     */
     
     /* Export the data (complex numbers) */
@@ -422,7 +446,7 @@ int main() {
 
     /*
         The data at positions r and c, may be acessed through
-        data_array[r + ROWS*c]
+        data_array[c + COLS*r]
     */
     
     /* Export the data (complex numbers) */
@@ -457,7 +481,7 @@ int main() {
 
     /*
         The data at positions r and c, may be acessed through
-        data_array[r + ROWS*c]
+        data_array[c + COLS*r]
     */
     
     /* Export the data (complex numbers) */
@@ -501,7 +525,7 @@ int main() {
 
     /*
         The data at positions i, j, and k, may be acessed through
-        data_array[i + IMAX*j + IMAX*JMAX*k]
+        data_array[k + KMAX*j + KMAX*JMAX*i]
     */
     
     /* Export the data (complex numbers) */
@@ -544,9 +568,9 @@ int main() {
     /*
         As an example, for a 3D matrix, DIM = 3,
         the data at positions i, j, and k may be acessed through
-        data_array[i + IMAX*j + IMAX*JMAX*k]
+        data_array[k + KMAX*j + KMAX*JMAX*i]
         where IMAX = sizes[0], JMAX = sizes[1], and KMAX = sizes[2],
-        and so 0 <= i < IMAX, 0 <= j < JMAX and 0 <= k < KMAX.
+        and so 0<=i<IMAX, 0<=j<JMAX and 0<=k<KMAX.
     */
     
     /* Export the data (complex numbers) */
@@ -563,12 +587,15 @@ int main() {
 
 ## Some C details
 
-In this library, the implementation is carried out in terms of the C99
-standards. Therefore, all the complex variables are handled using the
-`double complex` type of the C `<complex.h>` library.
+All routines in this library follow the row‑major order convention for
+storing multi‑dimensional arrays in one‑dimensional (linear) arrays,
+a method widely used in C programming.
 
-Notice that all functions, macros, constants and files whose names contain
-the suffix `_impl_` are internal and are not intended to be used by users.
+Moreover, the implementation adheres to the C99 standard, and all complex variables are represented using the `double complex` type provided by the C <complex.h> library.
+
+Notice that functions, macros, constants, and files whose names contain the
+suffix `_impl_` are internal components and are not intended for direct use
+by end users.
 
 ## Compatibility with C++
 
@@ -577,10 +604,8 @@ This library uses `__cplusplus` compiler guards with `extern "C"` and
 
 In this sense, when using C++ compilers, the following C functions are
 automatically mapped to their C++ equivalent: `creal(z)`↦`std::real(z)`,
-`cimag(z)`↦`std::imag(z)`.
-
-Moreover, all the complex variables are handled using the
-`std::complex<double>` type of the C++ `<complex>` library.
+`cimag(z)`↦`std::imag(z)`; and all complex values are handled
+by means of the `std::complex<double>` type of the C++ `<complex>` library.
 
 ## Compiling the library
 

@@ -40,7 +40,7 @@ typedef double complex tpdcomplex_impl_;
 
 /*
     Implementation for getting the size in each dimension (number of rows and
-    columns) of a data file with a given column separator.
+    columns) from a data file with a given column separator.
 
     Parameters:
     - sepdat_path, path to the data file.
@@ -96,17 +96,18 @@ static inline void sepdat_get_sizes_impl_(const char *sepdat_path, int *rows,
 
 /*
     Implementation for importing double-type data from a breakline-separated
-    lines and char-separated data file and store the values in an
-    one-dimensional double-type array. The values may also be in the base 10
-    exponential form eN or *^N, where N is an integer.
+    lines and char-separated columns data file and storing the values in an
+    one-dimensional double-type array following the row-major order.
+    The values may also be in the base 10 exponential form eN or *^N,
+    where N is an integer.
 
     Parameters:
     - sepdat_path, path to the file.
-    - data_array, one-dimensional double-type array of the size rows*columns for
-    storing the data. The array must have rows*columns size, where rows and
-    columns may be obtained through sepdat_get_sizes(). Its data may be
-    accessed through data_array[i + rows*j], where i is any row and j is any
-    column.
+    - data_array, one-dimensional double-type array of the size rows*columns
+    to output the data following the row-major order, where rows and columns
+    may be obtained through sepdat_get_sizes_impl_(). The outputted data may
+    be accessed through data_array[j + columns*i], where i is any row and j is
+    any column.
     - sep, column separator.
 */
 static inline void sepdat_import_impl_(const char *sepdat_path,
@@ -134,7 +135,7 @@ static inline void sepdat_import_impl_(const char *sepdat_path,
     /* Read file */
     while (fscanf(file, fmt, buffer) == 1) {
         /* Parse and store */
-        data_array[i + rows * j ] = parse_real_impl_(buffer);
+        data_array[j + columns*i] = parse_real_impl_(buffer);
         /* Look ahead for separator */
         int ch = fgetc(file);
         if (ch == sep) {
@@ -152,20 +153,21 @@ static inline void sepdat_import_impl_(const char *sepdat_path,
 }
 
 /*
-    Implementation for importing complex-type data from a breakline-separated
-    lines and char-separated data file and store the values in an
-    one-dimensional complex-type array. The complex values may be of the type a,
-    a+bi, bi, i, and -i, where i may also be j, *i, *j, or *I, and where a and
+    Implementation for importing 'double complex'-type data from a
+    breakline-separated lines and char-separated columns data file and storing
+    the values in an one-dimensional 'double complex'-type array following the
+    row-major order. The complex values may be of the type a,
+    a+bi, bi, and i, where i may also be j, *i, *j, or *I, and where a and
     b may also be in the base 10 exponential form eN or *^N, where N is an
     integer.
 
     Parameters:
     - sepdat_path, path to the file.
-    - data_array, one-dimensional complex-type array of the size rows*columns
-    to output the data. The array must have rows*columns size, where rows
-    and columns may be obtained through sepdat_get_sizes(). Its data may be
-    accessed through data_array[i + rows*j], where i is any row and j is any
-    column.
+    - data_array, one-dimensional 'double complex'-type array of the size
+    rows*columns to output the data following the row-major order, where rows
+    and columns may be obtained through sepdat_get_sizes_impl_().
+    The outputted data may be accessed through data_array[j + columns*i],
+    where i is any row and j is any column.
     - sep, column separator.
 */
 static inline void sepdat_import_cplx_impl_(const char *sepdat_path,
@@ -193,7 +195,7 @@ static inline void sepdat_import_cplx_impl_(const char *sepdat_path,
     /* Read file */
     while (fscanf(file, fmt, buffer) == 1 ) {
         /* Parse and store */
-        data_array[i + rows * j ] = parse_complex_impl_(buffer);
+        data_array[j + columns*i] = parse_complex_impl_(buffer);
         /* Look ahead for separator */
         int ch = fgetc(file);
         if (ch == sep) {
@@ -212,14 +214,15 @@ static inline void sepdat_import_cplx_impl_(const char *sepdat_path,
 
 /*
     Implementation for exporting double-type data of an one-dimensional
-    double-type array to a breakline-separated lines and char-separated
-    columns data file.
+    double-type array, following the row-major order, to a breakline-separated
+    lines and char-separated columns data file.
 
     Parameters:
     - sepdat_path, path to the file.
     - data_array, one-dimensional double-type array of the size rows*columns
-    containing the data. The data is accessed through data_array[i + rows*j],
-    where i is a row and j is a column.
+    containing the data. The data is accessed following the row-major order,
+    i.e., through data_array[j + columns*i], where i is any row and j is any
+    column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
     - sep, column separator.
@@ -239,7 +242,7 @@ static inline void sepdat_export_impl_(const char *sepdat_path,
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            fprintf(file, "%.16e", data_array[i + rows * j]);
+            fprintf(file, "%.16e", data_array[j + columns*i]);
             if (j < columns - 1) {
                 fputc(sep, file);  /* Tab between columns */
             }
@@ -252,15 +255,17 @@ static inline void sepdat_export_impl_(const char *sepdat_path,
 }
 
 /*
-    Implementation for exporting complex-type data of an one-dimensional
-    complex-type array to a breakline-separated lines and char-separated
-    columns data file. The exported complex values are of the type a+bi.
+    Implementation for exporting 'double complex'-type data of an
+    one-dimensional 'double complex'-type array, following the row-major
+    order, to a breakline-separated lines and char-separated columns data
+    file. The exported complex values are of the type a+bi.
 
     Parameters:
     - sepdat_path, path to the file.
-    - data_array, one-dimensional complex-type array of the size rows*columns
-    containing the data. The data is accessed through data_array[i + rows*j],
-    where i is a row and j is a column.
+    - data_array, one-dimensional 'double complex'-type array of the size
+    rows*columns containing the data. The data is accessed following the
+    row-major order, i.e., through data_array[j + columns*i], where i is any
+    row and j is any column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
     - sep, column separator.
@@ -280,8 +285,8 @@ static inline void sepdat_export_cplx_impl_(const char *sepdat_path,
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            fprintf(file, "%.16e%+.16ei", creal(data_array[i + rows * j]),
-                    cimag(data_array[i + rows * j]));
+            fprintf(file, "%.16e%+.16ei", creal(data_array[j + columns*i]),
+                    cimag(data_array[j + columns*i]));
             if (j < columns - 1) {
                 fputc(sep, file);  /* Tab between columns */
             }

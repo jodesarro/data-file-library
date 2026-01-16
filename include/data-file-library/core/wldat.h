@@ -41,9 +41,9 @@ typedef double complex tpdcomplex_impl_;
 #include "../impl/wldat_impl_.h"
 
 /*
-    Returns the size of the comment of a Wolfram
-    Language file format, i.e., the number of characters of the first line of
-    the file plus a '\0' char.
+    Returns the size of the comment from a Wolfram
+    Language package source format, i.e., the number of characters of the
+    first line of the file plus a '\0' char.
 
     Parameter:
     - wldat_path, path to the file.
@@ -54,13 +54,14 @@ int wldat_get_comment_size(const char *wldat_path) {
 }
 
 /*
-    Gets the comment of a Wolfram Language file format,
-    i.e., the text of the whole first line plus a '\0' char.
+    Gets the comment from a Wolfram Language package
+    source format, i.e., the text of the whole first line of the file plus
+    a '\0' char.
 
     Parameters:
     - wldat_path, path to the file.
-    - comment, array of size wldat_get_comment_size(wldat_path) to output
-    the text.
+    - comment, array of size given by wldat_get_comment_size(), to
+    output the text.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void wldat_get_comment(const char *wldat_path, char *comment) {
@@ -68,8 +69,9 @@ void wldat_get_comment(const char *wldat_path, char *comment) {
 }
 
 /*
-    Returns the number of dimensions of a Wolfram
-    Language file format. The number of dimensions must not exceed 128.
+    Returns the number of dimensions from a Wolfram
+    Language package source format.
+    The number of dimensions is limited to 128.
 
     Parameter:
     - wldat_path, path to the file.
@@ -80,13 +82,14 @@ int wldat_get_dimensions(const char *wldat_path) {
 }
 
 /*
-    Gets the size of each dimension of a Wolfram Language file format.
+    Gets the size of each dimension from a Wolfram
+    Language package source format.
 
     Parameters:
     - wldat_path, path to the file.
-    - sizes, array of size wldat_get_dimensions(wldat_path) to
-    sequentially store the size of each dimension. The size of this array must
-    not exceed 128.
+    - sizes, array of size given by wldat_get_dimensions(), to
+    sequentially output the size of each dimension. The size of this array
+    is limited to 128.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void wldat_get_sizes(const char *wldat_path, int *sizes) {
@@ -94,15 +97,17 @@ void wldat_get_sizes(const char *wldat_path, int *sizes) {
 }
 
 /*
-    Imports data of real numbers of a Wolfram Language file format.
+    Imports data of real numbers from a Wolfram Language
+    package source format, and stores in an one-dimensional
+    double-type array following the row-major order.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size. Notice that N may be obtained through
-    wldat_get_dimensions(wldat_path) and Sn through
-    wldat_get_sizes(wldat_path).
+    - data_array, array of double-type of size S1*S2*...*SN to
+    output the values following the row-major order, where N is the number of
+    dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
+    size. Notice that N<=128 and may be obtained through
+    wldat_get_dimensions(), and Sn through wldat_get_sizes().
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void wldat_import(const char *wldat_path, double *data_array) {
@@ -110,15 +115,17 @@ void wldat_import(const char *wldat_path, double *data_array) {
 }
 
 /*
-    Imports data of complex numbers of a Wolfram Language file format.
+    Imports data of complex numbers from a Wolfram
+    Language package source format, and stores in an one-dimensional
+    'double complex'-type array following the row-major order.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size. Notice that N may be obtained through
-    wldat_get_dimensions(wldat_path) and Sn through
-    wldat_get_sizes(wldat_path).
+    - data_array, array of 'double complex'-type of size S1*S2*...*SN to
+    output the values following the row-major order, where N is the number of
+    dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
+    size. Notice that N<=128 and may be obtained through
+    wldat_get_dimensions(), and Sn through wldat_get_sizes().
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void wldat_import_cplx(const char *wldat_path,
@@ -128,15 +135,17 @@ void wldat_import_cplx(const char *wldat_path,
 }
 
 /*
-    Exports data of real numbers to a Wolfram Language file format.
+    Exports double-type data of an one-dimensional
+    double-type array, following the row-major order, to Wolfram Language
+    package source format of arbitrary dimension.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size.
-    - dimensions, number of the dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - data_array, array of double-type of size S1*S2*...*SN, containing data
+    following the row-major order, where N is the number of dimensions,
+    and for each dimension n, being 1<=n<=N, Sn is its respective size.
+    - dimensions, number N of the dimensions of the data, limited to 128.
+    - sizes, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
@@ -147,15 +156,18 @@ void wldat_export(const char *wldat_path,
 }
 
 /*
-    Exports data of complex numbers to a Wolfram Language file format.
+    Exports 'double complex'-type data of an
+    one-dimensional 'double complex'-type array, following the row-major
+    order, to Wolfram Language package source format of arbitrary dimension.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size.
-    - dimensions, number of the dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - data_array, array of 'double complex'-type of size S1*S2*...*SN,
+    containing data following the row-major order, where N is the number of
+    dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
+    size.
+    - dimensions, number N of the dimensions of the data, limited to 128.
+    - sizes, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_

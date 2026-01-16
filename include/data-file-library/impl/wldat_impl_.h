@@ -9,7 +9,7 @@
 
     Description:
         Implementation of functions for handling files having the structure of
-        a Wolfram Language file format (nested braces).
+        a Wolfram Language package source format (nested braces).
 */
 
 #ifndef DATA_FILE_LIBRARY_WLDAT_IMPL_H
@@ -39,9 +39,9 @@ typedef double complex tpdcomplex_impl_;
 #include "parse_impl_.h"
 
 /*
-    Implementation for returning the size of the comment of a Wolfram
-    Language file format, i.e., the number of characters of the first line of
-    the file plus a '\0' char.
+    Implementation for returning the size of the comment from a Wolfram
+    Language package source format, i.e., the number of characters of the
+    first line of the file plus a '\0' char.
 
     Parameter:
     - wldat_path, path to the file.
@@ -72,12 +72,13 @@ static inline int wldat_get_comment_size_impl_(const char *wldat_path) {
 }
 
 /*
-    Implementation for getting the comment of a Wolfram Language file format,
-    i.e., the text of the whole first line plus a '\0' char.
+    Implementation for getting the comment from a Wolfram Language package
+    source format, i.e., the text of the whole first line of the file plus
+    a '\0' char.
 
     Parameters:
     - wldat_path, path to the file.
-    - comment, array of size wldat_get_comment_size_impl_(wldat_path) to
+    - comment, array of size given by wldat_get_comment_size_impl_(), to
     output the text.
 */
 static inline void wldat_get_comment_impl_(const char *wldat_path,
@@ -104,8 +105,9 @@ static inline void wldat_get_comment_impl_(const char *wldat_path,
 }
 
 /*
-    Implementation for returning the number of dimensions of a Wolfram
-    Language file format. The number of dimensions must not exceed 128.
+    Implementation for returning the number of dimensions from a Wolfram
+    Language package source format.
+    The number of dimensions is limited to 128.
 
     Parameter:
     - wldat_path, path to the file.
@@ -149,7 +151,7 @@ static inline int wldat_get_dimensions_impl_(const char *wldat_path) {
     if (count > 128) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_get_dimensions_impl_() ->"
-                        " Error: Dimensions must not exceed 128.");
+                        " Error: Dimensions exceed 128.");
         exit(EXIT_FAILURE);
     }
     else {
@@ -158,14 +160,14 @@ static inline int wldat_get_dimensions_impl_(const char *wldat_path) {
 }
 
 /*
-    Implementation for getting the size of each dimension of a Wolfram
-    Language file format.
+    Implementation for getting the size of each dimension from a Wolfram
+    Language package source format.
 
     Parameters:
     - wldat_path, path to the file.
-    - sizes, array of size wldat_get_dimensions_impl_(wldat_path) to
-    sequentially store the size of each dimension. The size of this array must
-    not exceed 128.
+    - sizes, array of size given by wldat_get_dimensions_impl_(), to
+    sequentially output the size of each dimension. The size of this array
+    is limited to 128.
 */
 static inline void wldat_get_sizes_impl_(const char *wldat_path, int *sizes) {
 
@@ -252,21 +254,21 @@ static inline void wldat_get_sizes_impl_(const char *wldat_path, int *sizes) {
 }
 
 /*
-    Compute flat index in column-major order. Example, considering an array
-    arr of two dimensions 0 <= i < IMAX and 0 <= j < JMAX, in the
-    column-major order one can write arr[i + IMAX*j], with the size of arr
+    Compute flat index in row-major order. Example, considering an array
+    arr of two dimensions 0<=i<IMAX and 0<=j<JMAX, in the
+    row-major order one can write arr[j + JMAX*i], with the size of arr
     being IMAX*JMAX.
 
     Parameters:
     - indices, array with the indices i.
-    - sizes, array with the maximum value IMAX for each i.
-    - dimensions, number of i's.
+    - sizes, array with the maximum value XMAX for each x.
+    - dimensions, number of x's.
 */
-static inline int column_major_flat_index_impl_(const int *indices,
+static inline int row_major_flat_index_impl_(const int *indices,
     const int *sizes, int dimensions) {
     
     int idx = 0;
-    for (int d = dimensions - 1; d >= 0; --d) {
+    for (int d = 0; d < dimensions; d++) {
         idx = indices[d] + sizes[d] * idx;
     }
     return idx;
@@ -274,7 +276,7 @@ static inline int column_major_flat_index_impl_(const int *indices,
 
 /*
     Implementation for a recursive function for dealing with nested braces
-    of a Wolfram Language file format with real numbers.
+    from a Wolfram Language package source format with real numbers.
 
     Parameters:
     - file, file with the data, already read until the first '\n'.
@@ -308,7 +310,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = column_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, sizes,
                     dimensions);
                 data_array[idx] = parse_real_impl_(buf);
                 buf_i = 0;
@@ -320,7 +322,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = column_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, sizes,
                     dimensions);
                 data_array[idx] = parse_real_impl_(buf);
                 buf_i = 0;
@@ -335,7 +337,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
 
 /*
     Implementation for a recursive function for dealing with nested braces
-    of a Wolfram Language file format with complex numbers.
+    from a Wolfram Language package source format with complex numbers.
 
     Parameters:
     - file, file with the data, already read until the first '\n'.
@@ -370,7 +372,7 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = column_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, sizes,
                     dimensions);
                 data_array[idx] = parse_complex_impl_(buf);
                 buf_i = 0;
@@ -382,7 +384,7 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = column_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, sizes,
                     dimensions);
                 data_array[idx] = parse_complex_impl_(buf);
                 buf_i = 0;
@@ -396,16 +398,17 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
 }
 
 /*
-    Implementation for importing data of real numbers of a Wolfram Language
-    file format.
+    Implementation for importing data of real numbers from a Wolfram Language
+    package source format, and storing in an one-dimensional
+    double-type array following the row-major order.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size. Notice that N may be obtained through
-    wldat_get_dimensions_impl_(wldat_path) and Sn through
-    wldat_get_sizes_impl_(wldat_path).
+    - data_array, array of double-type of size S1*S2*...*SN to
+    output the values following the row-major order, where N is the number of
+    dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
+    size. Notice that N<=128 and may be obtained through
+    wldat_get_dimensions_impl_(), and Sn through wldat_get_sizes_impl_().
 */
 static inline void wldat_import_impl_(const char *wldat_path,
     double *data_array) {
@@ -443,16 +446,17 @@ static inline void wldat_import_impl_(const char *wldat_path,
 }
 
 /*
-    Implementation for importing data of complex numbers of a Wolfram Language
-    file format.
+    Implementation for importing data of complex numbers from a Wolfram
+    Language package source format, and storing in an one-dimensional
+    'double complex'-type array following the row-major order.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size. Notice that N may be obtained through
-    wldat_get_dimensions_impl_(wldat_path) and Sn through
-    wldat_get_sizes_impl_(wldat_path).
+    - data_array, array of 'double complex'-type of size S1*S2*...*SN to
+    output the values following the row-major order, where N is the number of
+    dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
+    size. Notice that N<=128 and may be obtained through
+    wldat_get_dimensions_impl_(), and Sn through wldat_get_sizes_impl_().
 */
 static inline void wldat_import_cplx_impl_(const char *wldat_path,
     tpdcomplex_impl_ *data_array) {
@@ -491,7 +495,7 @@ static inline void wldat_import_cplx_impl_(const char *wldat_path,
 
 /*
     Implementation for a recursive function for writing nested braces
-    of a Wolfram Language file format with real numbers.
+    from a Wolfram Language package source format with real numbers.
 
     Parameters:
     - file, file with the data, already read until the first '\n'.
@@ -510,7 +514,7 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
         indices[level] = i;
         if (level == dimensions - 1) {
             /* Deepest level -> print number */
-            int idx = column_major_flat_index_impl_(indices, sizes,
+            int idx = row_major_flat_index_impl_(indices, sizes,
                 dimensions);
             char buf[128];
             e_to_star_caret_impl_(buf, sizeof(buf), data_array[idx]);
@@ -528,7 +532,7 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
 
 /*
     Implementation for a recursive function for writing nested braces
-    of a Wolfram Language file format with complex numbers.
+    from a Wolfram Language package source format with complex numbers.
 
     Parameters:
     - file, file with the data, already read until the first '\n'.
@@ -547,7 +551,7 @@ static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
         indices[level] = i;
         if (level == dimensions - 1) {
             /* Deepest level -> print number */
-            int idx = column_major_flat_index_impl_(indices, sizes,
+            int idx = row_major_flat_index_impl_(indices, sizes,
                 dimensions);
             char buf_re[128], buf_abs_im[128];
             e_to_star_caret_impl_(buf_re, sizeof(buf_re),
@@ -572,16 +576,17 @@ static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
 }
 
 /*
-    Implementation for exporting data of real numbers to a Wolfram Language
-    file format with.
+    Implementation for exporting double-type data of an one-dimensional
+    double-type array, following the row-major order, to Wolfram Language
+    package source format of arbitrary dimension.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size.
-    - dimensions, number of the dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - data_array, array of double-type of size S1*S2*...*SN, containing data
+    following the row-major order, where N is the number of dimensions,
+    and for each dimension n, being 1<=n<=N, Sn is its respective size.
+    - dimensions, number N of the dimensions of the data, limited to 128.
+    - sizes, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
 static inline void wldat_export_impl_(const char *wldat_path,
@@ -617,16 +622,18 @@ static inline void wldat_export_impl_(const char *wldat_path,
 }
 
 /*
-    Implementation for exporting data of complex numbers to a Wolfram Language
-    file format with.
+    Implementation for exporting 'double complex'-type data of an
+    one-dimensional 'double complex'-type array, following the row-major
+    order, to Wolfram Language package source format of arbitrary dimension.
 
     Parameters:
     - wldat_path, path to the data file.
-    - data_array, array of size S1*S2*...*SN to store the results, where
-    N is the number of dimensions, and for each dimension n,
-    where 1 <= n <= N, Sn is its size.
-    - dimensions, number of the dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - data_array, array of 'double complex'-type of size S1*S2*...*SN,
+    containing data following the row-major order, where N is the number of
+    dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
+    size.
+    - dimensions, number N of the dimensions of the data, limited to 128.
+    - sizes, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
 static inline void wldat_export_cplx_impl_(const char *wldat_path,

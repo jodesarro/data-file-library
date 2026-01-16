@@ -38,7 +38,7 @@ typedef double complex tpdcomplex_impl_;
 #include "../impl/sepdat_impl_.h"
 
 /*
-    Gets the size in each dimension (number of rows and columns) of a
+    Gets the size in each dimension (number of rows and columns) from a
     Tab-Separated data file.
 
     Parameters:
@@ -54,17 +54,19 @@ void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
 }
 
 /*
-    Imports double-type data from a Tab-Separated data file and
-    store the values in an one-dimensional double-type array. The values may
-    also be in the base 10 exponential form eN or *^N, where N is an integer.
+    Imports double-type data from a Tab-Separated Values data file
+    and stores in an
+    one-dimensional double-type array following the row-major order.
+    The values may also be in the base 10 exponential form eN or *^N,
+    where N is an integer.
 
     Parameters:
     - tsvdat_path, path to the file.
     - data_array, one-dimensional double-type array of the size rows*columns
-    to output the data. The array must have rows*columns size, where rows
-    and columns may be obtained through tsvdat_get_sizes(). Its data may be
-    accessed through data_array[i + rows*j], where i is any row and j is any
-    column.
+    to output the data following the row-major order, where rows and columns
+    may be obtained through tsvdat_get_sizes(). The outputted data may be
+    accessed through data_array[j + columns*i], where i is any row and j is
+    any column.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void tsvdat_import(const char *tsvdat_path,
@@ -74,19 +76,20 @@ void tsvdat_import(const char *tsvdat_path,
 }
 
 /*
-    Imports complex-type data from a Tab-Separated data file and
-    store the values in an one-dimensional complex-type array. The complex
-    values may be of the type a, a+bi, bi, i, and -i, where i may also be j,
-    *i, *j, or *I, and where a and b may also be in the base 10 exponential
-    form eN or *^N, where N is an integer.
+    Imports 'double complex'-type data from a Tab-Separated Values data file
+    and stores the values in an one-dimensional 'double complex'-type array
+    following the row-major order. The complex values may be of the type a,
+    a+bi, bi, and i, where i may also be j, *i, *j, or *I, and where a and
+    b may also be in the base 10 exponential form eN or *^N, where N is an
+    integer.
 
     Parameters:
     - tsvdat_path, path to the file.
-    - data_array, one-dimensional complex-type array of the size rows*columns
-    to output the data. The array must have rows*columns size, where rows
-    and columns may be obtained through tsvdat_get_sizes(). Its data may be
-    accessed through data_array[i + rows*j], where i is any row and j is any
-    column.
+    - data_array, one-dimensional 'double complex'-type array of the size
+    rows*columns to output the data following the row-major order, where rows
+    and columns may be obtained through tsvdat_get_sizes().
+    The outputted data may be accessed through data_array[j + columns*i],
+    where i is any row and j is any column.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void tsvdat_import_cplx(const char *tsvdat_path,
@@ -96,14 +99,16 @@ void tsvdat_import_cplx(const char *tsvdat_path,
 }
 
 /*
-    Exports double-type data of an one-dimensional double-type array to a
-    Tab-Separated data file.
+    Exports double-type data of an one-dimensional
+    double-type array, following the row-major order, to a Tab-Separated
+    Values data file.
 
     Parameters:
     - tsvdat_path, path to the file.
     - data_array, one-dimensional double-type array of the size rows*columns
-    containing the data. The data is accessed through data_array[i + rows*j],
-    where i is a row and j is a column.
+    containing the data. The data is accessed following the row-major order,
+    i.e., through data_array[j + columns*i], where i is any row and j is any
+    column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
@@ -115,14 +120,18 @@ void tsvdat_export(const char *tsvdat_path,
 }
 
 /*
-    Exports complex-type data of an one-dimensional complex-type array to a
-    Tab-Separated data file. The exported complex values are of the type a+bi.
+    Exports 'double complex'-type data of an
+    one-dimensional 'double complex'-type array,
+    following the row-major
+    order, to a Tab-Separated Values data file.
+    The exported complex values are of the type a+bi.
 
     Parameters:
     - tsvdat_path, path to the file.
-    - data_array, one-dimensional complex-type array of the size rows*columns
-    containing the data. The data is accessed through data_array[i + rows*j],
-    where i is a row and j is a column.
+    - data_array, one-dimensional 'double complex'-type array of the size
+    rows*columns containing the data. The data is accessed following the
+    row-major order, i.e., through data_array[j + columns*i], where i is any
+    row and j is any column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
