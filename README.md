@@ -201,9 +201,11 @@ separated by a tabular spacing.
 ### Wolfram Language package source format (.wl)
 
 A [Wolfram Language package source format (WL)](https://reference.wolfram.com/language/ref/format/WL.html)
-file represents data of an arbitrary imensional matrix in a structure where
-data are separated by commas and arrays are grouped by braces, i.e., a nested
-braces structure. Such format is very useful for importing and exporting
+represents data of an arbitrary dimensional matrix in a structure where
+data are separated by commas and arrays are grouped by braces, i.e., nested
+braces structures usually called
+[lists](https://reference.wolfram.com/language/tutorial/Lists.html).
+Such format is very useful for importing and exporting
 tensors, matrices, tables, numeric datasets and so on.
 
 <details>
@@ -591,7 +593,9 @@ All routines in this library follow the row‑major order convention for
 storing multi‑dimensional arrays in one‑dimensional (linear) arrays,
 a method widely used in C programming.
 
-Moreover, the implementation adheres to the C99 standard, and all complex variables are represented using the `double complex` type provided by the C <complex.h> library.
+Moreover, the implementation adheres to the C99 standard, and all complex
+variables are represented using the `double complex` type provided by the
+C <complex.h> library.
 
 Notice that functions, macros, constants, and files whose names contain the
 suffix `_impl_` are internal components and are not intended for direct use
