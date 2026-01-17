@@ -595,7 +595,7 @@ a method widely used in C programming.
 
 Moreover, the implementation adheres to the C99 standard, and all complex
 variables are represented using the `double complex` type provided by the
-C <complex.h> library.
+C `<complex.h>` library.
 
 Notice that functions, macros, constants, and files whose names contain the
 suffix `_impl_` are internal components and are not intended for direct use
