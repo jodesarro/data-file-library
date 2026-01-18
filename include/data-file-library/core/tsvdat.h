@@ -42,15 +42,15 @@ typedef double complex tpdcomplex_impl_;
     Tab-Separated data file.
 
     Parameters:
-    - tsvdat_path, path to the file.
+    - file_path, path to the file.
     - &rows, to output the number of rows.
     - &columns, to output the number of columns.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
+void tsvdat_get_sizes(const char *file_path, int *rows,
     int *columns) {
     
-    sepdat_get_sizes_impl_(tsvdat_path, rows, columns, ',');
+    sepdat_get_sizes_impl_(file_path, rows, columns, ',');
 }
 
 /*
@@ -61,18 +61,18 @@ void tsvdat_get_sizes(const char *tsvdat_path, int *rows,
     where N is an integer.
 
     Parameters:
-    - tsvdat_path, path to the file.
-    - data_array, one-dimensional double-type array of the size rows*columns
+    - file_path, path to the file.
+    - data, one-dimensional double-type array of the size rows*columns
     to output the data following the row-major order, where rows and columns
     may be obtained through tsvdat_get_sizes(). The outputted data may be
-    accessed through data_array[j + columns*i], where i is any row and j is
+    accessed through data[j + columns*i], where i is any row and j is
     any column.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void tsvdat_import(const char *tsvdat_path,
-    double * data_array) {
+void tsvdat_import(const char *file_path,
+    double * data) {
     
-    sepdat_import_impl_(tsvdat_path, data_array, ',');
+    sepdat_import_impl_(file_path, data, ',');
 }
 
 /*
@@ -84,18 +84,18 @@ void tsvdat_import(const char *tsvdat_path,
     integer.
 
     Parameters:
-    - tsvdat_path, path to the file.
-    - data_array, one-dimensional 'double complex'-type array of the size
+    - file_path, path to the file.
+    - data, one-dimensional 'double complex'-type array of the size
     rows*columns to output the data following the row-major order, where rows
     and columns may be obtained through tsvdat_get_sizes().
-    The outputted data may be accessed through data_array[j + columns*i],
+    The outputted data may be accessed through data[j + columns*i],
     where i is any row and j is any column.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void tsvdat_import_cplx(const char *tsvdat_path,
-    tpdcomplex_impl_ *data_array) {
+void tsvdat_import_cplx(const char *file_path,
+    tpdcomplex_impl_ *data) {
     
-    sepdat_import_cplx_impl_(tsvdat_path, data_array, ',');
+    sepdat_import_cplx_impl_(file_path, data, ',');
 }
 
 /*
@@ -104,19 +104,19 @@ void tsvdat_import_cplx(const char *tsvdat_path,
     Values data file.
 
     Parameters:
-    - tsvdat_path, path to the file.
-    - data_array, one-dimensional double-type array of the size rows*columns
+    - file_path, path to the file.
+    - data, one-dimensional double-type array of the size rows*columns
     containing the data. The data is accessed following the row-major order,
-    i.e., through data_array[j + columns*i], where i is any row and j is any
+    i.e., through data[j + columns*i], where i is any row and j is any
     column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void tsvdat_export(const char *tsvdat_path,
-    const double *data_array, int rows, int columns) {
+void tsvdat_export(const char *file_path,
+    const double *data, int rows, int columns) {
 
-    sepdat_export_impl_(tsvdat_path, data_array, rows, columns, ',');
+    sepdat_export_impl_(file_path, data, rows, columns, ',');
 }
 
 /*
@@ -127,19 +127,19 @@ void tsvdat_export(const char *tsvdat_path,
     The exported complex values are of the type a+bi.
 
     Parameters:
-    - tsvdat_path, path to the file.
-    - data_array, one-dimensional 'double complex'-type array of the size
+    - file_path, path to the file.
+    - data, one-dimensional 'double complex'-type array of the size
     rows*columns containing the data. The data is accessed following the
-    row-major order, i.e., through data_array[j + columns*i], where i is any
+    row-major order, i.e., through data[j + columns*i], where i is any
     row and j is any column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void tsvdat_export_cplx(const char *tsvdat_path,
-    const tpdcomplex_impl_ *data_array, int rows, int columns) {
+void tsvdat_export_cplx(const char *file_path,
+    const tpdcomplex_impl_ *data, int rows, int columns) {
 
-    sepdat_export_cplx_impl_(tsvdat_path, data_array, rows, columns, ',');
+    sepdat_export_cplx_impl_(file_path, data, rows, columns, ',');
 }
 
 #ifdef __cplusplus

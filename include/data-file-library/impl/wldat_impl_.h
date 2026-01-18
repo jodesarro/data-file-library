@@ -44,12 +44,12 @@ typedef double complex tpdcomplex_impl_;
     first line of the file plus a '\0' char.
 
     Parameter:
-    - wldat_path, path to the file.
+    - file_path, path to the file.
 */
-static inline int wldat_get_comment_size_impl_(const char *wldat_path) {
+static inline int wldat_get_comment_size_impl_(const char *file_path) {
     
     /* Open file */
-    FILE *file = fopen(wldat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_get_comment_size_impl_() ->"
@@ -77,18 +77,18 @@ static inline int wldat_get_comment_size_impl_(const char *wldat_path) {
     a '\0' char.
 
     Parameters:
-    - wldat_path, path to the file.
+    - file_path, path to the file.
     - comment, array of size given by wldat_get_comment_size_impl_(), to
     output the text.
 */
-static inline void wldat_get_comment_impl_(const char *wldat_path,
+static inline void wldat_get_comment_impl_(const char *file_path,
     char *comment) {
     
     /* Get the size of the comment */
-    int comment_size = wldat_get_comment_size_impl_(wldat_path);
+    int comment_size = wldat_get_comment_size_impl_(file_path);
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_get_comment_impl_() ->"
@@ -110,12 +110,12 @@ static inline void wldat_get_comment_impl_(const char *wldat_path,
     The number of dimensions is limited to 128.
 
     Parameter:
-    - wldat_path, path to the file.
+    - file_path, path to the file.
 */
-static inline int wldat_get_dimensions_impl_(const char *wldat_path) {
+static inline int wldat_get_dimensions_impl_(const char *file_path) {
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_get_dimensions_impl_() ->"
@@ -164,23 +164,23 @@ static inline int wldat_get_dimensions_impl_(const char *wldat_path) {
     Language package source format.
 
     Parameters:
-    - wldat_path, path to the file.
-    - sizes, array of size given by wldat_get_dimensions_impl_(), to
+    - file_path, path to the file.
+    - size, array of size given by wldat_get_dimensions_impl_(), to
     sequentially output the size of each dimension. The size of this array
     is limited to 128.
 */
-static inline void wldat_get_sizes_impl_(const char *wldat_path, int *sizes) {
+static inline void wldat_get_sizes_impl_(const char *file_path, int *size) {
 
     /* Get dimensions */
-    int dimensions = wldat_get_dimensions_impl_(wldat_path);
+    int dimensions = wldat_get_dimensions_impl_(file_path);
 
     /* Initialize counts */
     for (int i = 0; i < dimensions; i++) {
-        sizes[i] = 1;
+        size[i] = 1;
     }
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_get_sizes_impl_() ->"
@@ -245,7 +245,7 @@ static inline void wldat_get_sizes_impl_(const char *wldat_path, int *sizes) {
             memcmp(buffer + buf_len - target_len, targets[active_dimensions],
             target_len) == 0) {
             
-            sizes[dimensions - active_dimensions - 1]++;
+            size[dimensions - active_dimensions - 1]++;
         }
     }
 
@@ -261,15 +261,15 @@ static inline void wldat_get_sizes_impl_(const char *wldat_path, int *sizes) {
 
     Parameters:
     - indices, array with the indices i.
-    - sizes, array with the maximum value XMAX for each x.
+    - size, array with the maximum value XMAX for each x.
     - dimensions, number of x's.
 */
 static inline int row_major_flat_index_impl_(const int *indices,
-    const int *sizes, int dimensions) {
+    const int *size, int dimensions) {
     
     int idx = 0;
     for (int d = 0; d < dimensions; d++) {
-        idx = indices[d] + sizes[d] * idx;
+        idx = indices[d] + size[d] * idx;
     }
     return idx;
 }
@@ -282,12 +282,12 @@ static inline int row_major_flat_index_impl_(const int *indices,
     - file, file with the data, already read until the first '\n'.
     - level, level of the nested brace.
     - dimensions, number of dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - size, array with the size of each dimension.
     - indices, array with the indices of each dimension.
-    - data_array, array to store the results.
+    - data, array to store the results.
 */
 static inline void read_nested_braces_impl_(FILE *file, int level,
-    int dimensions, const int *sizes, int *indices, double *data_array) {
+    int dimensions, const int *size, int *indices, double *data) {
     
     int ch;
     char buf[128];
@@ -302,17 +302,17 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
         if (ch == '{') {
             ungetc(ch, file);
             indices[level] = element_count;
-            read_nested_braces_impl_(file, level + 1, dimensions, sizes,
-                indices, data_array);
+            read_nested_braces_impl_(file, level + 1, dimensions, size,
+                indices, data);
             element_count++;
         }
         else if (ch == '}') {
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = row_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, size,
                     dimensions);
-                data_array[idx] = parse_real_impl_(buf);
+                data[idx] = parse_real_impl_(buf);
                 buf_i = 0;
                 element_count++;
             }
@@ -322,9 +322,9 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = row_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, size,
                     dimensions);
-                data_array[idx] = parse_real_impl_(buf);
+                data[idx] = parse_real_impl_(buf);
                 buf_i = 0;
                 element_count++;
             }
@@ -343,13 +343,13 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
     - file, file with the data, already read until the first '\n'.
     - level, level of the nested brace.
     - dimensions, number of dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - size, array with the size of each dimension.
     - indices, array with the indices of each dimension.
-    - data_array, array to store the results.
+    - data, array to store the results.
 */
 static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
-    int dimensions, const int *sizes, int *indices,
-    tpdcomplex_impl_ *data_array) {
+    int dimensions, const int *size, int *indices,
+    tpdcomplex_impl_ *data) {
     
     int ch;
     char buf[128];
@@ -365,16 +365,16 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
             ungetc(ch, file);
             indices[level] = element_count;
             read_nested_braces_cplx_impl_(file, level + 1, dimensions,
-                sizes, indices, data_array);
+                size, indices, data);
             element_count++;
         }
         else if (ch == '}') {
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = row_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, size,
                     dimensions);
-                data_array[idx] = parse_complex_impl_(buf);
+                data[idx] = parse_complex_impl_(buf);
                 buf_i = 0;
                 element_count++;
             }
@@ -384,9 +384,9 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
-                int idx = row_major_flat_index_impl_(indices, sizes,
+                int idx = row_major_flat_index_impl_(indices, size,
                     dimensions);
-                data_array[idx] = parse_complex_impl_(buf);
+                data[idx] = parse_complex_impl_(buf);
                 buf_i = 0;
                 element_count++;
             }
@@ -403,23 +403,23 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
     double-type array following the row-major order.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of double-type of size S1*S2*...*SN to
+    - file_path, path to the data file.
+    - data, array of double-type of size S1*S2*...*SN to
     output the values following the row-major order, where N is the number of
     dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
     size. Notice that N<=128 and may be obtained through
     wldat_get_dimensions_impl_(), and Sn through wldat_get_sizes_impl_().
 */
-static inline void wldat_import_impl_(const char *wldat_path,
-    double *data_array) {
+static inline void wldat_import_impl_(const char *file_path,
+    double *data) {
     
     /* Get dimensions and sizes */
-    int dimensions = wldat_get_dimensions_impl_(wldat_path);
-    int sizes[128];
-    wldat_get_sizes_impl_(wldat_path, sizes);
+    int dimensions = wldat_get_dimensions_impl_(file_path);
+    int size[128];
+    wldat_get_sizes_impl_(file_path, size);
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_import_impl_() ->"
@@ -438,8 +438,8 @@ static inline void wldat_import_impl_(const char *wldat_path,
     }
 
     int indices[128];
-    read_nested_braces_impl_(file, 0, dimensions, sizes, indices,
-        data_array);
+    read_nested_braces_impl_(file, 0, dimensions, size, indices,
+        data);
 
     /* Close file */
     fclose(file);
@@ -451,23 +451,23 @@ static inline void wldat_import_impl_(const char *wldat_path,
     'double complex'-type array following the row-major order.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of 'double complex'-type of size S1*S2*...*SN to
+    - file_path, path to the data file.
+    - data, array of 'double complex'-type of size S1*S2*...*SN to
     output the values following the row-major order, where N is the number of
     dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
     size. Notice that N<=128 and may be obtained through
     wldat_get_dimensions_impl_(), and Sn through wldat_get_sizes_impl_().
 */
-static inline void wldat_import_cplx_impl_(const char *wldat_path,
-    tpdcomplex_impl_ *data_array) {
+static inline void wldat_import_cplx_impl_(const char *file_path,
+    tpdcomplex_impl_ *data) {
     
     /* Get dimensions and sizes */
-    int dimensions = wldat_get_dimensions_impl_(wldat_path);
-    int sizes[128];
-    wldat_get_sizes_impl_(wldat_path, sizes);
+    int dimensions = wldat_get_dimensions_impl_(file_path);
+    int size[128];
+    wldat_get_sizes_impl_(file_path, size);
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_import_cplx_impl_() ->"
@@ -486,8 +486,8 @@ static inline void wldat_import_cplx_impl_(const char *wldat_path,
     }
 
     int indices[128];
-    read_nested_braces_cplx_impl_(file, 0, dimensions, sizes, indices,
-        data_array);
+    read_nested_braces_cplx_impl_(file, 0, dimensions, size, indices,
+        data);
 
     /* Close file */
     fclose(file);
@@ -501,31 +501,31 @@ static inline void wldat_import_cplx_impl_(const char *wldat_path,
     - file, file with the data, already read until the first '\n'.
     - level, level of the nested brace.
     - dimensions, number of dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - size, array with the size of each dimension.
     - indices, array with the indices of each dimension.
-    - data_array, array to store the results.
+    - data, array to store the results.
 */
 static inline void write_nested_braces_impl_(FILE *file, int level,
-    int dimensions, const int *sizes, int *indices,
-    const double *data_array) {
+    int dimensions, const int *size, int *indices,
+    const double *data) {
 
     fprintf(file, "{");
-    for (int i = 0; i < sizes[level]; i++) {
+    for (int i = 0; i < size[level]; i++) {
         indices[level] = i;
         if (level == dimensions - 1) {
             /* Deepest level -> print number */
-            int idx = row_major_flat_index_impl_(indices, sizes,
+            int idx = row_major_flat_index_impl_(indices, size,
                 dimensions);
             char buf[128];
-            e_to_star_caret_impl_(buf, sizeof(buf), data_array[idx]);
+            e_to_star_caret_impl_(buf, sizeof(buf), data[idx]);
             fprintf(file, "%s", buf);
         }
         else {
             /* Recurse into next level */
             write_nested_braces_impl_(file, level + 1, dimensions,
-                sizes, indices, data_array);
+                size, indices, data);
         }
-        if (i < sizes[level] - 1) fprintf(file, ", ");
+        if (i < size[level] - 1) fprintf(file, ", ");
     }
     fprintf(file, "}");
 }
@@ -538,27 +538,27 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
     - file, file with the data, already read until the first '\n'.
     - level, level of the nested brace.
     - dimensions, number of dimensions of the data.
-    - sizes, array with the size of each dimension.
+    - size, array with the size of each dimension.
     - indices, array with the indices of each dimension.
-    - data_array, array to store the results.
+    - data, array to store the results.
 */
 static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
-    int dimensions, const int *sizes, int *indices,
-    const tpdcomplex_impl_ *data_array) {
+    int dimensions, const int *size, int *indices,
+    const tpdcomplex_impl_ *data) {
 
     fprintf(file, "{");
-    for (int i = 0; i < sizes[level]; i++) {
+    for (int i = 0; i < size[level]; i++) {
         indices[level] = i;
         if (level == dimensions - 1) {
             /* Deepest level -> print number */
-            int idx = row_major_flat_index_impl_(indices, sizes,
+            int idx = row_major_flat_index_impl_(indices, size,
                 dimensions);
             char buf_re[128], buf_abs_im[128];
             e_to_star_caret_impl_(buf_re, sizeof(buf_re),
-                creal(data_array[idx]));
+                creal(data[idx]));
             e_to_star_caret_impl_(buf_abs_im, sizeof(buf_abs_im),
-                fabs(cimag(data_array[idx])));
-            if (cimag(data_array[idx]) < 0.0) {
+                fabs(cimag(data[idx])));
+            if (cimag(data[idx]) < 0.0) {
                 fprintf(file, "%s - %s*I", buf_re, buf_abs_im);
             }
             else {
@@ -568,9 +568,9 @@ static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
         else {
             /* Recurse into next level */
             write_nested_braces_cplx_impl_(file, level + 1, dimensions,
-                sizes, indices, data_array);
+                size, indices, data);
         }
-        if (i < sizes[level] - 1) fprintf(file, ", ");
+        if (i < size[level] - 1) fprintf(file, ", ");
     }
     fprintf(file, "}");
 }
@@ -581,19 +581,20 @@ static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
     package source format of arbitrary dimension.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of double-type of size S1*S2*...*SN, containing data
+    - file_path, path to the data file.
+    - data, array of double-type of size S1*S2*...*SN, containing data
     following the row-major order, where N is the number of dimensions,
     and for each dimension n, being 1<=n<=N, Sn is its respective size.
     - dimensions, number N of the dimensions of the data, limited to 128.
-    - sizes, array of size N containing the size of each dimension.
+    - size, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
-static inline void wldat_export_impl_(const char *wldat_path,
-    double *data_array, int dimensions, int *sizes, char *comment) {
+static inline void wldat_export_impl_(const char *file_path,
+    const double *data, int dimensions, const int *size,
+    const char *comment) {
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "w");
+    FILE *file = fopen(file_path, "w");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_export_impl_() ->"
@@ -611,8 +612,8 @@ static inline void wldat_export_impl_(const char *wldat_path,
     }
 
     int indices[128];
-    write_nested_braces_impl_(file, 0, dimensions, sizes, indices,
-        data_array);
+    write_nested_braces_impl_(file, 0, dimensions, size, indices,
+        data);
 
     /* Break line */
     fprintf(file, "\n");
@@ -627,20 +628,21 @@ static inline void wldat_export_impl_(const char *wldat_path,
     order, to Wolfram Language package source format of arbitrary dimension.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of 'double complex'-type of size S1*S2*...*SN,
+    - file_path, path to the data file.
+    - data, array of 'double complex'-type of size S1*S2*...*SN,
     containing data following the row-major order, where N is the number of
     dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
     size.
     - dimensions, number N of the dimensions of the data, limited to 128.
-    - sizes, array of size N containing the size of each dimension.
+    - size, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
-static inline void wldat_export_cplx_impl_(const char *wldat_path,
-    tpdcomplex_impl_ *data_array, int dimensions, int *sizes, char *comment) {
+static inline void wldat_export_cplx_impl_(const char *file_path,
+    const tpdcomplex_impl_ *data, int dimensions, const int *size,
+    const char *comment) {
 
     /* Open file */
-    FILE *file = fopen(wldat_path, "w");
+    FILE *file = fopen(file_path, "w");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " wldat_export_cplx_impl_() ->"
@@ -658,8 +660,8 @@ static inline void wldat_export_cplx_impl_(const char *wldat_path,
     }
 
     int indices[128];
-    write_nested_braces_cplx_impl_(file, 0, dimensions, sizes, indices,
-        data_array);
+    write_nested_braces_cplx_impl_(file, 0, dimensions, size, indices,
+        data);
 
     /* Break line */
     fprintf(file, "\n");

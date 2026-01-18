@@ -43,16 +43,16 @@ typedef double complex tpdcomplex_impl_;
     columns) from a data file with a given column separator.
 
     Parameters:
-    - sepdat_path, path to the data file.
+    - file_path, path to the data file.
     - &rows, to output the number of rows.
     - &columns, to output the number of columns.
     - sep, column separator.
 */
-static inline void sepdat_get_sizes_impl_(const char *sepdat_path, int *rows,
+static inline void sepdat_get_sizes_impl_(const char *file_path, int *rows,
     int *columns, char sep) {
 
     /* Open file */
-    FILE *file = fopen(sepdat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " sepdat_get_sizes_impl_() ->"
@@ -102,24 +102,24 @@ static inline void sepdat_get_sizes_impl_(const char *sepdat_path, int *rows,
     where N is an integer.
 
     Parameters:
-    - sepdat_path, path to the file.
-    - data_array, one-dimensional double-type array of the size rows*columns
+    - file_path, path to the file.
+    - data, one-dimensional double-type array of the size rows*columns
     to output the data following the row-major order, where rows and columns
     may be obtained through sepdat_get_sizes_impl_(). The outputted data may
-    be accessed through data_array[j + columns*i], where i is any row and j is
+    be accessed through data[j + columns*i], where i is any row and j is
     any column.
     - sep, column separator.
 */
-static inline void sepdat_import_impl_(const char *sepdat_path,
-    double *data_array, char sep) {
+static inline void sepdat_import_impl_(const char *file_path,
+    double *data, char sep) {
 
     /* Count rows and columns */
     int rows;
     int columns;
-    sepdat_get_sizes_impl_(sepdat_path, &rows, &columns, sep);
+    sepdat_get_sizes_impl_(file_path, &rows, &columns, sep);
 
     /* Open file */
-    FILE *file = fopen(sepdat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " sepdat_import_impl_() ->"
@@ -135,7 +135,7 @@ static inline void sepdat_import_impl_(const char *sepdat_path,
     /* Read file */
     while (fscanf(file, fmt, buffer) == 1) {
         /* Parse and store */
-        data_array[j + columns*i] = parse_real_impl_(buffer);
+        data[j + columns*i] = parse_real_impl_(buffer);
         /* Look ahead for separator */
         int ch = fgetc(file);
         if (ch == sep) {
@@ -162,24 +162,24 @@ static inline void sepdat_import_impl_(const char *sepdat_path,
     integer.
 
     Parameters:
-    - sepdat_path, path to the file.
-    - data_array, one-dimensional 'double complex'-type array of the size
+    - file_path, path to the file.
+    - data, one-dimensional 'double complex'-type array of the size
     rows*columns to output the data following the row-major order, where rows
     and columns may be obtained through sepdat_get_sizes_impl_().
-    The outputted data may be accessed through data_array[j + columns*i],
+    The outputted data may be accessed through data[j + columns*i],
     where i is any row and j is any column.
     - sep, column separator.
 */
-static inline void sepdat_import_cplx_impl_(const char *sepdat_path,
-    tpdcomplex_impl_ *data_array, char sep) {
+static inline void sepdat_import_cplx_impl_(const char *file_path,
+    tpdcomplex_impl_ *data, char sep) {
     
     /* Count rows and columns */
     int rows;
     int columns;
-    sepdat_get_sizes_impl_(sepdat_path, &rows, &columns, sep);
+    sepdat_get_sizes_impl_(file_path, &rows, &columns, sep);
 
     /* Open file */
-    FILE *file = fopen(sepdat_path, "r");
+    FILE *file = fopen(file_path, "r");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " sepdat_import_cplx_impl_() ->"
@@ -195,7 +195,7 @@ static inline void sepdat_import_cplx_impl_(const char *sepdat_path,
     /* Read file */
     while (fscanf(file, fmt, buffer) == 1 ) {
         /* Parse and store */
-        data_array[j + columns*i] = parse_complex_impl_(buffer);
+        data[j + columns*i] = parse_complex_impl_(buffer);
         /* Look ahead for separator */
         int ch = fgetc(file);
         if (ch == sep) {
@@ -218,20 +218,20 @@ static inline void sepdat_import_cplx_impl_(const char *sepdat_path,
     lines and char-separated columns data file.
 
     Parameters:
-    - sepdat_path, path to the file.
-    - data_array, one-dimensional double-type array of the size rows*columns
+    - file_path, path to the file.
+    - data, one-dimensional double-type array of the size rows*columns
     containing the data. The data is accessed following the row-major order,
-    i.e., through data_array[j + columns*i], where i is any row and j is any
+    i.e., through data[j + columns*i], where i is any row and j is any
     column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
     - sep, column separator.
 */
-static inline void sepdat_export_impl_(const char *sepdat_path,
-    const double *data_array, int rows, int columns, char sep) {
+static inline void sepdat_export_impl_(const char *file_path,
+    const double *data, int rows, int columns, char sep) {
 
     /* Open file */
-    FILE *file = fopen(sepdat_path, "w");
+    FILE *file = fopen(file_path, "w");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " sepdat_export_impl_() ->"
@@ -242,7 +242,7 @@ static inline void sepdat_export_impl_(const char *sepdat_path,
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            fprintf(file, "%.16e", data_array[j + columns*i]);
+            fprintf(file, "%.16e", data[j + columns*i]);
             if (j < columns - 1) {
                 fputc(sep, file);  /* Tab between columns */
             }
@@ -261,20 +261,20 @@ static inline void sepdat_export_impl_(const char *sepdat_path,
     file. The exported complex values are of the type a+bi.
 
     Parameters:
-    - sepdat_path, path to the file.
-    - data_array, one-dimensional 'double complex'-type array of the size
+    - file_path, path to the file.
+    - data, one-dimensional 'double complex'-type array of the size
     rows*columns containing the data. The data is accessed following the
-    row-major order, i.e., through data_array[j + columns*i], where i is any
+    row-major order, i.e., through data[j + columns*i], where i is any
     row and j is any column.
     - rows, number of rows of the data.
     - columns, number of columns of the data.
     - sep, column separator.
 */
-static inline void sepdat_export_cplx_impl_(const char *sepdat_path,
-    const tpdcomplex_impl_ *data_array, int rows, int columns, char sep) {
+static inline void sepdat_export_cplx_impl_(const char *file_path,
+    const tpdcomplex_impl_ *data, int rows, int columns, char sep) {
 
     /* Open file */
-    FILE *file = fopen(sepdat_path, "w");
+    FILE *file = fopen(file_path, "w");
     if (!file) {
         fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
                         " sepdat_export_cplx_impl_() ->"
@@ -285,8 +285,8 @@ static inline void sepdat_export_cplx_impl_(const char *sepdat_path,
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            fprintf(file, "%.16e%+.16ei", creal(data_array[j + columns*i]),
-                    cimag(data_array[j + columns*i]));
+            fprintf(file, "%.16e%+.16ei", creal(data[j + columns*i]),
+                    cimag(data[j + columns*i]));
             if (j < columns - 1) {
                 fputc(sep, file);  /* Tab between columns */
             }

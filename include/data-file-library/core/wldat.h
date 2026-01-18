@@ -46,11 +46,11 @@ typedef double complex tpdcomplex_impl_;
     first line of the file plus a '\0' char.
 
     Parameter:
-    - wldat_path, path to the file.
+    - file_path, path to the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-int wldat_get_comment_size(const char *wldat_path) {
-    return wldat_get_comment_size_impl_(wldat_path);
+int wldat_get_comment_size(const char *file_path) {
+    return wldat_get_comment_size_impl_(file_path);
 }
 
 /*
@@ -59,13 +59,13 @@ int wldat_get_comment_size(const char *wldat_path) {
     a '\0' char.
 
     Parameters:
-    - wldat_path, path to the file.
+    - file_path, path to the file.
     - comment, array of size given by wldat_get_comment_size(), to
     output the text.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_get_comment(const char *wldat_path, char *comment) {
-    wldat_get_comment_impl_(wldat_path, comment);
+void wldat_get_comment(const char *file_path, char *comment) {
+    wldat_get_comment_impl_(file_path, comment);
 }
 
 /*
@@ -74,11 +74,11 @@ void wldat_get_comment(const char *wldat_path, char *comment) {
     The number of dimensions is limited to 128.
 
     Parameter:
-    - wldat_path, path to the file.
+    - file_path, path to the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-int wldat_get_dimensions(const char *wldat_path) {
-    wldat_get_dimensions_impl_(wldat_path);
+int wldat_get_dimensions(const char *file_path) {
+    wldat_get_dimensions_impl_(file_path);
 }
 
 /*
@@ -86,14 +86,14 @@ int wldat_get_dimensions(const char *wldat_path) {
     Language package source format.
 
     Parameters:
-    - wldat_path, path to the file.
-    - sizes, array of size given by wldat_get_dimensions(), to
+    - file_path, path to the file.
+    - size, array of size given by wldat_get_dimensions(), to
     sequentially output the size of each dimension. The size of this array
     is limited to 128.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_get_sizes(const char *wldat_path, int *sizes) {
-    wldat_get_sizes_impl_(wldat_path, sizes);
+void wldat_get_sizes(const char *file_path, int *size) {
+    wldat_get_sizes_impl_(file_path, size);
 }
 
 /*
@@ -102,16 +102,16 @@ void wldat_get_sizes(const char *wldat_path, int *sizes) {
     double-type array following the row-major order.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of double-type of size S1*S2*...*SN to
+    - file_path, path to the data file.
+    - data, array of double-type of size S1*S2*...*SN to
     output the values following the row-major order, where N is the number of
     dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
     size. Notice that N<=128 and may be obtained through
     wldat_get_dimensions(), and Sn through wldat_get_sizes().
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_import(const char *wldat_path, double *data_array) {
-    wldat_import_impl_(wldat_path, data_array);
+void wldat_import(const char *file_path, double *data) {
+    wldat_import_impl_(file_path, data);
 }
 
 /*
@@ -120,18 +120,18 @@ void wldat_import(const char *wldat_path, double *data_array) {
     'double complex'-type array following the row-major order.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of 'double complex'-type of size S1*S2*...*SN to
+    - file_path, path to the data file.
+    - data, array of 'double complex'-type of size S1*S2*...*SN to
     output the values following the row-major order, where N is the number of
     dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
     size. Notice that N<=128 and may be obtained through
     wldat_get_dimensions(), and Sn through wldat_get_sizes().
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_import_cplx(const char *wldat_path,
-    tpdcomplex_impl_ *data_array) {
+void wldat_import_cplx(const char *file_path,
+    tpdcomplex_impl_ *data) {
 
-    wldat_import_cplx_impl_(wldat_path, data_array); 
+    wldat_import_cplx_impl_(file_path, data); 
 }
 
 /*
@@ -140,19 +140,20 @@ void wldat_import_cplx(const char *wldat_path,
     package source format of arbitrary dimension.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of double-type of size S1*S2*...*SN, containing data
+    - file_path, path to the data file.
+    - data, array of double-type of size S1*S2*...*SN, containing data
     following the row-major order, where N is the number of dimensions,
     and for each dimension n, being 1<=n<=N, Sn is its respective size.
     - dimensions, number N of the dimensions of the data, limited to 128.
-    - sizes, array of size N containing the size of each dimension.
+    - size, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_export(const char *wldat_path,
-    double *data_array, int dimensions, int *sizes, char *comment) {
+void wldat_export(const char *file_path,
+    const double *data, int dimensions, const int *size,
+    const char *comment) {
 
-    wldat_export_impl_(wldat_path, data_array, dimensions, sizes, comment);
+    wldat_export_impl_(file_path, data, dimensions, size, comment);
 }
 
 /*
@@ -161,20 +162,21 @@ void wldat_export(const char *wldat_path,
     order, to Wolfram Language package source format of arbitrary dimension.
 
     Parameters:
-    - wldat_path, path to the data file.
-    - data_array, array of 'double complex'-type of size S1*S2*...*SN,
+    - file_path, path to the data file.
+    - data, array of 'double complex'-type of size S1*S2*...*SN,
     containing data following the row-major order, where N is the number of
     dimensions, and for each dimension n, being 1<=n<=N, Sn is its respective
     size.
     - dimensions, number N of the dimensions of the data, limited to 128.
-    - sizes, array of size N containing the size of each dimension.
+    - size, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_export_cplx(const char *wldat_path,
-    tpdcomplex_impl_ *data_array, int dimensions, int *sizes, char *comment) {
+void wldat_export_cplx(const char *file_path,
+    const tpdcomplex_impl_ *data, int dimensions, const int *size,
+    const char *comment) {
 
-    wldat_export_cplx_impl_(wldat_path, data_array, dimensions, sizes,
+    wldat_export_cplx_impl_(file_path, data, dimensions, size,
         comment);
 }
 
