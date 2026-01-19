@@ -685,7 +685,7 @@ compilers.
 Once compiled, it is also possible to use this library together with other
 programming languages.
 
-The following is an example on how to load the compiled library in Python
+The following is an example on how to load the C compiled library in Python
 using `numpy` and `cffi`.
 
 <details>
@@ -699,27 +699,26 @@ from cffi import FFI
 
 ffi = FFI()
 
-# Read the functions declarations
-with open("src/data-file-library-declarations.c", "r") as f: # if C compiled
-# with open("src/data-file-library-declarations.cpp", "r") as f: # if C++ compiled
+# Read the C functions declarations
+with open("src/data-file-library-declarations.c", "r") as f:
     ffi.cdef(f.read())
 
 # Import the compiled file
-lib = ffi.dlopen("src/data-file-library.so") # for Linux/macOS
-# lib = ffi.dlopen("src/data-file-library.dll") # for Windows
+dfl = ffi.dlopen("src/data-file-library.so") # for Linux/macOS
+# dfl = ffi.dlopen("src/data-file-library.dll") # for Windows
 
 # Prepare a NumPy array of complex128 (matches C double complex)
 n = 100  # total size of the one dimensional array you expect
 arr = np.empty(n, dtype=np.complex128)
 
 # Get a pointer to the array’s data
-c_arr = ffi.cast("double complex *", arr.ctypes.data)
+data = ffi.cast("double complex *", arr.ctypes.data)
 
 # Call the function
-lib.wldat_import_cplx(b"myfile.wl", c_arr)
+dfl.wldat_import_cplx(b"myfile.wl", data)
 
 # Now arr is filled by the C function. Print the array.
-print(arr)
+print(data)
 ```
 </details>
 
