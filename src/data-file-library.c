@@ -4,7 +4,7 @@
     File: src/data-file-library.c
     Version: include/data-file-library/version.h
     Author: Jhonas Olivati de Sarro
-    Language standards: C99
+    Language standards: C99 with C++ guards
     License: include/data-file-library/license.txt
 
     Description:
@@ -13,9 +13,17 @@
 
 /* Overwrite 'static inline' */
 #if defined(_WIN32) || defined(_WIN64)
-#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ __declspec(dllexport)
+    #ifdef __cplusplus
+        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ __declspec(dllexport) extern "C"
+    #else
+        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ __declspec(dllexport)
+    #endif
 #else
-#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+    #ifdef __cplusplus
+        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ extern "C"
+    #else
+        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
+    #endif
 #endif
 
 #include "../include/data-file-library.h"

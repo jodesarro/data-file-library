@@ -4,7 +4,7 @@
     File: include/data-file-library/impl/parse_impl_.h
     Version: include/data-file-library/version.h
     Author: Jhonas Olivati de Sarro
-    Language standards: C99 with guards for C++98 compatibility
+    Language standards: C99
     License: include/data-file-library/license.txt
 
     Description:
@@ -19,26 +19,9 @@
 #ifndef DATA_FILE_LIBRARY_PARSE_IMPL_H
 #define DATA_FILE_LIBRARY_PARSE_IMPL_H
 
-#ifdef __cplusplus
-
-/* Includes, typedefs and/or macros for C++98 compatibility */
-
-#include <complex> /* for complex numbers */
-typedef std::complex<double> tpdcomplex_impl_;
-#define I_IMPL_ std::complex<double>(0.0, 1.0)
-
-extern "C" {
-
-#else
-
-#include <complex.h> /* for complex numbers */
-typedef double complex tpdcomplex_impl_;
-#define I_IMPL_ I
-
-#endif /* __cplusplus */
-
 #include <math.h> /* For NAN and INFINITY */
 #include <string.h>
+#include "cplx_c_cpp_impl_.h"
 
 /*
     Removes spaces char ' ' from a string in place.
@@ -209,7 +192,7 @@ static inline double parse_real_impl_(char *str) {
     Parameters:
     - str, the input numeric complex value.
 */
-static inline tpdcomplex_impl_ parse_complex_impl_(char *str) {
+static inline tpdfcplx_impl_ parse_complex_impl_(char *str) {
     
     complexinfinity_to_infinity_impl_(str);
     remove_spaces_impl_(str);
@@ -268,9 +251,5 @@ static inline tpdcomplex_impl_ parse_complex_impl_(char *str) {
         }
     }
 }
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
 
 #endif /* DATA_FILE_LIBRARY_PARSE_IMPL_H */

@@ -4,7 +4,7 @@
     File: include/data-file-library/core/tsvdat.h
     Version: include/data-file-library/version.h
     Author: Jhonas Olivati de Sarro
-    Language standards: C99 with guards for C++98 compatibility
+    Language standards: C99
     License: include/data-file-library/license.txt
 
     Description:
@@ -19,22 +19,7 @@
 #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ static inline
 #endif
 
-#ifdef __cplusplus
-
-/* Includes, typedefs and/or macros for C++98 compatibility */
-
-#include <complex> /* For complex numbers */
-typedef std::complex<double> tpdcomplex_impl_;
-
-extern "C" {
-
-#else
-
-#include <complex.h> /* For complex numbers */
-typedef double complex tpdcomplex_impl_;
-
-#endif /* __cplusplus */
-
+#include "../impl/cplx_c_cpp_impl_.h"
 #include "../impl/sepdat_impl_.h"
 
 /*
@@ -93,7 +78,7 @@ void tsvdat_import(const char *file_path,
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void tsvdat_import_cplx(const char *file_path,
-    tpdcomplex_impl_ *data) {
+    tpdfcplx_impl_ *data) {
     
     sepdat_import_cplx_impl_(file_path, data, ',');
 }
@@ -137,13 +122,9 @@ void tsvdat_export(const char *file_path,
 */
 DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
 void tsvdat_export_cplx(const char *file_path,
-    const tpdcomplex_impl_ *data, int rows, int columns) {
+    const tpdfcplx_impl_ *data, int rows, int columns) {
 
     sepdat_export_cplx_impl_(file_path, data, rows, columns, ',');
 }
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
 
 #endif /* DATA_FILE_LIBRARY_TSVDAT_H */

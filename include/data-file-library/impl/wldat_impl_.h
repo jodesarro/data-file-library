@@ -4,7 +4,7 @@
     File: include/data-file-library/impl/wldat_impl_.h
     Version: include/data-file-library/version.h
     Author: Jhonas Olivati de Sarro
-    Language standards: C99 with guards for C++98 compatibility
+    Language standards: C99
     License: include/data-file-library/license.txt
 
     Description:
@@ -15,27 +15,10 @@
 #ifndef DATA_FILE_LIBRARY_WLDAT_IMPL_H
 #define DATA_FILE_LIBRARY_WLDAT_IMPL_H
 
-#ifdef __cplusplus
-
-/* Includes, typedefs and/or macros for C++98 compatibility */
-
-#include <complex> /* For complex numbers */
-typedef std::complex<double> tpdcomplex_impl_;
-#define creal(z) std::real(z)
-#define cimag(z) std::imag(z)
-
-extern "C" {
-
-#else
-
-#include <complex.h> /* For complex numbers */
-typedef double complex tpdcomplex_impl_;
-
-#endif /* __cplusplus */
-
-#include <stdio.h>
+#include <stdio.h> /* For fopen(), fclose(), fprintf(), ... */
 #include <stdlib.h> /* For EXIT_FAILURE */
-#include <ctype.h>
+#include <ctype.h> /* For isspace() */
+#include "cplx_c_cpp_impl_.h"
 #include "parse_impl_.h"
 
 /*
@@ -349,7 +332,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
 */
 static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
     int dimensions, const int *size, int *indices,
-    tpdcomplex_impl_ *data) {
+    tpdfcplx_impl_ *data) {
     
     int ch;
     char buf[128];
@@ -459,7 +442,7 @@ static inline void wldat_import_impl_(const char *file_path,
     wldat_get_dimensions_impl_(), and Sn through wldat_get_sizes_impl_().
 */
 static inline void wldat_import_cplx_impl_(const char *file_path,
-    tpdcomplex_impl_ *data) {
+    tpdfcplx_impl_ *data) {
     
     /* Get dimensions and sizes */
     int dimensions = wldat_get_dimensions_impl_(file_path);
@@ -544,7 +527,7 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
 */
 static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
     int dimensions, const int *size, int *indices,
-    const tpdcomplex_impl_ *data) {
+    const tpdfcplx_impl_ *data) {
 
     fprintf(file, "{");
     for (int i = 0; i < size[level]; i++) {
@@ -638,7 +621,7 @@ static inline void wldat_export_impl_(const char *file_path,
     - comment, text to be stored at the very first line of the file.
 */
 static inline void wldat_export_cplx_impl_(const char *file_path,
-    const tpdcomplex_impl_ *data, int dimensions, const int *size,
+    const tpdfcplx_impl_ *data, int dimensions, const int *size,
     const char *comment) {
 
     /* Open file */
@@ -669,9 +652,5 @@ static inline void wldat_export_cplx_impl_(const char *file_path,
     /* Close file */
     fclose(file);
 }
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
 
 #endif /* DATA_FILE_LIBRARY_WLDAT_IMPL_H */
