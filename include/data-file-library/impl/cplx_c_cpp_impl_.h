@@ -5,7 +5,7 @@
     Version: include/data-file-library/version.h
     Author: Jhonas Olivati de Sarro
     Language standards: C99 and C++98 guards, macros and typedefs
-    License: include/data-file-libraryy/license.txt
+    License: include/data-file-library/license.txt
 
     Description:
         Defines macros and typedefs for ensuring C++ compatibility
