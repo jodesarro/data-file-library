@@ -1,5 +1,5 @@
 /* 
-    Bessel Library: A C library with routines for computing Bessel functions
+    Data File Library: A set of C functions for handling numeric data files
 
     File: include/data-file-library/impl/cplx_c_cpp_impl_.h
     Version: include/data-file-library/version.h
