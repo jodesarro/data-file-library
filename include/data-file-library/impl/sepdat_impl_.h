@@ -52,8 +52,7 @@ static inline void sepdat_get_sizes_impl_(const char *file_path, int *rows,
     while ((ch = fgetc(file)) != EOF) {
         if (ch == sep) {
             current_cols++;
-        }
-        else if (ch == '\n') {
+        } else if (ch == '\n') {
             current_cols++;
             if (current_cols > max_cols) {
                 max_cols = current_cols;
@@ -123,8 +122,7 @@ static inline void sepdat_import_impl_(const char *file_path,
         int ch = fgetc(file);
         if (ch == sep) {
             j++;
-        }
-        else if (ch == '\n' || ch == EOF) {
+        } else if (ch == '\n' || ch == EOF) {
             i++;
             j = 0;
         }
@@ -183,8 +181,7 @@ static inline void sepdat_import_cplx_impl_(const char *file_path,
         int ch = fgetc(file);
         if (ch == sep) {
             j++;
-        }
-        else if (ch == '\n' || ch == EOF) {
+        } else if (ch == '\n' || ch == EOF) {
             i++;
             j = 0;
         }

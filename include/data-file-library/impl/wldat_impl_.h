@@ -121,8 +121,7 @@ static inline int wldat_get_dimensions_impl_(const char *file_path) {
         if (ch == '\n') break;   /* Stop at end of second line */
         if (ch == '{') {
             count++;
-        }
-        else {
+        } else {
             break;
         }
     }
@@ -136,8 +135,7 @@ static inline int wldat_get_dimensions_impl_(const char *file_path) {
                         " wldat_get_dimensions_impl_() ->"
                         " Error: Dimensions exceed 128.");
         exit(EXIT_FAILURE);
-    }
-    else {
+    } else {
         return count;
     }
 }
@@ -206,8 +204,7 @@ static inline void wldat_get_sizes_impl_(const char *file_path, int *size) {
         if (buf_len < (int)sizeof(buffer) - 1) {
             buffer[buf_len++] = (char)ch;
             buffer[buf_len] = '\0';
-        }
-        else {
+        } else {
             memmove(buffer, buffer + 1, buf_len - 1);
             buffer[buf_len - 1] = (char)ch;
         }
@@ -288,8 +285,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
             read_nested_braces_impl_(file, level + 1, dimensions, size,
                 indices, data);
             element_count++;
-        }
-        else if (ch == '}') {
+        } else if (ch == '}') {
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
@@ -300,8 +296,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
                 element_count++;
             }
             break;
-        }
-        else if (ch == ',') {
+        } else if (ch == ',') {
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
@@ -311,8 +306,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
                 buf_i = 0;
                 element_count++;
             }
-        }
-        else if (!isspace(ch)) {
+        } else if (!isspace(ch)) {
             buf[buf_i++] = (char)ch;
         }
     }
@@ -350,8 +344,7 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
             read_nested_braces_cplx_impl_(file, level + 1, dimensions,
                 size, indices, data);
             element_count++;
-        }
-        else if (ch == '}') {
+        } else if (ch == '}') {
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
@@ -362,8 +355,7 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
                 element_count++;
             }
             break;
-        }
-        else if (ch == ',') {
+        } else if (ch == ',') {
             if (buf_i > 0) {
                 buf[buf_i] = '\0';
                 indices[level] = element_count;
@@ -373,8 +365,7 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
                 buf_i = 0;
                 element_count++;
             }
-        }
-        else if (!isspace(ch)) {
+        } else if (!isspace(ch)) {
             buf[buf_i++] = (char)ch;
         }
     }
@@ -502,8 +493,7 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
             char buf[128];
             e_to_star_caret_impl_(buf, sizeof(buf), data[idx]);
             fprintf(file, "%s", buf);
-        }
-        else {
+        } else {
             /* Recurse into next level */
             write_nested_braces_impl_(file, level + 1, dimensions,
                 size, indices, data);
@@ -547,8 +537,7 @@ static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
             else {
                 fprintf(file, "%s + %s*I", buf_re, buf_abs_im);
             }
-        }
-        else {
+        } else {
             /* Recurse into next level */
             write_nested_braces_cplx_impl_(file, level + 1, dimensions,
                 size, indices, data);
@@ -589,8 +578,7 @@ static inline void wldat_export_impl_(const char *file_path,
     if (comment == NULL || comment[0] == '\0' ) {
         fprintf(file, "(* Created with Data File Library:"
             " <https://github.com/jodesarro/data-file-library> *)\n");
-    }
-    else {
+    } else {
         fprintf(file, "(* %s *)\n", comment);
     }
 
@@ -637,8 +625,7 @@ static inline void wldat_export_cplx_impl_(const char *file_path,
     if (comment == NULL || comment[0] == '\0' ) {
         fprintf(file, "(* Created with Data File Library:"
             " <https://github.com/jodesarro/data-file-library> *)\n");
-    }
-    else {
+    } else {
         fprintf(file, "(* %s *)\n", comment);
     }
 

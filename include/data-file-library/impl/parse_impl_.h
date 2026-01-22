@@ -140,8 +140,7 @@ static inline void e_to_star_caret_impl_(char *output, size_t output_size,
         strncat(output, "*^", output_size - strlen(output) - 1);
         /* Append exponent */
         strncat(output, p + 1, output_size - strlen(output) - 1);
-    }
-    else {
+    } else {
         snprintf(output, output_size, "%s", tmp);
     }
 }
@@ -176,8 +175,7 @@ static inline double parse_real_impl_(char *str) {
 
     if (sscanf(str, "%lf", &real) == 1) {
         return real;
-    }
-    else {
+    } else {
         return NAN;
     }
 }
@@ -211,40 +209,33 @@ static inline tpdfcplx_impl_ parse_complex_impl_(char *str) {
         if (sscanf(str, "%lf+%lfi", &real, &imag) == 2) {
             /* Complex of the type a+bi */
             return real + I_IMPL_ * imag;
-        }
-        else if (sscanf(str, "%lf-%lfi", &real, &imag) == 2) {
+        } else if (sscanf(str, "%lf-%lfi", &real, &imag) == 2) {
             /* Complex of the type a-bi */
             return real - I_IMPL_ * imag;
-        }
-        else if (sscanf(str, "%lfi", &imag) == 1) {
+        } else if (sscanf(str, "%lfi", &imag) == 1) {
             /* Complex of the type bi */
             real = 0.0;
             return real + I_IMPL_ * imag;
-        }
-        else if (strcmp(str, "i") == 0 || strcmp(str, "+i") == 0) {
+        } else if (strcmp(str, "i") == 0 || strcmp(str, "+i") == 0) {
             /* Complex of the type i */
             real = 0.0; imag = 1.0;
             return real + I_IMPL_ * imag;
-        }
-        else if (strcmp(str, "-i") == 0) {
+        } else if (strcmp(str, "-i") == 0) {
             /* Complex of the type -i */
             real = 0.0; imag = -1.0;
             return real + I_IMPL_ * imag;
-        }
-        else {
+        } else {
             /* Invalid complex number type */
             real = NAN; imag = NAN;
             return real + I_IMPL_ * imag;
         }
-    }
-    else {
+    } else {
         /* Real number */
         imag = 0.0;
         if (sscanf(str, "%lf", &real) == 1) {
             /* Real number of the type +a */
             return real + I_IMPL_ * imag;
-        }
-        else {
+        } else {
             /* Invalid real number type */
             real = NAN;
             return real + I_IMPL_ * imag;
