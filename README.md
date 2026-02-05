@@ -340,23 +340,24 @@ tensors, matrices, tables, numeric datasets and so on.
 This library is in a header-only style, i.e., there is nothing to build
 (see the section [Compiling the library](#compiling-the-library) if you still
 want to compile it).
+
 Therefore, you only need to paste all the content of the
 [include](include/) folder
 inside the include folder of your project (if you do not have an include
 folder in your project, paste the content inside the root folder of your
-project). Finally, just write `#include "data-file-library.h"` at the very
+project). Then, just write `#include "data-file-library.h"` at the very
 beginning of your code and you shall be ready to use the functions.
 
 <details>
   <summary>
-    <b>Example of usage for CSV files in C/C++</b>
+    <b>Example of usage for CSV files in C or C++</b>
   </summary><br/>
 
 **CSV file with complex numbers and previously known sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The library */
+#include "data-file-library.h" /* The data-file-library */
 
 int main() {
 
@@ -388,7 +389,7 @@ int main() {
 ```c
 #include <stdlib.h> /* For malloc() and free() */
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The library */
+#include "data-file-library.h" /* The data-file-library */
 
 int main() {
 
@@ -424,14 +425,14 @@ int main() {
 
 <details>
   <summary>
-    <b>Example of usage for TSV files in C/C++</b>
+    <b>Example of usage for TSV files in C or C++</b>
   </summary><br/>
 
 **TSV file with complex numbers and previously known sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The library */
+#include "data-file-library.h" /* The data-file-library */
 
 int main() {
 
@@ -463,7 +464,7 @@ int main() {
 ```c
 #include <stdlib.h> /* For malloc() and free() */
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The library */
+#include "data-file-library.h" /* The data-file-library */
 
 int main() {
 
@@ -499,14 +500,14 @@ int main() {
 
 <details>
   <summary>
-    <b>Example of usage for WL files in C/C++</b>
+    <b>Example of usage for WL files in C or C++</b>
   </summary><br/>
 
 **WL file with complex numbers and previously known dimensions and sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The library */
+#include "data-file-library.h" /* The data-file-library */
 
 int main() {
 
@@ -543,7 +544,7 @@ int main() {
 ```c
 #include <stdlib.h> /* For malloc() and free() */
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The library */
+#include "data-file-library.h" /* The data-file-library */
 
 int main() {
 
@@ -594,8 +595,8 @@ storing multi‑dimensional arrays in one‑dimensional (linear) arrays,
 a method widely used in C programming.
 
 Moreover, the implementation adheres to the C99 standard, and all complex
-variables are represented using the `double complex` type provided by the
-C `<complex.h>` library.
+variables are handled by the `tpdfcplx_impl_` type, which is automatically
+expanded to the `double complex` type provided by the C `<complex.h>` library.
 
 Notice that functions, macros, constants, and files whose names contain the
 suffix `_impl_` are internal components and are not intended for direct use
@@ -608,16 +609,15 @@ macros to ensure C++ compatibility (C++98 standard at least).
 
 In this sense, when using C++ compilers, the following C functions are
 automatically mapped to their C++ equivalent: `creal(z)`↦`std::real(z)`,
-`cimag(z)`↦`std::imag(z)`; and all complex values are handled
-by means of the `std::complex<double>` type of the C++ `<complex>` library.
+`cimag(z)`↦`std::imag(z)`; and all complex values are handled by the
+`tpdfcplx_impl_` type, which is automatically expanded to the
+`std::complex<double>` type of the C++ `<complex>` library.
 
 ## Compiling the library
 
 As aforementioned, usually it is not necessary to compile the library.
-However, in any case, the [src](src/) folder contains the files
-[data-file-library-declarations.c](src/data-file-library-declarations.c) and
-[data-file-library-declarations.cpp](src/data-file-library-declarations.cpp), with
-declarations of all functions in respectively C and C++, and the file
+
+However, in any case, the [src](src/) folder contains the file
 [data-file-library.c](src/data-file-library.c), which is a C wrapper
 ([compatible with C++](#compatibility-with-c)) that may be used for
 compilation.
@@ -631,7 +631,7 @@ compilers.
   </summary>
 
   ```bash
-  gcc -shared -o src/data-file-library.dll src/data-file-library.c -Iinclude
+  gcc -shared -Iinclude src/data-file-library.c -o data-file-library.dll -Wl,--out-implib,libdata-file-library.dll.a
   ```
 </details>
 
@@ -641,27 +641,27 @@ compilers.
   </summary>
 
   ```bash
-  g++ -shared -o src/data-file-library.dll src/data-file-library.c -Iinclude
+  g++ -shared -Iinclude src/data-file-library.c -o data-file-library.dll -Wl,--out-implib,libdata-file-library.dll.a
   ```
 </details>
 
 <details>
   <summary>
-    <b>Compiling on Linux/macOS with gcc</b>
+    <b>Compiling on Linux with gcc</b>
   </summary>
 
   ```bash
-  gcc -shared -fPIC -o src/data-file-library.so src/data-file-library.c -Iinclude
+  gcc -fPIC -shared -Iinclude src/data-file-library.c -o libdata-file-library.so
   ```
 </details>
 
 <details>
   <summary>
-    <b>Compiling on Linux/macOS with g++</b>
+    <b>Compiling on Linux with g++</b>
   </summary>
 
   ```bash
-  g++ -shared -fPIC -o src/data-file-library.so src/data-file-library.c -Iinclude
+  g++ -fPIC -shared -Iinclude src/data-file-library.c -o libdata-file-library.so
   ```
 </details>
 
@@ -676,49 +676,51 @@ compilers.
   targeting the C++ language (e.g., using the `/TP` flag).
 
   ```bash
-  cl /TP src/data-file-library.c
+  cl /LD /TP src/data-file-library.c /I include
   ```
 </details>
 
-## Other programming languages
-
-Once compiled, it is also possible to use this library together with other
-programming languages.
-
-The following is an example on how to load the C compiled library in Python
-using `numpy` and `cffi`.
+Notice that when using a compiled file of the library into C or C++
+projects, you must paste all the content of the
+[include](include/) folder inside the include folder of your project,
+and then write `#define DATA_FILE_LIBRARY_IMPORTS`
+before the `#include "data-file-library.h"`.
 
 <details>
   <summary>
-    <b>Example of usage in Python</b>
+    <b>Example of usage in C with a compiled file of the library</b>
   </summary>
 
-```python
-import numpy as np
-from cffi import FFI
+**CSV file with complex numbers and previously known sizes**
 
-ffi = FFI()
+```c
+#include <complex.h> /* C++ users must include <complex> instead */
+#define DATA_FILE_LIBRARY_IMPORTS /* Required for using the compiled file */
+#include "data-file-library.h" /* The data-file-library header*/
 
-# Read the C functions declarations
-with open("src/data-file-library-declarations.c", "r") as f:
-    ffi.cdef(f.read())
+int main() {
 
-# Import the compiled file
-dfl = ffi.dlopen("src/data-file-library.so") # for Linux/macOS
-# dfl = ffi.dlopen("src/data-file-library.dll") # for Windows
+    /* Size of each dimension */
+    int rows = 15; /* Number of rows */
+    int columns = 15; /* Number of columns */
 
-# Prepare a NumPy array of complex128 (matches C double complex)
-n = 100  # total size of the one dimensional array you expect
-arr = np.empty(n, dtype=np.complex128)
+    /* Array to store the data (complex numbers) */
+    /* C++ users must replace 'double complex' type by std::complex<double> */
+    double complex data[rows*columns];
 
-# Get a pointer to the array’s data
-data = ffi.cast("double complex *", arr.ctypes.data)
+    /* Import the data (complex numbers) */
+    csvdat_import_cplx("myfile.csv", data);
 
-# Call the function
-dfl.wldat_import_cplx(b"myfile.wl", data)
+    /*
+        The data at any row r and column c, may be acessed through
+        data[c + columns*r]
+    */
+    
+    /* Export the data (complex numbers) */
+    csvdat_export_cplx("myfile2.csv", data, rows, columns);
 
-# Now arr is filled by the C function. Print the array.
-print(data)
+    return 0;
+}
 ```
 </details>
 

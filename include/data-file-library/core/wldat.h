@@ -15,12 +15,12 @@
 #ifndef DATA_FILE_LIBRARY_WLDAT_H
 #define DATA_FILE_LIBRARY_WLDAT_H
 
-#ifndef DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ static inline
-#endif
-
+#include "../impl/api_impl_.h"
 #include "../impl/cplx_c_cpp_impl_.h"
+
+#ifndef DATA_FILE_LIBRARY_IMPORTS
 #include "../impl/wldat_impl_.h"
+#endif
 
 /*
     Returns the size of the comment from a Wolfram
@@ -30,10 +30,15 @@
     Parameter:
     - file_path, path to the file.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-int wldat_get_comment_size(const char *file_path) {
+DATA_FILE_LIBRARY_API_IMPL_
+int wldat_get_comment_size(const char *file_path)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     return wldat_get_comment_size_impl_(file_path);
 }
+#else
+;
+#endif
 
 /*
     Gets the comment from a Wolfram Language package
@@ -45,10 +50,15 @@ int wldat_get_comment_size(const char *file_path) {
     - comment, array of size given by wldat_get_comment_size(), to
     output the text.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_get_comment(const char *file_path, char *comment) {
+DATA_FILE_LIBRARY_API_IMPL_
+void wldat_get_comment(const char *file_path, char *comment)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     wldat_get_comment_impl_(file_path, comment);
 }
+#else
+;
+#endif
 
 /*
     Returns the number of dimensions from a Wolfram
@@ -58,10 +68,15 @@ void wldat_get_comment(const char *file_path, char *comment) {
     Parameter:
     - file_path, path to the file.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-int wldat_get_dimensions(const char *file_path) {
+DATA_FILE_LIBRARY_API_IMPL_
+int wldat_get_dimensions(const char *file_path)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     wldat_get_dimensions_impl_(file_path);
 }
+#else
+;
+#endif
 
 /*
     Gets the size of each dimension from a Wolfram
@@ -73,10 +88,15 @@ int wldat_get_dimensions(const char *file_path) {
     sequentially output the size of each dimension. The size of this array
     is limited to 128.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_get_sizes(const char *file_path, int *size) {
+DATA_FILE_LIBRARY_API_IMPL_
+void wldat_get_sizes(const char *file_path, int *size)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     wldat_get_sizes_impl_(file_path, size);
 }
+#else
+;
+#endif
 
 /*
     Imports data of real numbers from a Wolfram Language
@@ -91,10 +111,15 @@ void wldat_get_sizes(const char *file_path, int *size) {
     size. Notice that N<=128 and may be obtained through
     wldat_get_dimensions(), and Sn through wldat_get_sizes().
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_import(const char *file_path, double *data) {
+DATA_FILE_LIBRARY_API_IMPL_
+void wldat_import(const char *file_path, double *data)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     wldat_import_impl_(file_path, data);
 }
+#else
+;
+#endif
 
 /*
     Imports data of complex numbers from a Wolfram
@@ -109,12 +134,15 @@ void wldat_import(const char *file_path, double *data) {
     size. Notice that N<=128 and may be obtained through
     wldat_get_dimensions(), and Sn through wldat_get_sizes().
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_import_cplx(const char *file_path,
-    tpdfcplx_impl_ *data) {
-
+DATA_FILE_LIBRARY_API_IMPL_
+void wldat_import_cplx(const char *file_path, tpdfcplx_impl_ *data)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     wldat_import_cplx_impl_(file_path, data); 
 }
+#else
+;
+#endif
 
 /*
     Exports double-type data of an one-dimensional
@@ -130,13 +158,16 @@ void wldat_import_cplx(const char *file_path,
     - size, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_export(const char *file_path,
-    const double *data, int dimensions, const int *size,
-    const char *comment) {
-
+DATA_FILE_LIBRARY_API_IMPL_
+void wldat_export(const char *file_path, const double *data, int dimensions,
+    const int *size, const char *comment)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     wldat_export_impl_(file_path, data, dimensions, size, comment);
 }
+#else
+;
+#endif
 
 /*
     Exports 'double complex'-type data of an
@@ -153,13 +184,15 @@ void wldat_export(const char *file_path,
     - size, array of size N containing the size of each dimension.
     - comment, text to be stored at the very first line of the file.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void wldat_export_cplx(const char *file_path,
-    const tpdfcplx_impl_ *data, int dimensions, const int *size,
-    const char *comment) {
-
-    wldat_export_cplx_impl_(file_path, data, dimensions, size,
-        comment);
+DATA_FILE_LIBRARY_API_IMPL_
+void wldat_export_cplx(const char *file_path, const tpdfcplx_impl_ *data,
+    int dimensions, const int *size, const char *comment)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
+    wldat_export_cplx_impl_(file_path, data, dimensions, size, comment);
 }
+#else
+;
+#endif
 
 #endif /* DATA_FILE_LIBRARY_WLDAT_H */

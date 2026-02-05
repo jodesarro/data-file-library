@@ -15,12 +15,12 @@
 #ifndef DATA_FILE_LIBRARY_CSVDAT_H
 #define DATA_FILE_LIBRARY_CSVDAT_H
 
-#ifndef DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-#define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ static inline
-#endif
-
+#include "../impl/api_impl_.h"
 #include "../impl/cplx_c_cpp_impl_.h"
+
+#ifndef DATA_FILE_LIBRARY_IMPORTS
 #include "../impl/sepdat_impl_.h"
+#endif
 
 /*
     Gets the size in each dimension (number of rows and columns) from a
@@ -31,12 +31,15 @@
     - &rows, to output the number of rows.
     - &columns, to output the number of columns.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void csvdat_get_sizes(const char *file_path, int *rows,
-    int *columns) {
-    
+DATA_FILE_LIBRARY_API_IMPL_
+void csvdat_get_sizes(const char *file_path, int *rows, int *columns)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{   
     sepdat_get_sizes_impl_(file_path, rows, columns, ',');
 }
+#else
+;
+#endif
 
 /*
     Imports double-type data from a Comma-Separated Values data file
@@ -53,12 +56,15 @@ void csvdat_get_sizes(const char *file_path, int *rows,
     accessed through data[j + columns*i], where i is any row and j is
     any column.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void csvdat_import(const char *file_path,
-    double * data) {
-    
+DATA_FILE_LIBRARY_API_IMPL_
+void csvdat_import(const char *file_path, double * data)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{    
     sepdat_import_impl_(file_path, data, ',');
 }
+#else
+;
+#endif
 
 /*
     Imports 'double complex'-type data from a Comma-Separated Values data file
@@ -76,12 +82,15 @@ void csvdat_import(const char *file_path,
     The outputted data may be accessed through data[j + columns*i],
     where i is any row and j is any column.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void csvdat_import_cplx(const char *file_path,
-    tpdfcplx_impl_ *data) {
-    
+DATA_FILE_LIBRARY_API_IMPL_
+void csvdat_import_cplx(const char *file_path, tpdfcplx_impl_ *data)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{    
     sepdat_import_cplx_impl_(file_path, data, ',');
 }
+#else
+;
+#endif
 
 /*
     Exports double-type data of an one-dimensional
@@ -97,12 +106,16 @@ void csvdat_import_cplx(const char *file_path,
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void csvdat_export(const char *file_path,
-    const double *data, int rows, int columns) {
-
+DATA_FILE_LIBRARY_API_IMPL_
+void csvdat_export(const char *file_path, const double *data, int rows,
+    int columns)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     sepdat_export_impl_(file_path, data, rows, columns, ',');
 }
+#else
+;
+#endif
 
 /*
     Exports 'double complex'-type data of an
@@ -120,11 +133,15 @@ void csvdat_export(const char *file_path,
     - rows, number of rows of the data.
     - columns, number of columns of the data.
 */
-DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-void csvdat_export_cplx(const char *file_path,
-    const tpdfcplx_impl_ *data, int rows, int columns) {
-
+DATA_FILE_LIBRARY_API_IMPL_
+void csvdat_export_cplx(const char *file_path, const tpdfcplx_impl_ *data,
+    int rows, int columns)
+#ifndef DATA_FILE_LIBRARY_IMPORTS
+{
     sepdat_export_cplx_impl_(file_path, data, rows, columns, ',');
 }
+#else
+;
+#endif
 
 #endif /* DATA_FILE_LIBRARY_CSVDAT_H */

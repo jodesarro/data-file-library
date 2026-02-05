@@ -8,22 +8,8 @@
     License: include/data-file-library/license.txt
 
     Description:
-        Wrapper for compiling the include/data-file-library.h library.
+        Wrapper for compiling the include/data-file-library.h file.
 */
 
-/* Overwrite 'static inline' */
-#if defined(_WIN32) || defined(_WIN64)
-    #ifdef __cplusplus
-        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ __declspec(dllexport) extern "C"
-    #else
-        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ __declspec(dllexport)
-    #endif
-#else
-    #ifdef __cplusplus
-        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_ extern "C"
-    #else
-        #define DATA_FILE_LIBRARY_STATIC_INLINE_IMPL_
-    #endif
-#endif
-
-#include "../include/data-file-library.h"
+#define DATA_FILE_LIBRARY_EXPORTS_IMPL_
+#include "data-file-library.h"
