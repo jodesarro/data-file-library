@@ -345,19 +345,21 @@ Therefore, you only need to paste all the content of the
 [include](include/) folder
 inside the include folder of your project (if you do not have an include
 folder in your project, paste the content inside the root folder of your
-project). Then, just write `#include "data-file-library.h"` at the very
+project).
+
+Then, just write `#include "data-file-library.h"` at the very
 beginning of your code and you shall be ready to use the functions.
 
 <details>
   <summary>
-    <b>Example of usage for CSV files in C or C++</b>
+    <b>Examples of usage for CSV files in C or C++</b>
   </summary><br/>
 
 **CSV file with complex numbers and previously known sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The data-file-library */
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
@@ -389,7 +391,7 @@ int main() {
 ```c
 #include <stdlib.h> /* For malloc() and free() */
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The data-file-library */
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
@@ -425,14 +427,14 @@ int main() {
 
 <details>
   <summary>
-    <b>Example of usage for TSV files in C or C++</b>
+    <b>Examples of usage for TSV files in C or C++</b>
   </summary><br/>
 
 **TSV file with complex numbers and previously known sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The data-file-library */
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
@@ -464,7 +466,7 @@ int main() {
 ```c
 #include <stdlib.h> /* For malloc() and free() */
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The data-file-library */
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
@@ -500,14 +502,14 @@ int main() {
 
 <details>
   <summary>
-    <b>Example of usage for WL files in C or C++</b>
+    <b>Examples of usage for WL files in C or C++</b>
   </summary><br/>
 
 **WL file with complex numbers and previously known dimensions and sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The data-file-library */
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
@@ -544,7 +546,7 @@ int main() {
 ```c
 #include <stdlib.h> /* For malloc() and free() */
 #include <complex.h> /* C++ users must include <complex> instead */
-#include "data-file-library.h" /* The data-file-library */
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
@@ -595,8 +597,8 @@ storing multi‑dimensional arrays in one‑dimensional (linear) arrays,
 a method widely used in C programming.
 
 Moreover, the implementation adheres to the C99 standard, and all complex
-variables are handled by the `tpdfcplx_impl_` type, which is automatically
-expanded to the `double complex` type provided by the C `<complex.h>` library.
+variables are handled by the `tpdfcplx_impl_` type, which automatically
+expands to the `double complex` type provided by the C `<complex.h>` library.
 
 Notice that functions, macros, constants, and files whose names contain the
 suffix `_impl_` are internal components and are not intended for direct use
@@ -610,7 +612,7 @@ macros to ensure C++ compatibility (C++98 standard at least).
 In this sense, when using C++ compilers, the following C functions are
 automatically mapped to their C++ equivalent: `creal(z)`↦`std::real(z)`,
 `cimag(z)`↦`std::imag(z)`; and all complex values are handled by the
-`tpdfcplx_impl_` type, which is automatically expanded to the
+`tpdfcplx_impl_` type, which automatically expands to the
 `std::complex<double>` type of the C++ `<complex>` library.
 
 ## Compiling the library
@@ -689,14 +691,14 @@ before the `#include "data-file-library.h"`.
 <details>
   <summary>
     <b>Example of usage in C with a compiled file of the library</b>
-  </summary>
+  </summary><br/>
 
 **CSV file with complex numbers and previously known sizes**
 
 ```c
 #include <complex.h> /* C++ users must include <complex> instead */
 #define DATA_FILE_LIBRARY_IMPORTS /* Required for using the compiled file */
-#include "data-file-library.h" /* The data-file-library header*/
+#include "data-file-library.h" /* The data-file-library.h header */
 
 int main() {
 
