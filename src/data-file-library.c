@@ -4,7 +4,7 @@
     File: src/data-file-library.c
     Version: include/data-file-library/version.h
     Author: Jhonas Olivati de Sarro
-    Language standards: C99 with C++ guards
+    Language standards: C99
     License: include/data-file-library/license.txt
 
     Description:
