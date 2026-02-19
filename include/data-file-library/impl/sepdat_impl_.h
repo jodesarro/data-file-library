@@ -1,281 +1,288 @@
-/* 
-    Data File Library: A set of C functions for handling numeric data files
+/*
+  Data File Library: A set of C functions for handling numeric data files
 
-    File: include/data-file-library/impl/sepdat_impl_.h
-    Version: include/data-file-library/version.h
-    Author: Jhonas Olivati de Sarro
-    Language standards: C99
-    License: include/data-file-library/license.txt
+  File: include/data-file-library/impl/sepdat_impl_.h
+  Version: include/data-file-library/version.h
+  Author: Jhonas Olivati de Sarro
+  Language standards: C99
+  License: include/data-file-library/license.txt
 
-    Description:
-        Implementation of functions for handling files having a structure in
-        which lines are separated by line breaks and columns are separated by
-        any given separator.
+  Description: Implementation of functions for handling files having a structure
+  in which lines are separated by line breaks and columns are separated by any
+  given separator.
 */
 
 #ifndef DATA_FILE_LIBRARY_SEPDAT_IMPL_H
 #define DATA_FILE_LIBRARY_SEPDAT_IMPL_H
 
-#include <stdio.h>
-#include <stdlib.h> /* For EXIT_FAILURE */
 #include "cplx_c_cpp_impl_.h"
 #include "parse_impl_.h"
+#include <stdio.h>
+#include <stdlib.h> /* For EXIT_FAILURE */
 
 /*
-    Implementation for getting the size in each dimension (number of rows and
-    columns) from a data file with a given column separator.
+  Implementation for getting the size in each dimension (number of rows
+  andcolumns) from a data file with a given column separator.
 
-    Parameters:
-    - file_path, path to the data file.
-    - &rows, to output the number of rows.
-    - &columns, to output the number of columns.
-    - sep, column separator.
+  Parameters:
+  - file_path, path to the data file.
+  - &rows, to output the number of rows.
+  - &columns, to output the number of columns.
+  - sep, column separator.
 */
 static inline void sepdat_get_sizes_impl_(const char *file_path, int *rows,
-    int *columns, char sep) {
+                                          int *columns, char sep) {
 
-    /* Open file */
-    FILE *file = fopen(file_path, "r");
-    if (!file) {
-        fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
-                        " sepdat_get_sizes_impl_() ->"
-                        " Error in opening file: %s."
-                        " Exiting.", strerror(errno));
-        exit(EXIT_FAILURE);
+  /* Open file */
+  FILE *file = fopen(file_path, "r");
+  if (!file) {
+    fprintf(stderr,
+            "[DATA-FILE-LIBRARY WARNING]"
+            " sepdat_get_sizes_impl_() ->"
+            " Error in opening file: %s."
+            " Exiting.",
+            strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  /* Read file */
+  int ch;
+  int current_cols = 0;
+  int max_cols = 0;
+  *rows = 0;
+  while ((ch = fgetc(file)) != EOF) {
+    if (ch == sep) {
+      current_cols++;
+    } else if (ch == '\n') {
+      current_cols++;
+      if (current_cols > max_cols) {
+        max_cols = current_cols;
+      }
+      current_cols = 0;
+      (*rows)++;
     }
+  }
 
-    /* Read file */
-    int ch;
-    int current_cols = 0;
-    int max_cols = 0;
-    *rows = 0;
-    while ((ch = fgetc(file)) != EOF) {
-        if (ch == sep) {
-            current_cols++;
-        } else if (ch == '\n') {
-            current_cols++;
-            if (current_cols > max_cols) {
-                max_cols = current_cols;
-            }
-            current_cols = 0;
-            (*rows)++;
-        }
+  /* Handle last row if file does not end with newline */
+  if (current_cols > 0) {
+    current_cols++;
+    if (current_cols > max_cols) {
+      max_cols = current_cols;
     }
+    (*rows)++;
+  }
+  *columns = max_cols;
 
-    /* Handle last row if file does not end with newline */
-    if (current_cols > 0) {
-        current_cols++;
-        if (current_cols > max_cols) {
-            max_cols = current_cols;
-        }
-        (*rows)++;
-    }
-    *columns = max_cols;
-
-    /* Close file */
-    fclose(file);
+  /* Close file */
+  fclose(file);
 }
 
 /*
-    Implementation for importing double-type data from a breakline-separated
-    lines and char-separated columns data file and storing the values in an
-    one-dimensional double-type array following the row-major order.
-    The values may also be in the base 10 exponential form eN or *^N,
-    where N is an integer.
+  Implementation for importing double-type data from a breakline-separated lines
+  and char-separated columns data file and storing the values in an
+  one-dimensional double-type array following the row-major order. The values
+  may also be in the base 10 exponential form eN or *^N, where N is an integer.
 
-    Parameters:
-    - file_path, path to the file.
-    - data, one-dimensional double-type array of the size rows*columns
-    to output the data following the row-major order, where rows and columns
-    may be obtained through sepdat_get_sizes_impl_(). The outputted data may
-    be accessed through data[j + columns*i], where i is any row and j is
-    any column.
-    - sep, column separator.
+  Parameters:
+  - file_path, path to the file.
+  - data, one-dimensional double-type array of the size rows*columns to output
+  the data following the row-major order, where rows and columns may be obtained
+  through sepdat_get_sizes_impl_(). The outputted data may be accessed through
+  data[j + columns*i], where i is any row and j is any column.
+  - sep, column separator.
 */
-static inline void sepdat_import_impl_(const char *file_path,
-    double *data, char sep) {
+static inline void sepdat_import_impl_(const char *file_path, double *data,
+                                       char sep) {
 
-    /* Count rows and columns */
-    int rows;
-    int columns;
-    sepdat_get_sizes_impl_(file_path, &rows, &columns, sep);
+  /* Count rows and columns */
+  int rows;
+  int columns;
+  sepdat_get_sizes_impl_(file_path, &rows, &columns, sep);
 
-    /* Open file */
-    FILE *file = fopen(file_path, "r");
-    if (!file) {
-        fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
-                        " sepdat_import_impl_() ->"
-                        " Error in opening file: %s."
-                        " Exiting.", strerror(errno));
-        exit(EXIT_FAILURE);
+  /* Open file */
+  FILE *file = fopen(file_path, "r");
+  if (!file) {
+    fprintf(stderr,
+            "[DATA-FILE-LIBRARY WARNING]"
+            " sepdat_import_impl_() ->"
+            " Error in opening file: %s."
+            " Exiting.",
+            strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  int i = 0, j = 0;
+  char buffer[128], fmt[32];
+  snprintf(fmt, sizeof(fmt), "%%127[^%c\n]", sep); /* "%127[^<sep>\n]" */
+
+  /* Read file */
+  while (fscanf(file, fmt, buffer) == 1) {
+    /* Parse and store */
+    data[j + columns * i] = parse_real_impl_(buffer);
+    /* Look ahead for separator */
+    int ch = fgetc(file);
+    if (ch == sep) {
+      j++;
+    } else if (ch == '\n' || ch == EOF) {
+      i++;
+      j = 0;
     }
-   
-    int i = 0, j = 0;
-    char buffer[128], fmt[32];
-    snprintf(fmt, sizeof(fmt), "%%127[^%c\n]", sep); /* "%127[^<sep>\n]" */
+    if (i == rows && j == columns)
+      break;
+  }
 
-    /* Read file */
-    while (fscanf(file, fmt, buffer) == 1) {
-        /* Parse and store */
-        data[j + columns*i] = parse_real_impl_(buffer);
-        /* Look ahead for separator */
-        int ch = fgetc(file);
-        if (ch == sep) {
-            j++;
-        } else if (ch == '\n' || ch == EOF) {
-            i++;
-            j = 0;
-        }
-        if (i == rows && j == columns ) break;
-    }
-
-    /* Close file */
-    fclose(file);
+  /* Close file */
+  fclose(file);
 }
 
 /*
-    Implementation for importing 'double complex'-type data from a
-    breakline-separated lines and char-separated columns data file and storing
-    the values in an one-dimensional 'double complex'-type array following the
-    row-major order. The complex values may be of the type a,
-    a+bi, bi, and i, where i may also be j, *i, *j, or *I, and where a and
-    b may also be in the base 10 exponential form eN or *^N, where N is an
-    integer.
+  Implementation for importing 'double complex'-type data from a
+  breakline-separated lines and char-separated columns data file and storing the
+  values in an one-dimensional 'double complex'-type array following the
+  row-major order. The complex values may be of the type a, a+bi, bi, and i,
+  where i may also be j, *i, *j, or *I, and where a and b may also be in the
+  base 10 exponential form eN or *^N, where N is an integer.
 
-    Parameters:
-    - file_path, path to the file.
-    - data, one-dimensional 'double complex'-type array of the size
-    rows*columns to output the data following the row-major order, where rows
-    and columns may be obtained through sepdat_get_sizes_impl_().
-    The outputted data may be accessed through data[j + columns*i],
-    where i is any row and j is any column.
-    - sep, column separator.
+  Parameters:
+  - file_path, path to the file.
+  - data, one-dimensional 'double complex'-type array of the size rows*columns
+  to output the data following the row-major order, where rows and columns may
+  be obtained through sepdat_get_sizes_impl_(). The outputted data may be
+  accessed through data[j + columns*i], where i is any row and j is any column.
+  - sep, column separator.
 */
 static inline void sepdat_import_cplx_impl_(const char *file_path,
-    tpdfcplx_impl_ *data, char sep) {
-    
-    /* Count rows and columns */
-    int rows;
-    int columns;
-    sepdat_get_sizes_impl_(file_path, &rows, &columns, sep);
+                                            tpdfcplx_impl_ *data, char sep) {
 
-    /* Open file */
-    FILE *file = fopen(file_path, "r");
-    if (!file) {
-        fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
-                        " sepdat_import_cplx_impl_() ->"
-                        " Error in opening file: %s."
-                        " Exiting.", strerror(errno));
-        exit(EXIT_FAILURE);
+  /* Count rows and columns */
+  int rows;
+  int columns;
+  sepdat_get_sizes_impl_(file_path, &rows, &columns, sep);
+
+  /* Open file */
+  FILE *file = fopen(file_path, "r");
+  if (!file) {
+    fprintf(stderr,
+            "[DATA-FILE-LIBRARY WARNING]"
+            " sepdat_import_cplx_impl_() ->"
+            " Error in opening file: %s."
+            " Exiting.",
+            strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  int i = 0, j = 0;
+  char buffer[128], fmt[32];
+  snprintf(fmt, sizeof(fmt), "%%127[^%c\n]", sep); /* "%127[^<sep>\n]" */
+
+  /* Read file */
+  while (fscanf(file, fmt, buffer) == 1) {
+    /* Parse and store */
+    data[j + columns * i] = parse_complex_impl_(buffer);
+    /* Look ahead for separator */
+    int ch = fgetc(file);
+    if (ch == sep) {
+      j++;
+    } else if (ch == '\n' || ch == EOF) {
+      i++;
+      j = 0;
     }
+    if (i == rows && j == columns)
+      break;
+  }
 
-    int i = 0, j = 0;
-    char buffer[128], fmt[32];
-    snprintf(fmt, sizeof(fmt), "%%127[^%c\n]", sep); /* "%127[^<sep>\n]" */
-    
-    /* Read file */
-    while (fscanf(file, fmt, buffer) == 1 ) {
-        /* Parse and store */
-        data[j + columns*i] = parse_complex_impl_(buffer);
-        /* Look ahead for separator */
-        int ch = fgetc(file);
-        if (ch == sep) {
-            j++;
-        } else if (ch == '\n' || ch == EOF) {
-            i++;
-            j = 0;
-        }
-        if (i == rows && j == columns ) break;
-    }
-
-    /* Close file */
-    fclose(file);
+  /* Close file */
+  fclose(file);
 }
 
 /*
-    Implementation for exporting double-type data of an one-dimensional
-    double-type array, following the row-major order, to a breakline-separated
-    lines and char-separated columns data file.
+  Implementation for exporting double-type data of an one-dimensional
+  double-type array, following the row-major order, to a breakline-separated
+  lines and char-separated columns data file.
 
-    Parameters:
-    - file_path, path to the file.
-    - data, one-dimensional double-type array of the size rows*columns
-    containing the data. The data is accessed following the row-major order,
-    i.e., through data[j + columns*i], where i is any row and j is any
-    column.
-    - rows, number of rows of the data.
-    - columns, number of columns of the data.
-    - sep, column separator.
+  Parameters:
+  - file_path, path to the file.
+  - data, one-dimensional double-type array of the size rows*columns containing
+  the data. The data is accessed following the row-major order, i.e., through
+  data[j + columns*i], where i is any row and j is any column.
+  - rows, number of rows of the data.
+  - columns, number of columns of the data.
+  - sep, column separator.
 */
 static inline void sepdat_export_impl_(const char *file_path,
-    const double *data, int rows, int columns, char sep) {
+                                       const double *data, int rows,
+                                       int columns, char sep) {
 
-    /* Open file */
-    FILE *file = fopen(file_path, "w");
-    if (!file) {
-        fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
-                        " sepdat_export_impl_() ->"
-                        " Error in opening file: %s."
-                        " Exiting.", strerror(errno));
-        exit(EXIT_FAILURE);
+  /* Open file */
+  FILE *file = fopen(file_path, "w");
+  if (!file) {
+    fprintf(stderr,
+            "[DATA-FILE-LIBRARY WARNING]"
+            " sepdat_export_impl_() ->"
+            " Error in opening file: %s."
+            " Exiting.",
+            strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < columns; j++) {
+      fprintf(file, "%.16e", data[j + columns * i]);
+      if (j < columns - 1) {
+        fputc(sep, file); /* Tab between columns */
+      }
     }
+    fputc('\n', file); /* Newline at end of row */
+  }
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            fprintf(file, "%.16e", data[j + columns*i]);
-            if (j < columns - 1) {
-                fputc(sep, file);  /* Tab between columns */
-            }
-        }
-        fputc('\n', file);  /* Newline at end of row */
-    }
-
-    /* Close file */
-    fclose(file);
+  /* Close file */
+  fclose(file);
 }
 
 /*
-    Implementation for exporting 'double complex'-type data of an
-    one-dimensional 'double complex'-type array, following the row-major
-    order, to a breakline-separated lines and char-separated columns data
-    file. The exported complex values are of the type a+bi.
+  Implementation for exporting 'double complex'-type data of an one-dimensional
+  'double complex'-type array, following the row-major order, to a
+  breakline-separated lines and char-separated columns data file. The exported
+  complex values are of the type a+bi.
 
-    Parameters:
-    - file_path, path to the file.
-    - data, one-dimensional 'double complex'-type array of the size
-    rows*columns containing the data. The data is accessed following the
-    row-major order, i.e., through data[j + columns*i], where i is any
-    row and j is any column.
-    - rows, number of rows of the data.
-    - columns, number of columns of the data.
-    - sep, column separator.
+  Parameters:
+  - file_path, path to the file.
+  - data, one-dimensional 'double complex'-type array of the size rows*columns
+  containing the data. The data is accessed following the row-major order, i.e.,
+  through data[j + columns*i], where i is any row and j is any column.
+  - rows, number of rows of the data.
+  - columns, number of columns of the data.
+  - sep, column separator.
 */
 static inline void sepdat_export_cplx_impl_(const char *file_path,
-    const tpdfcplx_impl_ *data, int rows, int columns, char sep) {
+                                            const tpdfcplx_impl_ *data,
+                                            int rows, int columns, char sep) {
 
-    /* Open file */
-    FILE *file = fopen(file_path, "w");
-    if (!file) {
-        fprintf(stderr, "[DATA-FILE-LIBRARY WARNING]"
-                        " sepdat_export_cplx_impl_() ->"
-                        " Error in opening file: %s."
-                        " Exiting.", strerror(errno));
-        exit(EXIT_FAILURE);
+  /* Open file */
+  FILE *file = fopen(file_path, "w");
+  if (!file) {
+    fprintf(stderr,
+            "[DATA-FILE-LIBRARY WARNING]"
+            " sepdat_export_cplx_impl_() ->"
+            " Error in opening file: %s."
+            " Exiting.",
+            strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < columns; j++) {
+      fprintf(file, "%.16e%+.16ei", creal(data[j + columns * i]),
+              cimag(data[j + columns * i]));
+      if (j < columns - 1) {
+        fputc(sep, file); /* Tab between columns */
+      }
     }
+    fputc('\n', file); /* Newline at end of row */
+  }
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            fprintf(file, "%.16e%+.16ei", creal(data[j + columns*i]),
-                    cimag(data[j + columns*i]));
-            if (j < columns - 1) {
-                fputc(sep, file);  /* Tab between columns */
-            }
-        }
-        fputc('\n', file);  /* Newline at end of row */
-    }
-
-    /* Close file */
-    fclose(file);
+  /* Close file */
+  fclose(file);
 }
 
 #endif /* DATA_FILE_LIBRARY_SEPDAT_IMPL_H */

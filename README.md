@@ -726,10 +726,6 @@ int main() {
 ```
 </details>
 
-## Change log
-
-Refer to the [CHANGELOG.md](CHANGELOG.md) file for the latest updates.
-
 ## Authorship
 
 The codes and routines were developed and are updated by

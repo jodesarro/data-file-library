@@ -1,14 +1,13 @@
-/* 
-    Data File Library: A set of C functions for handling numeric data files
+/*
+  Data File Library: A set of C functions for handling numeric data files
 
-    File: src/data-file-library.c
-    Version: include/data-file-library/version.h
-    Author: Jhonas Olivati de Sarro
-    Language standards: C99
-    License: include/data-file-library/license.txt
+  File: src/data-file-library.c
+  Version: include/data-file-library/version.h
+  Author: Jhonas Olivati de Sarro
+  Language standards: C99
+  License: include/data-file-library/license.txt
 
-    Description:
-        Wrapper for compiling the include/data-file-library.h file.
+  Description: Wrapper for compiling the include/data-file-library.h file.
 */
 
 #define DATA_FILE_LIBRARY_EXPORTS_IMPL_
