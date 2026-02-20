@@ -2,9 +2,9 @@
   Data File Library: A set of C functions for handling numeric data files
 
   File: include/data-file-library.h
-  Author: Jhonas Olivati de Sarro
   Language standards: C99
   License: include/data-file-library/license.txt
+  Repository: <https://github.com/jodesarro/data-file-library>
 
   Description: Include headers of all core functions of the
   include/data-file-library/core folder.
