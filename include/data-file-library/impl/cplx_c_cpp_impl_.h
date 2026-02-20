@@ -2,7 +2,6 @@
   Data File Library: A set of C functions for handling numeric data files
 
   File: include/data-file-library/impl/cplx_c_cpp_impl_.h
-  Version: include/data-file-library/version.h
   Author: Jhonas Olivati de Sarro
   Language standards: C99 and C++98 guards, macros and typedefs
   License: include/data-file-library/license.txt
