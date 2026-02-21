@@ -734,6 +734,4 @@ Jhonas O. de Sarro</a> ([@jodesarro](https://github.com/jodesarro)).
 
 ## Licensing
 
-This project is protected under [MIT License](LICENSE). A copy of the license
-is available at
-[include/data-file-library/license.txt](include/data-file-library/license.txt).
+This project is protected under [MIT License](LICENSE).

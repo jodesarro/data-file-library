@@ -1,10 +1,9 @@
 /*
   Data File Library: A set of C functions for handling numeric data files
 
-  File: include/data-file-library/core/tsvdat.h
-  Language standards: C99
-  License: include/data-file-library/license.txt
   Repository: <https://github.com/jodesarro/data-file-library>
+  License: Refer to the LICENSE file in the Repository
+  Language standard: C99
 
   Description: Functions for handling files having a structure in which lines
   are separated by line break and columns are separated by tabular spacing.

@@ -1,10 +1,9 @@
 /*
   Data File Library: A set of C functions for handling numeric data files
 
-  File: include/data-file-library/impl/cplx_c_cpp_impl_.h
-  Language standards: C99 and C++98
-  License: include/data-file-library/license.txt
   Repository: <https://github.com/jodesarro/data-file-library>
+  License: Refer to the LICENSE file in the Repository
+  Language standard: C99 and C++98
 
   Description: Defines macros and typedefs for ensuring C++ compatibility
 */

@@ -1,10 +1,9 @@
 /*
   Data File Library: A set of C functions for handling numeric data files
 
-  File: include/data-file-library/impl/wldat_impl_.h
-  Language standards: C99
-  License: include/data-file-library/license.txt
   Repository: <https://github.com/jodesarro/data-file-library>
+  License: Refer to the LICENSE file in the Repository
+  Language standard: C99
 
   Description: Implementation of functions for handling files having the
   structure of a Wolfram Language package source format (nested braces).

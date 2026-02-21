@@ -1,10 +1,9 @@
 /*
   Data File Library: A set of C functions for handling numeric data files
 
-  File: include/data-file-library/impl/parse_impl_.h
-  Language standards: C99
-  License: include/data-file-library/license.txt
   Repository: <https://github.com/jodesarro/data-file-library>
+  License: Refer to the LICENSE file in the Repository
+  Language standard: C99
 
   Description: Functions for parsing complex and real values of data files. The
   real values may also be in the base 10 exponential form eN or *^N, where N is
