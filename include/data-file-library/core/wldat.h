@@ -66,7 +66,7 @@ DATA_FILE_LIBRARY_API_IMPL_
 int wldat_get_dimensions(const char *file_path)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
-  wldat_get_dimensions_impl_(file_path);
+  return wldat_get_dimensions_impl_(file_path);
 }
 #else
     ;
