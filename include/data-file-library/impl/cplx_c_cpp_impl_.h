@@ -15,19 +15,18 @@
 
 /* Includes, typedefs and/or macros for C++98 compatibility */
 
-#include <complex> /* For complex numbers */
-#define I_IMPL_ std::complex<double>(0.0, 1.0)
-#define creal(z) std::real(z)
-#define cimag(z) std::imag(z)
-typedef std::complex<double> tpdfcplx_impl_;
+#include <complex>                     /* For complex numbers */
+typedef std::complex<double> dcomplex; /* std::complex<double> */
+#define I (dcomplex(0.0, 1.0))         /* std::complex<double>(0.0, 1.0) */
+#define creal(z) (std::real(z))        /* std::real(z) */
+#define cimag(z) (std::imag(z))        /* std::imag(z) */
 
 #else
 
 /* C99 */
 
 #include <complex.h> /* For complex numbers */
-#define I_IMPL_ I
-typedef double complex tpdfcplx_impl_;
+typedef double complex dcomplex; /* double complex */
 
 #endif /* __cplusplus */
 

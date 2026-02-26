@@ -115,19 +115,19 @@ void wldat_import(const char *file_path, double *data)
 
 /*
   Imports data of complex numbers from a Wolfram Language package source format,
-  and stores in an one-dimensional 'double complex'-type array following the
+  and stores in an one-dimensional complex value array following the
   row-major order.
 
   Parameters:
   - file_path, path to the data file.
-  - data, array of 'double complex'-type of size S1*S2*...*SN to output the
+  - data, array of complex value of size S1*S2*...*SN to output the
   values following the row-major order, where N is the number of dimensions, and
   for each dimension n, being 1<=n<=N, Sn is its respective size. Notice that
   N<=128 and may be obtained through wldat_get_dimensions(), and Sn through
   wldat_get_sizes().
 */
 DATA_FILE_LIBRARY_API_IMPL_
-void wldat_import_cplx(const char *file_path, tpdfcplx_impl_ *data)
+void wldat_import_cplx(const char *file_path, dcomplex *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
   wldat_import_cplx_impl_(file_path, data);
@@ -162,13 +162,13 @@ void wldat_export(const char *file_path, const double *data, int dimensions,
 #endif
 
 /*
-  Exports 'double complex'-type data of an one-dimensional 'double complex'-type
+  Exports complex value data of an one-dimensional complex value
   array, following the row-major order, to Wolfram Language package source
   format of arbitrary dimension.
 
   Parameters:
   - file_path, path to the data file.
-  - data, array of 'double complex'-type of size S1*S2*...*SN, containing data
+  - data, array of complex value of size S1*S2*...*SN, containing data
   following the row-major order, where N is the number of dimensions, and for
   each dimension n, being 1<=n<=N, Sn is its respective size.
   - dimensions, number N of the dimensions of the data, limited to 128.
@@ -176,7 +176,7 @@ void wldat_export(const char *file_path, const double *data, int dimensions,
   - comment, text to be stored at the very first line of the file.
 */
 DATA_FILE_LIBRARY_API_IMPL_
-void wldat_export_cplx(const char *file_path, const tpdfcplx_impl_ *data,
+void wldat_export_cplx(const char *file_path, const dcomplex *data,
                        int dimensions, const int *size, const char *comment)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {

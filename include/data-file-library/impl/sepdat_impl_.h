@@ -134,23 +134,23 @@ static inline void sepdat_import_impl_(const char *file_path, double *data,
 }
 
 /*
-  Implementation for importing 'double complex'-type data from a
+  Implementation for importing complex value data from a
   breakline-separated lines and char-separated columns data file and storing the
-  values in an one-dimensional 'double complex'-type array following the
+  values in an one-dimensional complex value array following the
   row-major order. The complex values may be of the type a, a+bi, bi, and i,
   where i may also be j, *i, *j, or *I, and where a and b may also be in the
   base 10 exponential form eN or *^N, where N is an integer.
 
   Parameters:
   - file_path, path to the file.
-  - data, one-dimensional 'double complex'-type array of the size rows*columns
+  - data, one-dimensional complex value array of the size rows*columns
   to output the data following the row-major order, where rows and columns may
   be obtained through sepdat_get_sizes_impl_(). The outputted data may be
   accessed through data[j + columns*i], where i is any row and j is any column.
   - sep, column separator.
 */
 static inline void sepdat_import_cplx_impl_(const char *file_path,
-                                            tpdfcplx_impl_ *data, char sep) {
+                                            dcomplex *data, char sep) {
 
   /* Count rows and columns */
   int rows;
@@ -238,14 +238,14 @@ static inline void sepdat_export_impl_(const char *file_path,
 }
 
 /*
-  Implementation for exporting 'double complex'-type data of an one-dimensional
-  'double complex'-type array, following the row-major order, to a
+  Implementation for exporting complex value data of an one-dimensional
+  complex value array, following the row-major order, to a
   breakline-separated lines and char-separated columns data file. The exported
   complex values are of the type a+bi.
 
   Parameters:
   - file_path, path to the file.
-  - data, one-dimensional 'double complex'-type array of the size rows*columns
+  - data, one-dimensional complex value array of the size rows*columns
   containing the data. The data is accessed following the row-major order, i.e.,
   through data[j + columns*i], where i is any row and j is any column.
   - rows, number of rows of the data.
@@ -253,8 +253,8 @@ static inline void sepdat_export_impl_(const char *file_path,
   - sep, column separator.
 */
 static inline void sepdat_export_cplx_impl_(const char *file_path,
-                                            const tpdfcplx_impl_ *data,
-                                            int rows, int columns, char sep) {
+                                            const dcomplex *data, int rows,
+                                            int columns, char sep) {
 
   /* Open file */
   FILE *file = fopen(file_path, "w");

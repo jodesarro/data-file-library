@@ -177,7 +177,7 @@ static inline double parse_real_impl_(char *str) {
 }
 
 /*
-  Returns a real 'double complex'-type value from a string considering C,
+  Returns a real complex value value from a string considering C,
   Wolfram Language (WL), and Matlab conventions. The complex values may be of
   the type a, a+bi, bi, i, and -i, where i may also be j, *i, *j, or *I, and
   where a and b may also be in the base 10 exponential form eN or *^N, where N
@@ -186,7 +186,7 @@ static inline double parse_real_impl_(char *str) {
   Parameters:
   - str, the input numeric complex value.
 */
-static inline tpdfcplx_impl_ parse_complex_impl_(char *str) {
+static inline dcomplex parse_complex_impl_(char *str) {
 
   complexinfinity_to_infinity_impl_(str);
   remove_spaces_impl_(str);
@@ -204,40 +204,40 @@ static inline tpdfcplx_impl_ parse_complex_impl_(char *str) {
     /* Complex number */
     if (sscanf(str, "%lf+%lfi", &real, &imag) == 2) {
       /* Complex of the type a+bi */
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     } else if (sscanf(str, "%lf-%lfi", &real, &imag) == 2) {
       /* Complex of the type a-bi */
-      return real - I_IMPL_ * imag;
+      return real - I * imag;
     } else if (sscanf(str, "%lfi", &imag) == 1) {
       /* Complex of the type bi */
       real = 0.0;
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     } else if (strcmp(str, "i") == 0 || strcmp(str, "+i") == 0) {
       /* Complex of the type i */
       real = 0.0;
       imag = 1.0;
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     } else if (strcmp(str, "-i") == 0) {
       /* Complex of the type -i */
       real = 0.0;
       imag = -1.0;
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     } else {
       /* Invalid complex number type */
       real = NAN;
       imag = NAN;
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     }
   } else {
     /* Real number */
     imag = 0.0;
     if (sscanf(str, "%lf", &real) == 1) {
       /* Real number of the type +a */
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     } else {
       /* Invalid real number type */
       real = NAN;
-      return real + I_IMPL_ * imag;
+      return real + I * imag;
     }
   }
 }

@@ -48,16 +48,16 @@ separated by a comma.
     <code><b>csvdat_import_cplx(file_path, data)</b></code>
   </summary>
 
-  - **Description:** Imports `double complex`-type data from a
+  - **Description:** Imports complex value data from a
   Comma-Separated Values data file
-  and stores the values in an one-dimensional `double complex`-type array
+  and stores the values in an one-dimensional complex value array
   following the row-major order. The complex values may be of the type `a`,
   `a+bi`, `bi`, and `i`, where `i` may also be `j`, `*i`, `*j`, or `*I`, and
   where `a` and `b` may also be in the base 10 exponential form `eN` or `*^N`,
   where `N` is an integer.
   - **Parameters:**
     - `file_path`, path to the file.
-    - `data`, one-dimensional `double complex`-type array of the size
+    - `data`, one-dimensional complex value array of the size
     `rows*columns` to output the data following the row-major order, where
     `rows` and `columns` may be obtained through `csvdat_get_sizes()`.
     The outputted data may be accessed through `data[j + columns*i]`,
@@ -87,14 +87,14 @@ separated by a comma.
     <code><b>csvdat_export_cplx(file_path, data, rows, columns)</b></code>
   </summary>
 
-  - **Description:** Exports `double complex`-type data of an
-    one-dimensional `double complex`-type array,
+  - **Description:** Exports complex value data of an
+    one-dimensional complex value array,
     following the row-major
     order, to a Comma-Separated Values data file.
     The exported complex values are of the type `a+bi`.
   - **Parameters:**
     - `file_path`, path to the file.
-    - `data`, one-dimensional `double complex`-type array of the size
+    - `data`, one-dimensional complex value array of the size
     `rows*columns` containing the data. The data is accessed following the
     row-major order, i.e., through `data[j + columns*i]`, where `i` is
     any row and `j` is any column.
@@ -144,16 +144,16 @@ separated by a tabular spacing.
     <code><b>tsvdat_import_cplx(file_path, data)</b></code>
   </summary>
 
-  - **Description:** Imports `double complex`-type data from a
+  - **Description:** Imports complex value data from a
   Tab-Separated Values data file
-  and stores the values in an one-dimensional `double complex`-type array
+  and stores the values in an one-dimensional complex value array
   following the row-major order. The complex values may be of the type `a`,
   `a+bi`, `bi`, and `i`, where `i` may also be `j`, `*i`, `*j`, or `*I`, and
   where `a` and `b` may also be in the base 10 exponential form `eN` or `*^N`,
   where `N` is an integer.
   - **Parameters:**
     - `file_path`, path to the file.
-    - `data`, one-dimensional `double complex`-type array of the size
+    - `data`, one-dimensional complex value array of the size
     `rows*columns` to output the data following the row-major order, where
     `rows` and `columns` may be obtained through `tsvdat_get_sizes()`.
     The outputted data may be accessed through `data[j + columns*i]`,
@@ -183,14 +183,14 @@ separated by a tabular spacing.
     <code><b>tsvdat_export_cplx(file_path, data, rows, columns)</b></code>
   </summary>
 
-  - **Description:** Exports `double complex`-type data of an
-    one-dimensional `double complex`-type array,
+  - **Description:** Exports complex value data of an
+    one-dimensional complex value array,
     following the row-major
     order, to a Tab-Separated Values data file.
     The exported complex values are of the type `a+bi`.
   - **Parameters:**
     - `file_path`, path to the file.
-    - `data`, one-dimensional `double complex`-type array of the size
+    - `data`, one-dimensional complex value array of the size
     `rows*columns` containing the data. The data is accessed following the
     row-major order, i.e., through `data[j + columns*i]`, where `i` is
     any row and `j` is any column.
@@ -284,10 +284,10 @@ tensors, matrices, tables, numeric datasets and so on.
 
   - **Description:** Imports data of complex numbers from a Wolfram
   Language package source format, and stores in an one-dimensional
-  `double complex`-type array following the row-major order.
+  complex value array following the row-major order.
   - **Parameters:**
     - `file_path`, path to the data file.
-    - `data`, array of `double complex`-type of size `S1*S2*...*SN` to
+    - `data`, array of complex value of size `S1*S2*...*SN` to
     output the values following the row-major order, where `N` is the number
     of dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
     respective size. Notice that `N<=128` and may be obtained through
@@ -319,13 +319,13 @@ tensors, matrices, tables, numeric datasets and so on.
     <code><b>wldat_export_cplx(file_path, data, dimensions, size, comment)</b></code>
   </summary>
 
-  - **Description:** Exports `double complex`-type data of an
-    one-dimensional `double complex`-type array, following the row-major
+  - **Description:** Exports complex value data of an
+    one-dimensional complex value array, following the row-major
     order, to Wolfram Language package source format of arbitrary dimension.
 
   - **Parameters:**
     - `file_path`, path to the data file.
-    - `data`, array of `double complex`-type of size `S1*S2*...*SN`,
+    - `data`, array of complex value of size `S1*S2*...*SN`,
     containing data following the row-major order, where `N` is the number of
     dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
     respective size.
@@ -358,69 +358,69 @@ beginning of your code and you shall be ready to use the functions.
 **CSV file with complex numbers and previously known sizes**
 
 ```c
-#include <complex.h> /* C++ users must include <complex> instead */
 #include "data-file-library.h" /* The data-file-library.h header */
+#include <complex.h>           /* C++ users must include <complex> instead */
 
 int main() {
 
-    /* Size of each dimension */
-    int rows = 15; /* Number of rows */
-    int columns = 15; /* Number of columns */
+  /* Size of each dimension */
+  int rows = 15;    /* Number of rows */
+  int columns = 15; /* Number of columns */
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex data[rows*columns];
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex data[rows * columns];
 
-    /* Import the data (complex numbers) */
-    csvdat_import_cplx("myfile.csv", data);
+  /* Import the data (complex numbers) */
+  csvdat_import_cplx("myfile.csv", data);
 
-    /*
-        The data at any row r and column c, may be acessed through
-        data[c + columns*r]
-    */
-    
-    /* Export the data (complex numbers) */
-    csvdat_export_cplx("myfile2.csv", data, rows, columns);
+  /*
+    The data at any row r and column c, may be acessed through
+    data[c + columns*r]
+  */
 
-    return 0;
+  /* Export the data (complex numbers) */
+  csvdat_export_cplx("myfile2.csv", data, rows, columns);
+
+  return 0;
 }
 ```
 
 **CSV file with complex numbers and unknown sizes**
 
 ```c
-#include <stdlib.h> /* For malloc() and free() */
-#include <complex.h> /* C++ users must include <complex> instead */
 #include "data-file-library.h" /* The data-file-library.h header */
+#include <complex.h>           /* C++ users must include <complex> instead */
+#include <stdlib.h>            /* For malloc() and free() */
 
 int main() {
 
-    /* Unknown size of each dimension */
-    int rows; /* Number of rows */
-    int columns; /* Number of columns */
+  /* Unknown size of each dimension */
+  int rows;    /* Number of rows */
+  int columns; /* Number of columns */
 
-    /* Get the sizes */
-    csvdat_get_sizes("myfile.csv", &rows, &columns);
+  /* Get the sizes */
+  csvdat_get_sizes("myfile.csv", &rows, &columns);
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex *data = (int *)malloc(rows*columns * sizeof(int));
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex *data = (int *)malloc(rows * columns * sizeof(int));
 
-    /* Import the data (complex numbers) */
-    csvdat_import_cplx("myfile.csv", data);
+  /* Import the data (complex numbers) */
+  csvdat_import_cplx("myfile.csv", data);
 
-    /*
-        The data at any row r and column c, may be acessed through
-        data[c + columns*r]
-    */
-    
-    /* Export the data (complex numbers) */
-    csvdat_export_cplx("myfile2.csv", data, rows, columns);
+  /*
+    The data at any row r and column c, may be acessed through
+    data[c + columns*r]
+  */
 
-    /* Free allocated memory */
-    free(data);
+  /* Export the data (complex numbers) */
+  csvdat_export_cplx("myfile2.csv", data, rows, columns);
 
-    return 0;
+  /* Free allocated memory */
+  free(data);
+
+  return 0;
 }
 ```
 </details>
@@ -433,69 +433,69 @@ int main() {
 **TSV file with complex numbers and previously known sizes**
 
 ```c
-#include <complex.h> /* C++ users must include <complex> instead */
 #include "data-file-library.h" /* The data-file-library.h header */
+#include <complex.h>           /* C++ users must include <complex> instead */
 
 int main() {
 
-    /* Size of each dimension */
-    int rows = 15; /* Number of rows */
-    int columns = 15; /* Number of columns */
+  /* Size of each dimension */
+  int rows = 15;    /* Number of rows */
+  int columns = 15; /* Number of columns */
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex data[rows*columns];
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex data[rows * columns];
 
-    /* Import the data (complex numbers) */
-    tsvdat_import_cplx("myfile.tsv", data);
+  /* Import the data (complex numbers) */
+  tsvdat_import_cplx("myfile.tsv", data);
 
-    /*
-        The data at any row r and column c, may be acessed through
-        data[c + columns*r]
-    */
-    
-    /* Export the data (complex numbers) */
-    tsvdat_export_cplx("myfile2.tsv", data, rows, columns);
+  /*
+    The data at any row r and column c, may be acessed through
+    data[c + columns*r]
+  */
 
-    return 0;
+  /* Export the data (complex numbers) */
+  tsvdat_export_cplx("myfile2.tsv", data, rows, columns);
+
+  return 0;
 }
 ```
 
 **TSV file with complex numbers and unknown sizes**
 
 ```c
-#include <stdlib.h> /* For malloc() and free() */
-#include <complex.h> /* C++ users must include <complex> instead */
 #include "data-file-library.h" /* The data-file-library.h header */
+#include <complex.h>           /* C++ users must include <complex> instead */
+#include <stdlib.h>            /* For malloc() and free() */
 
 int main() {
 
-    /* Unknown size of each dimension */
-    int rows; /* Number of rows */
-    int columns; /* Number of columns */
+  /* Unknown size of each dimension */
+  int rows;    /* Number of rows */
+  int columns; /* Number of columns */
 
-    /* Get the sizes */
-    tsvdat_get_sizes("myfile.tsv", &rows, &columns);
+  /* Get the sizes */
+  tsvdat_get_sizes("myfile.tsv", &rows, &columns);
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex *data = (int *)malloc(rows*columns * sizeof(int));
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex *data = (int *)malloc(rows * columns * sizeof(int));
 
-    /* Import the data (complex numbers) */
-    tsvdat_import_cplx("myfile.tsv", data);
+  /* Import the data (complex numbers) */
+  tsvdat_import_cplx("myfile.tsv", data);
 
-    /*
-        The data at any row r and column c, may be acessed through
-        data[c + columns*r]
-    */
-    
-    /* Export the data (complex numbers) */
-    tsvdat_export_cplx("myfile2.tsv", data, rows, columns);
+  /*
+    The data at any row r and column c, may be acessed through
+    data[c + columns*r]
+  */
 
-    /* Free allocated memory */
-    free(data);
+  /* Export the data (complex numbers) */
+  tsvdat_export_cplx("myfile2.tsv", data, rows, columns);
 
-    return 0;
+  /* Free allocated memory */
+  free(data);
+
+  return 0;
 }
 ```
 </details>
@@ -508,84 +508,84 @@ int main() {
 **WL file with complex numbers and previously known dimensions and sizes**
 
 ```c
-#include <complex.h> /* C++ users must include <complex> instead */
 #include "data-file-library.h" /* The data-file-library.h header */
+#include <complex.h>           /* C++ users must include <complex> instead */
 
 int main() {
 
-    /* Number of dimensions */
-    int dimensions = 3; /* Assuming a 3D matrix, dimensions in i, j, and k */
+  /* Number of dimensions */
+  int dimensions = 3; /* Assuming a 3D matrix, dimensions in i, j, and k */
 
-    /* Size of each dimension */
-    int imax = 15; /* Size of the dimension i */
-    int jmax = 15; /* Size of the dimension j */
-    int kmax = 15; /* Size of the dimension k */
+  /* Size of each dimension */
+  int imax = 15; /* Size of the dimension i */
+  int jmax = 15; /* Size of the dimension j */
+  int kmax = 15; /* Size of the dimension k */
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex data[imax*jmax*kmax];
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex data[imax * jmax * kmax];
 
-    /* Import the data (complex numbers) */
-    wldat_import_cplx("myfile.wl", data);
+  /* Import the data (complex numbers) */
+  wldat_import_cplx("myfile.wl", data);
 
-    /*
-        The data at positions i, j, and k, may be acessed through
-        data[k + kmax*j + kmax*jmax*i]
-    */
-    
-    /* Export the data (complex numbers) */
-    int size[dimensions] = {imax, jmax, kmax};
-    wldat_export_cplx("myfile2.wl", data, dimensions, size, "");
+  /*
+    The data at positions i, j, and k, may be acessed through
+    data[k + kmax*j + kmax*jmax*i]
+  */
 
-    return 0;
+  /* Export the data (complex numbers) */
+  int size[dimensions] = {imax, jmax, kmax};
+  wldat_export_cplx("myfile2.wl", data, dimensions, size, "");
+
+  return 0;
 }
 ```
 
 **WL file with complex numbers and unknown dimensions and sizes**
 
 ```c
-#include <stdlib.h> /* For malloc() and free() */
-#include <complex.h> /* C++ users must include <complex> instead */
 #include "data-file-library.h" /* The data-file-library.h header */
+#include <complex.h>           /* C++ users must include <complex> instead */
+#include <stdlib.h>            /* For malloc() and free() */
 
 int main() {
 
-    /* Get the number of dimensions of the WL file */
-    int dimensions = wldat_get_dimensions("myfile.wl");
+  /* Get the number of dimensions of the WL file */
+  int dimensions = wldat_get_dimensions("myfile.wl");
 
-    /* Get the size of each dimension of the WL file */
-    int *size = (int *)malloc(dimensions * sizeof(int));
-    wldat_get_sizes("myfile.wl", size);
+  /* Get the size of each dimension of the WL file */
+  int *size = (int *)malloc(dimensions * sizeof(int));
+  wldat_get_sizes("myfile.wl", size);
 
-    /* Get the total size (size[0] * size[1] * ... * size[dimensions-1]) */
-    int totalsize = 1;
-    for (int i = 0; i<dimensions; i++) {
-        totalsize *= size[i];
-    }
+  /* Get the total size (size[0] * size[1] * ... * size[dimensions-1]) */
+  int totalsize = 1;
+  for (int i = 0; i < dimensions; i++) {
+    totalsize *= size[i];
+  }
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex *data = (int *)malloc(totalsize * sizeof(int));
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex *data = (int *)malloc(totalsize * sizeof(int));
 
-    /* Import the data (complex numbers) */
-    wldat_import_cplx("myfile.wl", data);
+  /* Import the data (complex numbers) */
+  wldat_import_cplx("myfile.wl", data);
 
-    /*
-        As an example, for a 3D matrix, dimensions = 3,
-        the data at positions i, j, and k may be acessed through
-        data[k + kmax*j + kmax*jmax*i]
-        where imax = size[0], jmax = size[1], and kmax = size[2],
-        and so 0<=i<imax, 0<=j<jmax and 0<=k<kmax.
-    */
-    
-    /* Export the data (complex numbers) */
-    wldat_export_cplx("myfile2.wl", data, dimensions, size, "");
+  /*
+    As an example, for a 3D matrix, dimensions = 3,
+    the data at positions i, j, and k may be acessed through
+    data[k + kmax*j + kmax*jmax*i]
+    where imax = size[0], jmax = size[1], and kmax = size[2],
+    and so 0<=i<imax, 0<=j<jmax and 0<=k<kmax.
+  */
 
-    /* Free allocated memories */
-    free(size);
-    free(data);
+  /* Export the data (complex numbers) */
+  wldat_export_cplx("myfile2.wl", data, dimensions, size, "");
 
-    return 0;
+  /* Free allocated memories */
+  free(size);
+  free(data);
+
+  return 0;
 }
 ```
 </details>
@@ -597,7 +597,7 @@ storing multi‑dimensional arrays in one‑dimensional (linear) arrays,
 a method widely used in C programming.
 
 Moreover, the implementation adheres to the C99 standard, and all complex
-variables are handled by the `tpdfcplx_impl_` type, which automatically
+variables are handled by the `dcomplex` type, which automatically
 expands to the `double complex` type provided by the C `<complex.h>` library.
 
 Notice that functions, macros, constants, and files whose names contain the
@@ -610,10 +610,11 @@ This library uses `__cplusplus` compiler guards with `extern "C"` and
 macros to ensure C++ compatibility (C++98 standard at least).
 
 In this sense, when using C++ compilers, the following C functions are
-automatically mapped to their C++ equivalent: `creal(z)`↦`std::real(z)`,
+automatically mapped to their C++ equivalent: `creal(z)`↦`std::real(z)`, and
 `cimag(z)`↦`std::imag(z)`; and all complex values are handled by the
-`tpdfcplx_impl_` type, which automatically expands to the
-`std::complex<double>` type of the C++ `<complex>` library.
+`dcomplex` type, which automatically expands to the
+`std::complex<double>` type of the C++ `<complex>` library, being the macro `I`
+the imaginary unity.
 
 ## Compiling the library
 
@@ -696,32 +697,32 @@ before the `#include "data-file-library.h"`.
 **CSV file with complex numbers and previously known sizes**
 
 ```c
-#include <complex.h> /* C++ users must include <complex> instead */
+#include <complex.h>              /* C++ users must include <complex> instead */
 #define DATA_FILE_LIBRARY_IMPORTS /* Required for using the compiled file */
-#include "data-file-library.h" /* The data-file-library.h header */
+#include "data-file-library.h"    /* The data-file-library.h header */
 
 int main() {
 
-    /* Size of each dimension */
-    int rows = 15; /* Number of rows */
-    int columns = 15; /* Number of columns */
+  /* Size of each dimension */
+  int rows = 15;    /* Number of rows */
+  int columns = 15; /* Number of columns */
 
-    /* Array to store the data (complex numbers) */
-    /* C++ users must replace 'double complex' type by std::complex<double> */
-    double complex data[rows*columns];
+  /* Array to store the data (complex numbers) */
+  /* C++ users must replace 'double complex' type by std::complex<double> */
+  double complex data[rows * columns];
 
-    /* Import the data (complex numbers) */
-    csvdat_import_cplx("myfile.csv", data);
+  /* Import the data (complex numbers) */
+  csvdat_import_cplx("myfile.csv", data);
 
-    /*
-        The data at any row r and column c, may be acessed through
-        data[c + columns*r]
-    */
-    
-    /* Export the data (complex numbers) */
-    csvdat_export_cplx("myfile2.csv", data, rows, columns);
+  /*
+    The data at any row r and column c, may be acessed through
+    data[c + columns*r]
+  */
 
-    return 0;
+  /* Export the data (complex numbers) */
+  csvdat_export_cplx("myfile2.csv", data, rows, columns);
+
+  return 0;
 }
 ```
 </details>

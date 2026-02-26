@@ -333,7 +333,7 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
 static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
                                                  int dimensions,
                                                  const int *size, int *indices,
-                                                 tpdfcplx_impl_ *data) {
+                                                 dcomplex *data) {
 
   int ch;
   char buf[128];
@@ -429,19 +429,19 @@ static inline void wldat_import_impl_(const char *file_path, double *data) {
 
 /*
   Implementation for importing data of complex numbers from a Wolfram Language
-  package source format, and storing in an one-dimensional 'double complex'-type
+  package source format, and storing in an one-dimensional complex value
   array following the row-major order.
 
   Parameters:
   - file_path, path to the data file.
-  - data, array of 'double complex'-type of size S1*S2*...*SN to output the
+  - data, array of complex value of size S1*S2*...*SN to output the
   values following the row-major order, where N is the number of dimensions, and
   for each dimension n, being 1<=n<=N, Sn is its respective size. Notice that
   N<=128 and may be obtained through wldat_get_dimensions_impl_(), and Sn
   through wldat_get_sizes_impl_().
 */
 static inline void wldat_import_cplx_impl_(const char *file_path,
-                                           tpdfcplx_impl_ *data) {
+                                           dcomplex *data) {
 
   /* Get dimensions and sizes */
   int dimensions = wldat_get_dimensions_impl_(file_path);
@@ -527,7 +527,7 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
 static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
                                                   int dimensions,
                                                   const int *size, int *indices,
-                                                  const tpdfcplx_impl_ *data) {
+                                                  const dcomplex *data) {
 
   fprintf(file, "{");
   for (int i = 0; i < size[level]; i++) {
@@ -603,13 +603,13 @@ static inline void wldat_export_impl_(const char *file_path, const double *data,
 }
 
 /*
-  Implementation for exporting 'double complex'-type data of an one-dimensional
-  'double complex'-type array, following the row-major order, to Wolfram
+  Implementation for exporting complex value data of an one-dimensional
+  complex value array, following the row-major order, to Wolfram
   Language package source format of arbitrary dimension.
 
   Parameters:
   - file_path, path to the data file.
-  - data, array of 'double complex'-type of size S1*S2*...*SN, containing data
+  - data, array of complex value of size S1*S2*...*SN, containing data
   following the row-major order, where N is the number of dimensions, and for
   each dimension n, being 1<=n<=N, Sn is its respective size.
   - dimensions, number N of the dimensions of the data, limited to 128.
@@ -617,8 +617,8 @@ static inline void wldat_export_impl_(const char *file_path, const double *data,
   - comment, text to be stored at the very first line of the file.
 */
 static inline void wldat_export_cplx_impl_(const char *file_path,
-                                           const tpdfcplx_impl_ *data,
-                                           int dimensions, const int *size,
+                                           const dcomplex *data, int dimensions,
+                                           const int *size,
                                            const char *comment) {
 
   /* Open file */

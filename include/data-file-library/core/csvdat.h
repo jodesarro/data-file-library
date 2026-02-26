@@ -61,21 +61,21 @@ void csvdat_import(const char *file_path, double *data)
 #endif
 
 /*
-  Imports 'double complex'-type data from a Comma-Separated Values data file and
-  stores the values in an one-dimensional 'double complex'-type array following
+  Imports complex value data from a Comma-Separated Values data file and
+  stores the values in an one-dimensional complex value array following
   the row-major order. The complex values may be of the type a, a+bi, bi, and i,
   where i may also be j, *i, *j, or *I, and where a and b may also be in the
   base 10 exponential form eN or *^N, where N is an integer.
 
   Parameters:
   - file_path, path to the file.
-  - data, one-dimensional 'double complex'-type array of the size rows*columns
+  - data, one-dimensional complex value array of the size rows*columns
   to output the data following the row-major order, where rows and columns may
   be obtained through csvdat_get_sizes(). The outputted data may be accessed
   through data[j + columns*i], where i is any row and j is any column.
 */
 DATA_FILE_LIBRARY_API_IMPL_
-void csvdat_import_cplx(const char *file_path, tpdfcplx_impl_ *data)
+void csvdat_import_cplx(const char *file_path, dcomplex *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
   sepdat_import_cplx_impl_(file_path, data, ',');
@@ -108,21 +108,21 @@ void csvdat_export(const char *file_path, const double *data, int rows,
 #endif
 
 /*
-  Exports 'double complex'-type data of an one-dimensional 'double complex'-type
+  Exports complex value data of an one-dimensional complex value
   array, following the row-major order, to a Comma-Separated Values data file.
   The exported complex values are of the type a+bi.
 
   Parameters:
   - file_path, path to the file.
-  - data, one-dimensional 'double complex'-type array of the size rows*columns
+  - data, one-dimensional complex value array of the size rows*columns
   containing the data. The data is accessed following the row-major order, i.e.,
   through data[j + columns*i], where i is any row and j is any column.
   - rows, number of rows of the data.
   - columns, number of columns of the data.
 */
 DATA_FILE_LIBRARY_API_IMPL_
-void csvdat_export_cplx(const char *file_path, const tpdfcplx_impl_ *data,
-                        int rows, int columns)
+void csvdat_export_cplx(const char *file_path, const dcomplex *data, int rows,
+                        int columns)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
   sepdat_export_cplx_impl_(file_path, data, rows, columns, ',');
