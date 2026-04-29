@@ -172,7 +172,7 @@ static inline double parse_real_impl_(char *str) {
   if (sscanf(str, "%lf", &real) == 1) {
     return real;
   } else {
-    return NAN;
+    return (double)NAN;
   }
 }
 
@@ -224,8 +224,8 @@ static inline dcomplex parse_complex_impl_(char *str) {
       return real + I * imag;
     } else {
       /* Invalid complex number type */
-      real = NAN;
-      imag = NAN;
+      real = (double)NAN;
+      imag = (double)NAN;
       return real + I * imag;
     }
   } else {
@@ -236,7 +236,7 @@ static inline dcomplex parse_complex_impl_(char *str) {
       return real + I * imag;
     } else {
       /* Invalid real number type */
-      real = NAN;
+      real = (double)NAN;
       return real + I * imag;
     }
   }

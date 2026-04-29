@@ -19,6 +19,7 @@
 #include "../impl/wldat_impl_.h"
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Returns the size of the comment from a Wolfram Language package source format,
   i.e., the number of characters of the first line of the file plus a '\0' char.
@@ -26,7 +27,6 @@
   Parameter:
   - file_path, path to the file.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 int wldat_get_comment_size(const char *file_path)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -36,6 +36,7 @@ int wldat_get_comment_size(const char *file_path)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Gets the comment from a Wolfram Language package source format, i.e., the text
   of the whole first line of the file plus a '\0' char.
@@ -45,7 +46,6 @@ int wldat_get_comment_size(const char *file_path)
   - comment, array of size given by wldat_get_comment_size(), to output the
   text.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void wldat_get_comment(const char *file_path, char *comment)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -55,6 +55,7 @@ void wldat_get_comment(const char *file_path, char *comment)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Returns the number of dimensions from a Wolfram Language package source
   format. The number of dimensions is limited to 128.
@@ -62,7 +63,6 @@ void wldat_get_comment(const char *file_path, char *comment)
   Parameter:
   - file_path, path to the file.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 int wldat_get_dimensions(const char *file_path)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -72,6 +72,7 @@ int wldat_get_dimensions(const char *file_path)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Gets the size of each dimension from a Wolfram Language package source format.
 
@@ -80,7 +81,6 @@ int wldat_get_dimensions(const char *file_path)
   - size, array of size given by wldat_get_dimensions(), to sequentially output
   the size of each dimension. The size of this array is limited to 128.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void wldat_get_sizes(const char *file_path, int *size)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -90,6 +90,7 @@ void wldat_get_sizes(const char *file_path, int *size)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Imports data of real numbers from a Wolfram Language package source format,
   and stores in an one-dimensional double-type array following the row-major
@@ -103,7 +104,6 @@ void wldat_get_sizes(const char *file_path, int *size)
   and may be obtained through wldat_get_dimensions(), and Sn through
   wldat_get_sizes().
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void wldat_import(const char *file_path, double *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -113,6 +113,7 @@ void wldat_import(const char *file_path, double *data)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Imports data of complex numbers from a Wolfram Language package source format,
   and stores in an one-dimensional complex value array following the
@@ -126,7 +127,6 @@ void wldat_import(const char *file_path, double *data)
   N<=128 and may be obtained through wldat_get_dimensions(), and Sn through
   wldat_get_sizes().
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void wldat_import_cplx(const char *file_path, dcomplex *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -136,6 +136,7 @@ void wldat_import_cplx(const char *file_path, dcomplex *data)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Exports double-type data of an one-dimensional double-type array, following
   the row-major order, to Wolfram Language package source format of arbitrary
@@ -150,7 +151,6 @@ void wldat_import_cplx(const char *file_path, dcomplex *data)
   - size, array of size N containing the size of each dimension.
   - comment, text to be stored at the very first line of the file.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void wldat_export(const char *file_path, const double *data, int dimensions,
                   const int *size, const char *comment)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
@@ -161,6 +161,7 @@ void wldat_export(const char *file_path, const double *data, int dimensions,
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Exports complex value data of an one-dimensional complex value
   array, following the row-major order, to Wolfram Language package source
@@ -175,7 +176,6 @@ void wldat_export(const char *file_path, const double *data, int dimensions,
   - size, array of size N containing the size of each dimension.
   - comment, text to be stored at the very first line of the file.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void wldat_export_cplx(const char *file_path, const dcomplex *data,
                        int dimensions, const int *size, const char *comment)
 #ifndef DATA_FILE_LIBRARY_IMPORTS

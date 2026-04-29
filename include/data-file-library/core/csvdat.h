@@ -19,6 +19,7 @@
 #include "../impl/sepdat_impl_.h"
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Gets the size in each dimension (number of rows and columns) from a
   Comma-Separated Values data file.
@@ -28,7 +29,6 @@
   - &rows, to output the number of rows.
   - &columns, to output the number of columns.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void csvdat_get_sizes(const char *file_path, int *rows, int *columns)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -38,6 +38,7 @@ void csvdat_get_sizes(const char *file_path, int *rows, int *columns)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Imports double-type data from a Comma-Separated Values data file and stores in
   an one-dimensional double-type array following the row-major order. The values
@@ -50,7 +51,6 @@ void csvdat_get_sizes(const char *file_path, int *rows, int *columns)
   through csvdat_get_sizes(). The outputted data may be accessed through data[j
   + columns*i], where i is any row and j is any column.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void csvdat_import(const char *file_path, double *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -60,6 +60,7 @@ void csvdat_import(const char *file_path, double *data)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Imports complex value data from a Comma-Separated Values data file and
   stores the values in an one-dimensional complex value array following
@@ -74,7 +75,6 @@ void csvdat_import(const char *file_path, double *data)
   be obtained through csvdat_get_sizes(). The outputted data may be accessed
   through data[j + columns*i], where i is any row and j is any column.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void csvdat_import_cplx(const char *file_path, dcomplex *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
 {
@@ -84,6 +84,7 @@ void csvdat_import_cplx(const char *file_path, dcomplex *data)
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Exports double-type data of an one-dimensional double-type array, following
   the row-major order, to a Comma-Separated Values data file.
@@ -96,7 +97,6 @@ void csvdat_import_cplx(const char *file_path, dcomplex *data)
   - rows, number of rows of the data.
   - columns, number of columns of the data.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void csvdat_export(const char *file_path, const double *data, int rows,
                    int columns)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
@@ -107,6 +107,7 @@ void csvdat_export(const char *file_path, const double *data, int rows,
     ;
 #endif
 
+DATA_FILE_LIBRARY_API_IMPL_
 /*
   Exports complex value data of an one-dimensional complex value
   array, following the row-major order, to a Comma-Separated Values data file.
@@ -120,7 +121,6 @@ void csvdat_export(const char *file_path, const double *data, int rows,
   - rows, number of rows of the data.
   - columns, number of columns of the data.
 */
-DATA_FILE_LIBRARY_API_IMPL_
 void csvdat_export_cplx(const char *file_path, const dcomplex *data, int rows,
                         int columns)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
