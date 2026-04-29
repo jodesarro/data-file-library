@@ -16,7 +16,8 @@
 #define DATA_FILE_LIBRARY_PARSE_IMPL_H
 
 #include "cplx_c_cpp_impl_.h"
-#include <math.h> /* For NAN and INFINITY */
+#include <math.h>  /* For NAN and INFINITY */
+#include <stdio.h> /* For snprintf() and sscanf() */
 #include <string.h>
 
 /*
