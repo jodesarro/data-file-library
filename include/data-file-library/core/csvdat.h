@@ -50,6 +50,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   the data following the row-major order, where rows and columns may be obtained
   through csvdat_get_sizes(). The outputted data may be accessed through data[j
   + columns*i], where i is any row and j is any column.
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void csvdat_import(const char *file_path, double *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
@@ -74,6 +77,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   to output the data following the row-major order, where rows and columns may
   be obtained through csvdat_get_sizes(). The outputted data may be accessed
   through data[j + columns*i], where i is any row and j is any column.
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void csvdat_import_cplx(const char *file_path, dcomplex *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
@@ -96,6 +102,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   data[j + columns*i], where i is any row and j is any column.
   - rows, number of rows of the data.
   - columns, number of columns of the data.
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void csvdat_export(const char *file_path, const double *data, int rows,
                    int columns)
@@ -120,6 +129,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   through data[j + columns*i], where i is any row and j is any column.
   - rows, number of rows of the data.
   - columns, number of columns of the data.
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void csvdat_export_cplx(const char *file_path, const dcomplex *data, int rows,
                         int columns)

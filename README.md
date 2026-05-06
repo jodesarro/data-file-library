@@ -746,9 +746,18 @@ int main() {
 ```
 </details>
 
+## Macros
+
+There are some macros that may be used in this library.
+
+- `DATA_FILE_LIBRARY_PROGRESS_BAR`: define this macro to print a progress bar on the console while running the functions `csvdat_import()`, `csvdat_import_cplx()`, `csvdat_export()`, `csvdat_export_cplx()`, `tsvdat_import()`, `tsvdat_import_cplx()`, `tsvdat_export()`, `tsvdat_export_cplx()`, `wldat_import()`, `wldat_import_cplx()`, `wldat_export()`, and `wldat_export_cplx()`.
+- `DATA_FILE_LIBRARY_IMPORTS`: define this macro when using this library through a compiled file.
+
+All macros must be defined before the inclusion of the header of this library, i.e., you must write `#define DATA_FILE_LIBRARY_PROGRESS_BAR` and/or `#define DATA_FILE_LIBRARY_IMPORTS` before `#include "data-file-library.h"`.
+
 ## Third Parties
 
-This library makes use of the following third-party libraries, codes, or routines:
+This library makes use of the following third-party libraries, codes, or routines, already incorporated:
 
 - Console Progress Bar: A C code for printing the progress of numeric iterations on the console. License and more information available at [<https://github.com/jodesarro/console-progress-bar>](https://github.com/jodesarro/console-progress-bar).
 

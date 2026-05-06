@@ -103,6 +103,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   each dimension n, being 1<=n<=N, Sn is its respective size. Notice that N<=128
   and may be obtained through wldat_get_dimensions(), and Sn through
   wldat_get_sizes().
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void wldat_import(const char *file_path, double *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
@@ -126,6 +129,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   for each dimension n, being 1<=n<=N, Sn is its respective size. Notice that
   N<=128 and may be obtained through wldat_get_dimensions(), and Sn through
   wldat_get_sizes().
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void wldat_import_cplx(const char *file_path, dcomplex *data)
 #ifndef DATA_FILE_LIBRARY_IMPORTS
@@ -150,6 +156,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   - dimensions, number N of the dimensions of the data, limited to 128.
   - size, array of size N containing the size of each dimension.
   - comment, text to be stored at the very first line of the file.
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void wldat_export(const char *file_path, const double *data, int dimensions,
                   const int *size, const char *comment)
@@ -175,6 +184,9 @@ DATA_FILE_LIBRARY_API_IMPL_
   - dimensions, number N of the dimensions of the data, limited to 128.
   - size, array of size N containing the size of each dimension.
   - comment, text to be stored at the very first line of the file.
+
+  Details: It prints a progress bar whenever the macro
+  DATA_FILE_LIBRARY_PROGRESS_BAR is defined.
 */
 void wldat_export_cplx(const char *file_path, const dcomplex *data,
                        int dimensions, const int *size, const char *comment)
