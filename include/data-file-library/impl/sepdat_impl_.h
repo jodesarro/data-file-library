@@ -13,6 +13,7 @@
 #ifndef DATA_FILE_LIBRARY_SEPDAT_IMPL_H
 #define DATA_FILE_LIBRARY_SEPDAT_IMPL_H
 
+#include "../../console-progress-bar.h" /* For Console Progress Bar */
 #include "cplx_c_cpp_impl_.h"
 #include "parse_impl_.h"
 #include <stdio.h>
@@ -109,6 +110,9 @@ static inline void sepdat_import_impl_(const char *file_path, double *data,
     exit(EXIT_FAILURE);
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   int i = 0, j = 0;
   char buffer[128], fmt[32];
   snprintf(fmt, sizeof(fmt), "%%127[^%c\n]", sep); /* "%127[^<sep>\n]" */
@@ -127,7 +131,13 @@ static inline void sepdat_import_impl_(const char *file_path, double *data,
     }
     if (i == rows && j == columns)
       break;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+    print_progress_bar_every_percent(j + columns * i, rows * columns, 10);
+#endif
   }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);
@@ -169,6 +179,9 @@ static inline void sepdat_import_cplx_impl_(const char *file_path,
     exit(EXIT_FAILURE);
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   int i = 0, j = 0;
   char buffer[128], fmt[32];
   snprintf(fmt, sizeof(fmt), "%%127[^%c\n]", sep); /* "%127[^<sep>\n]" */
@@ -187,7 +200,13 @@ static inline void sepdat_import_cplx_impl_(const char *file_path,
     }
     if (i == rows && j == columns)
       break;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+    print_progress_bar_every_percent(j + columns * i, rows * columns, 10);
+#endif
   }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);
@@ -223,15 +242,24 @@ static inline void sepdat_export_impl_(const char *file_path,
     exit(EXIT_FAILURE);
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < columns; j++) {
       fprintf(file, "%.16e", data[j + columns * i]);
       if (j < columns - 1) {
         fputc(sep, file); /* Tab between columns */
       }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+      print_progress_bar_every_percent(j + columns * i, rows * columns, 10);
+#endif
     }
     fputc('\n', file); /* Newline at end of row */
   }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);
@@ -268,6 +296,9 @@ static inline void sepdat_export_cplx_impl_(const char *file_path,
     exit(EXIT_FAILURE);
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < columns; j++) {
       fprintf(file, "%.16e%+.16ei", creal(data[j + columns * i]),
@@ -275,9 +306,15 @@ static inline void sepdat_export_cplx_impl_(const char *file_path,
       if (j < columns - 1) {
         fputc(sep, file); /* Tab between columns */
       }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+      print_progress_bar_every_percent(j + columns * i, rows * columns, 10);
+#endif
     }
     fputc('\n', file); /* Newline at end of row */
   }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);

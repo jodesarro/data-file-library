@@ -12,6 +12,7 @@
 #ifndef DATA_FILE_LIBRARY_WLDAT_IMPL_H
 #define DATA_FILE_LIBRARY_WLDAT_IMPL_H
 
+#include "../../console-progress-bar.h" /* For Console Progress Bar */
 #include "cplx_c_cpp_impl_.h"
 #include "parse_impl_.h"
 #include <ctype.h>  /* For isspace() */
@@ -269,11 +270,15 @@ static inline int row_major_flat_index_impl_(const int *indices,
   - size, array with the size of each dimension.
   - indices, array with the indices of each dimension.
   - data, array to store the results.
+  - completed, pointer to the number of elements already written, for the
+  progress bar.
+  - total, total number of elements to be written, for the progress bar.
 */
 static inline void read_nested_braces_impl_(FILE *file, int level,
                                             int dimensions, const int *size,
-                                            int *indices, double *data) {
-
+                                            int *indices, double *data,
+                                            long int *completed,
+                                            long int total) {
   int ch;
   char buf[128];
   int buf_i = 0;
@@ -290,9 +295,13 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
     if (ch == '{') {
       ungetc(ch, file);
       indices[level] = element_count;
-      read_nested_braces_impl_(file, level + 1, dimensions, size, indices,
-                               data);
+      read_nested_braces_impl_(file, level + 1, dimensions, size, indices, data,
+                               completed, total);
       element_count++;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+      (*completed)++;
+      print_progress_bar_every_percent(*completed, total, 10);
+#endif
     } else if (ch == '}') {
       if (buf_i > 0) {
         buf[buf_i] = '\0';
@@ -301,6 +310,10 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
         data[idx] = parse_real_impl_(buf);
         buf_i = 0;
         element_count++;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+        (*completed)++;
+        print_progress_bar_every_percent(*completed, total, 10);
+#endif
       }
       break;
     } else if (ch == ',') {
@@ -311,6 +324,10 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
         data[idx] = parse_real_impl_(buf);
         buf_i = 0;
         element_count++;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+        (*completed)++;
+        print_progress_bar_every_percent(*completed, total, 10);
+#endif
       }
     } else if (!isspace(ch)) {
       buf[buf_i++] = (char)ch;
@@ -329,11 +346,14 @@ static inline void read_nested_braces_impl_(FILE *file, int level,
   - size, array with the size of each dimension.
   - indices, array with the indices of each dimension.
   - data, array to store the results.
+  - completed, pointer to the number of elements already written, for the
+  progress bar.
+  - total, total number of elements to be written, for the progress bar.
 */
-static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
-                                                 int dimensions,
-                                                 const int *size, int *indices,
-                                                 dcomplex *data) {
+static inline void
+read_nested_braces_cplx_impl_(FILE *file, int level, int dimensions,
+                              const int *size, int *indices, dcomplex *data,
+                              long int *completed, long int total) {
 
   int ch;
   char buf[128];
@@ -352,8 +372,12 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
       ungetc(ch, file);
       indices[level] = element_count;
       read_nested_braces_cplx_impl_(file, level + 1, dimensions, size, indices,
-                                    data);
+                                    data, completed, total);
       element_count++;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+      (*completed)++;
+      print_progress_bar_every_percent(*completed, total, 10);
+#endif
     } else if (ch == '}') {
       if (buf_i > 0) {
         buf[buf_i] = '\0';
@@ -362,6 +386,10 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
         data[idx] = parse_complex_impl_(buf);
         buf_i = 0;
         element_count++;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+        (*completed)++;
+        print_progress_bar_every_percent(*completed, total, 10);
+#endif
       }
       break;
     } else if (ch == ',') {
@@ -372,6 +400,10 @@ static inline void read_nested_braces_cplx_impl_(FILE *file, int level,
         data[idx] = parse_complex_impl_(buf);
         buf_i = 0;
         element_count++;
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+        (*completed)++;
+        print_progress_bar_every_percent(*completed, total, 10);
+#endif
       }
     } else if (!isspace(ch)) {
       buf[buf_i++] = (char)ch;
@@ -420,8 +452,20 @@ static inline void wldat_import_impl_(const char *file_path, double *data) {
     }
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   int indices[128];
-  read_nested_braces_impl_(file, 0, dimensions, size, indices, data);
+  long int completed = 0;
+  long int total = 1;
+  for (int i = 0; i < dimensions; i++) {
+    total *= size[i];
+  }
+  read_nested_braces_impl_(file, 0, dimensions, size, indices, data, &completed,
+                           total);
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);
@@ -469,8 +513,20 @@ static inline void wldat_import_cplx_impl_(const char *file_path,
     }
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   int indices[128];
-  read_nested_braces_cplx_impl_(file, 0, dimensions, size, indices, data);
+  long int completed = 0;
+  long int total = 1;
+  for (int i = 0; i < dimensions; i++) {
+    total *= size[i];
+  }
+  read_nested_braces_cplx_impl_(file, 0, dimensions, size, indices, data,
+                                &completed, total);
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);
@@ -487,10 +543,15 @@ static inline void wldat_import_cplx_impl_(const char *file_path,
   - size, array with the size of each dimension.
   - indices, array with the indices of each dimension.
   - data, array to store the results.
+  - completed, pointer to the number of elements already written, for the
+  progress bar.
+  - total, total number of elements to be written, for the progress bar.
 */
 static inline void write_nested_braces_impl_(FILE *file, int level,
                                              int dimensions, const int *size,
-                                             int *indices, const double *data) {
+                                             int *indices, const double *data,
+                                             long int *completed,
+                                             long int total) {
 
   fprintf(file, "{");
   for (int i = 0; i < size[level]; i++) {
@@ -501,10 +562,14 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
       char buf[128];
       e_to_star_caret_impl_(buf, sizeof(buf), data[idx]);
       fprintf(file, "%s", buf);
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+      (*completed)++;
+      print_progress_bar_every_percent(*completed, total, 10);
+#endif
     } else {
       /* Recurse into next level */
       write_nested_braces_impl_(file, level + 1, dimensions, size, indices,
-                                data);
+                                data, completed, total);
     }
     if (i < size[level] - 1)
       fprintf(file, ", ");
@@ -523,11 +588,13 @@ static inline void write_nested_braces_impl_(FILE *file, int level,
   - size, array with the size of each dimension.
   - indices, array with the indices of each dimension.
   - data, array to store the results.
+  - completed, pointer to the number of elements already written, for the
+  progress bar.
+  - total, total number of elements to be written, for the progress bar.
 */
-static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
-                                                  int dimensions,
-                                                  const int *size, int *indices,
-                                                  const dcomplex *data) {
+static inline void write_nested_braces_cplx_impl_(
+    FILE *file, int level, int dimensions, const int *size, int *indices,
+    const dcomplex *data, long int *completed, long int total) {
 
   fprintf(file, "{");
   for (int i = 0; i < size[level]; i++) {
@@ -544,10 +611,14 @@ static inline void write_nested_braces_cplx_impl_(FILE *file, int level,
       } else {
         fprintf(file, "%s + %s*I", buf_re, buf_abs_im);
       }
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+      (*completed)++;
+      print_progress_bar_every_percent(*completed, total, 10);
+#endif
     } else {
       /* Recurse into next level */
       write_nested_braces_cplx_impl_(file, level + 1, dimensions, size, indices,
-                                     data);
+                                     data, completed, total);
     }
     if (i < size[level] - 1)
       fprintf(file, ", ");
@@ -592,11 +663,21 @@ static inline void wldat_export_impl_(const char *file_path, const double *data,
     fprintf(file, "(* %s *)\n", comment);
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   int indices[128];
-  write_nested_braces_impl_(file, 0, dimensions, size, indices, data);
-
-  /* Break line */
-  fprintf(file, "\n");
+  long int completed = 0;
+  long int total_elements = 1;
+  for (int d = 0; d < dimensions; d++) {
+    total_elements *= size[d];
+  }
+  write_nested_braces_impl_(file, 0, dimensions, size, indices, data,
+                            &completed, total_elements);
+  fprintf(file, "\n"); /* Break line */
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);
@@ -640,11 +721,21 @@ static inline void wldat_export_cplx_impl_(const char *file_path,
     fprintf(file, "(* %s *)\n", comment);
   }
 
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_empty();
+#endif
   int indices[128];
-  write_nested_braces_cplx_impl_(file, 0, dimensions, size, indices, data);
-
-  /* Break line */
-  fprintf(file, "\n");
+  long int completed = 0;
+  long int total_elements = 1;
+  for (int d = 0; d < dimensions; d++) {
+    total_elements *= size[d];
+  }
+  write_nested_braces_cplx_impl_(file, 0, dimensions, size, indices, data,
+                                 &completed, total_elements);
+  fprintf(file, "\n"); /* Break line */
+#ifdef DATA_FILE_LIBRARY_PROGRESS_BAR
+  print_progress_bar_full();
+#endif
 
   /* Close file */
   fclose(file);

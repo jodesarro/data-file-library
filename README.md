@@ -41,6 +41,7 @@ separated by a comma.
     `rows` and `columns` may be obtained through `csvdat_get_sizes()`. The
     outputted data may be accessed through `data[j + columns*i]`, where
     `i` is any row and `j` is any column.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -62,6 +63,7 @@ separated by a comma.
     `rows` and `columns` may be obtained through `csvdat_get_sizes()`.
     The outputted data may be accessed through `data[j + columns*i]`,
     where `i` is any row and `j` is any column.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -80,6 +82,7 @@ separated by a comma.
     any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -100,6 +103,7 @@ separated by a comma.
     any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 ### Tab-Separated Values file (.tsv)
@@ -137,6 +141,7 @@ separated by a tabular spacing.
     `rows` and `columns` may be obtained through `tsvdat_get_sizes()`. The
     outputted data may be accessed through `data[j + columns*i]`, where
     `i` is any row and `j` is any column.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -158,6 +163,7 @@ separated by a tabular spacing.
     `rows` and `columns` may be obtained through `tsvdat_get_sizes()`.
     The outputted data may be accessed through `data[j + columns*i]`,
     where `i` is any row and `j` is any column.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -176,6 +182,7 @@ separated by a tabular spacing.
     any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -196,6 +203,7 @@ separated by a tabular spacing.
     any row and `j` is any column.
     - `rows`, number of rows of the data.
     - `columns`, number of columns of the data.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 ### Wolfram Language package source format (.wl)
@@ -275,6 +283,7 @@ tensors, matrices, tables, numeric datasets and so on.
     of dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
     respective size. Notice that `N<=128` and may be obtained through
     `wldat_get_dimensions()`, and `Sn` through `wldat_get_sizes()`.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -292,6 +301,7 @@ tensors, matrices, tables, numeric datasets and so on.
     of dimensions, and for each dimension `n`, being `1<=n<=N`, `Sn` is its
     respective size. Notice that `N<=128` and may be obtained through
     `wldat_get_dimensions()`, and `Sn` through `wldat_get_sizes()`.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -312,6 +322,7 @@ tensors, matrices, tables, numeric datasets and so on.
     `128`.
     - `size`, array of size `N` containing the size of each dimension.
     - `comment`, text to be stored at the very first line of the file.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 <details>
@@ -333,6 +344,7 @@ tensors, matrices, tables, numeric datasets and so on.
     `128`.
     - `size`, array of size `N` containing the size of each dimension.
     - `comment`, text to be stored at the very first line of the file.
+  - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
 ## How to use
@@ -358,6 +370,7 @@ beginning of your code and you shall be ready to use the functions.
 **CSV file with complex numbers and previously known sizes**
 
 ```c
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h" /* The data-file-library.h header */
 #include <complex.h>           /* C++ users must include <complex> instead */
 
@@ -389,6 +402,7 @@ int main() {
 **CSV file with complex numbers and unknown sizes**
 
 ```c
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h" /* The data-file-library.h header */
 #include <complex.h>           /* C++ users must include <complex> instead */
 #include <stdlib.h>            /* For malloc() and free() */
@@ -433,6 +447,7 @@ int main() {
 **TSV file with complex numbers and previously known sizes**
 
 ```c
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h" /* The data-file-library.h header */
 #include <complex.h>           /* C++ users must include <complex> instead */
 
@@ -464,6 +479,7 @@ int main() {
 **TSV file with complex numbers and unknown sizes**
 
 ```c
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h" /* The data-file-library.h header */
 #include <complex.h>           /* C++ users must include <complex> instead */
 #include <stdlib.h>            /* For malloc() and free() */
@@ -508,6 +524,7 @@ int main() {
 **WL file with complex numbers and previously known dimensions and sizes**
 
 ```c
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h" /* The data-file-library.h header */
 #include <complex.h>           /* C++ users must include <complex> instead */
 
@@ -544,6 +561,7 @@ int main() {
 **WL file with complex numbers and unknown dimensions and sizes**
 
 ```c
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h" /* The data-file-library.h header */
 #include <complex.h>           /* C++ users must include <complex> instead */
 #include <stdlib.h>            /* For malloc() and free() */
@@ -699,6 +717,7 @@ before the `#include "data-file-library.h"`.
 ```c
 #include <complex.h>              /* C++ users must include <complex> instead */
 #define DATA_FILE_LIBRARY_IMPORTS /* Required for using the compiled file */
+#define DATA_FILE_LIBRARY_PROGRESS_BAR /* For printing a progress bar */
 #include "data-file-library.h"    /* The data-file-library.h header */
 
 int main() {
