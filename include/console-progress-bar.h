@@ -29,7 +29,7 @@ static inline void print_progress_bar(long int iteration_current,
     printf("\rProgress: [          ]   0%%");
     fflush(stdout);
   } else if (iteration_current == iteration_total) {
-    printf("\rProgress: [==========] 100%%\n");
+    printf("\rProgress: [==========] 100%%");
     fflush(stdout);
   } else {
     int percent = (int)((100.01 * iteration_current) / iteration_total);
@@ -74,10 +74,14 @@ static inline void print_progress_bar_every_percent(long int iteration_current,
 static inline void print_progress_bar_empty() { print_progress_bar(0, 0); }
 
 /*
-  Print a full progress bar for a 100% progress.
+  Print a full progress bar for a 100% progress followed by a line break.
 
-  Implementation: It calls print_progress_bar(1, 1).
+  Implementation: It calls print_progress_bar(1, 1) and then prints a line
+  break.
 */
-static inline void print_progress_bar_full() { print_progress_bar(1, 1); }
+static inline void print_progress_bar_full() {
+  print_progress_bar(1, 1);
+  printf("\n");
+}
 
 #endif /* CONSOLE_PROGRESS_BAR_H */
