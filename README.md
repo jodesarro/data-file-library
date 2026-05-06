@@ -746,6 +746,12 @@ int main() {
 ```
 </details>
 
+## Third Parties
+
+This library makes use of the following third-party libraries, codes, or routines:
+
+- Console Progress Bar: A C code for printing the progress of numeric iterations on the console. License and more information available at [<https://github.com/jodesarro/console-progress-bar>](https://github.com/jodesarro/console-progress-bar).
+
 ## Authorship
 
 The codes and routines were developed and are updated by
