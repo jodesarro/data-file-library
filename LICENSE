@@ -1,5 +1,6 @@
 Data File Library: A set of C functions for handling numeric data files
 <https://github.com/jodesarro/data-file-library>
+
 MIT License
 
 Copyright (c) 2026 Jhonas Olivati de Sarro
@@ -27,6 +28,7 @@ SOFTWARE.
 Console Progress Bar: A C code for printing the progress of numeric iterations
 on the console
 <https://github.com/jodesarro/console-progress-bar>
+
 MIT License
 
 Copyright (c) 2025 Jhonas Olivati de Sarro
