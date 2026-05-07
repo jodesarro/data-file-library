@@ -759,7 +759,7 @@ All macros must be defined before the inclusion of the header of this library, i
 
 This library makes use of the following third-party libraries, codes, or routines, already incorporated:
 
-- Console Progress Bar: A C code for printing the progress of numeric iterations on the console. License and more information available at [<https://github.com/jodesarro/console-progress-bar>](https://github.com/jodesarro/console-progress-bar).
+- Console Progress Bar: A C code for printing the progress of numeric iterations on the console. More information available at [<https://github.com/jodesarro/console-progress-bar>](https://github.com/jodesarro/console-progress-bar).
 
 ## Authorship
 
@@ -770,3 +770,4 @@ Jhonas O. de Sarro</a> ([@jodesarro](https://github.com/jodesarro)).
 ## Licensing
 
 This project is protected under [MIT License](LICENSE).
+[Third parties](#third-parties) may have their own [license](LICENSE).
