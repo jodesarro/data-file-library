@@ -770,4 +770,5 @@ Jhonas O. de Sarro</a> ([@jodesarro](https://github.com/jodesarro)).
 ## Licensing
 
 This project is protected under [MIT License](LICENSE).
+
 [Third parties](#third-parties) may have their own [license](LICENSE).
