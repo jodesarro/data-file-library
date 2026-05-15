@@ -347,6 +347,18 @@ tensors, matrices, tables, numeric datasets and so on.
   - **Details:** It prints a progress bar whenever the macro `DATA_FILE_LIBRARY_PROGRESS_BAR` is defined.
 </details>
 
+## Macros
+
+- `DATA_FILE_LIBRARY_VERSION`: Call this macro to get the date of the last update.
+- `DATA_FILE_LIBRARY_PROGRESS_BAR`: Define this macro to print a progress bar on the console while running the functions `csvdat_import()`, `csvdat_import_cplx()`, `csvdat_export()`, `csvdat_export_cplx()`, `tsvdat_import()`, `tsvdat_import_cplx()`, `tsvdat_export()`, `tsvdat_export_cplx()`, `wldat_import()`, `wldat_import_cplx()`, `wldat_export()`, and `wldat_export_cplx()`.
+It must be defined before the inclusion of the header of this library, i.e.,
+you must write `#define DATA_FILE_LIBRARY_PROGRESS_BAR` before
+`#include "data-file-library.h"`.
+- `DATA_FILE_LIBRARY_IMPORTS`: Define this macro always and only when using this
+library as a [compiled file](#compiling-the-library). It must be defined before
+the inclusion of the header of this library, i.e., you must write
+`#define DATA_FILE_LIBRARY_IMPORTS` before `#include "data-file-library.h"`.
+
 ## How to use
 
 This library is in a header-only style, i.e., there is nothing to build
@@ -745,15 +757,6 @@ int main() {
 }
 ```
 </details>
-
-## Macros
-
-There are some macros that may be used in this library.
-
-- `DATA_FILE_LIBRARY_PROGRESS_BAR`: define this macro to print a progress bar on the console while running the functions `csvdat_import()`, `csvdat_import_cplx()`, `csvdat_export()`, `csvdat_export_cplx()`, `tsvdat_import()`, `tsvdat_import_cplx()`, `tsvdat_export()`, `tsvdat_export_cplx()`, `wldat_import()`, `wldat_import_cplx()`, `wldat_export()`, and `wldat_export_cplx()`.
-- `DATA_FILE_LIBRARY_IMPORTS`: always and only define this macro when using this library through a compiled file.
-
-All macros must be defined before the inclusion of the header of this library, i.e., you must write `#define DATA_FILE_LIBRARY_PROGRESS_BAR` and/or `#define DATA_FILE_LIBRARY_IMPORTS` before `#include "data-file-library.h"`.
 
 ## Third Parties
 
